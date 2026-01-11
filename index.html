@@ -215,28 +215,29 @@
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
-    /* --- RUNNING TEXT / TICKER --- */
+    /* --- RUNNING TEXT / TICKER (Updated: Start from Right) --- */
     .ticker-section {
         background: #ffedd5;
-        margin: 15px 20px 5px 20px; /* Posisi di bawah header */
+        margin: 15px 20px 5px 20px;
         padding: 12px 15px;
-        border-radius: 16px;
+        border-radius: 12px;
         display: flex;
         align-items: center;
         gap: 15px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
         position: relative;
         overflow: hidden;
+        border: 1px solid #f3f4f6;
     }
 
     .ticker-icon {
-        color: var(--warning); /* Warna oranye agar menarik perhatian */
+        color: var(--warning);
         font-size: 1.1rem;
         flex-shrink: 0;
-        animation: swing 2s ease-in-out infinite; /* Animasi lonceng bergoyang */
+        z-index: 2; /* Supaya icon tetap di atas teks */
+        animation: swing 2s ease-in-out infinite;
     }
 
-    /* Animasi Lonceng */
     @keyframes swing {
         0%, 100% { transform: rotate(0deg); }
         20% { transform: rotate(15deg); }
@@ -248,25 +249,26 @@
     .ticker-wrapper {
         flex: 1;
         overflow: hidden;
-        white-space: nowrap;
-        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
-        display: flex;
+        position: relative;
+        mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
     }
 
     .ticker-content {
         display: inline-block;
+        white-space: nowrap;
         font-size: 0.8rem;
         color: var(--text-main);
         font-weight: 500;
+        /* Start animasi dari kanan luar */
+        padding-left: 100%; 
         animation: marquee 20s linear infinite;
-        padding-right: 50px; /* Jarak antar teks saat looping */
     }
 
-    /* Animasi Seamless Tanpa Patah */
+    /* Animasi: Bergerak dari posisi awal (kanan) ke kiri sampai habis */
     @keyframes marquee {
-        0% { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
+        0% { transform: translate3d(0, 0, 0); }
+        100% { transform: translate3d(-100%, 0, 0); }
     }
 
     /* --- MENU GRID --- */
@@ -979,10 +981,7 @@
                     </div>
                     <div class="ticker-wrapper">
                         <div class="ticker-content">
-                            Selamat Datang di PayFast! • Promo Top Up Game Cashback 50% Hari Ini! • Server Pulsa & Data Stabil 24 Jam • Jangan Lupa Bayar Tagihan Listrik Tepat Waktu • Update Aplikasi Versi Terbaru Tersedia •
-                        </div>
-                        <div class="ticker-content">
-                            Selamat Datang di PayFast! • Promo Top Up Game Cashback 50% Hari Ini! • Server Pulsa & Data Stabil 24 Jam • Jangan Lupa Bayar Tagihan Listrik Tepat Waktu • Update Aplikasi Versi Terbaru Tersedia •
+                            Selamat Datang di PayFast! • Promo Top Up Game Cashback 50% Hari Ini! • Server Pulsa & Data Stabil 24 Jam • Jangan Lupa Bayar Tagihan Listrik Tepat Waktu • Update Aplikasi Versi Terbaru Tersedia
                         </div>
                     </div>
                 </div>
