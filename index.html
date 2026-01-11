@@ -886,10 +886,45 @@
                         <div class="icon-box"><i class="fa-solid fa-wallet"></i></div>
                         <span>E-Money</span>
                     </div>
-                    <div class="menu-item" onclick="showToast('Fitur lainnya segera hadir!', 'info')">
+                    
+                    <div class="menu-item" onclick="toggleMoreMenu(this)">
                         <div class="icon-box"><i class="fa-solid fa-ellipsis"></i></div>
                         <span>Lainnya</span>
                     </div>
+
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Internet segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #EF4444; background: #FEF2F2;"><i class="fa-solid fa-rss"></i></div>
+                        <span>Internet</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur TV Kabel segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #F59E0B; background: #FFFBEB;"><i class="fa-solid fa-tv"></i></div>
+                        <span>TV Kabel</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Multifinance segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #10B981; background: #ECFDF5;"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                        <span>Cicilan</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Pajak PBB segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #6366f1; background: #e0e7ff;"><i class="fa-solid fa-building-columns"></i></div>
+                        <span>Pajak PBB</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Gas PGN segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #3b82f6; background: #dbeafe;"><i class="fa-solid fa-fire-flame-simple"></i></div>
+                        <span>Gas PGN</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Tiket KAI segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #f97316; background: #ffedd5;"><i class="fa-solid fa-train"></i></div>
+                        <span>Kereta</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Tiket Pesawat segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #0ea5e9; background: #e0f2fe;"><i class="fa-solid fa-plane"></i></div>
+                        <span>Pesawat</span>
+                    </div>
+                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Zakat segera hadir!', 'info')">
+                        <div class="icon-box" style="color: #16a34a; background: #dcfce7;"><i class="fa-solid fa-hand-holding-heart"></i></div>
+                        <span>Zakat</span>
+                    </div>
+
                 </nav>
 
                 <section class="promo-section">
@@ -1190,6 +1225,40 @@
                 navigateTo('view-home');
             } else {
                 showToast('Halaman ' + tabName + ' belum tersedia', 'info');
+            }
+        }
+
+        // --- TOGGLE MENU LAINNYA ---
+        function toggleMoreMenu(btn) {
+            const hiddenItems = document.querySelectorAll('.menu-item-hidden');
+            
+            // Cek apakah item sedang tersembunyi
+            const isHidden = hiddenItems[0].style.display === 'none';
+            
+            hiddenItems.forEach(item => {
+                item.style.display = isHidden ? 'flex' : 'none';
+                // Animasi masuk sederhana
+                if(isHidden) {
+                    item.style.opacity = '0';
+                    setTimeout(() => {
+                        item.style.transition = 'opacity 0.3s';
+                        item.style.opacity = '1';
+                    }, 10);
+                }
+            });
+
+            // Ubah Icon/Text tombol Lainnya
+            const span = btn.querySelector('span');
+            const icon = btn.querySelector('i');
+            
+            if (isHidden) {
+                span.innerText = 'Tutup';
+                icon.classList.remove('fa-ellipsis');
+                icon.classList.add('fa-chevron-up');
+            } else {
+                span.innerText = 'Lainnya';
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-ellipsis');
             }
         }
 
