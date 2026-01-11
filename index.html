@@ -177,7 +177,7 @@
     }
 
     .balance-amount {
-        font-size: 1.5rem;
+        font-size: 1.35rem;
         font-weight: 700;
         letter-spacing: -0.5px;
         transition: color 0.3s;
@@ -887,7 +887,7 @@
                         <span>E-Money</span>
                     </div>
                     
-                    <div class="menu-item" onclick="toggleMoreMenu(this)">
+                    <div class="menu-item" id="btn-lainnya" onclick="expandMoreMenu()">
                         <div class="icon-box"><i class="fa-solid fa-ellipsis"></i></div>
                         <span>Lainnya</span>
                     </div>
@@ -923,6 +923,11 @@
                     <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Zakat segera hadir!', 'info')">
                         <div class="icon-box" style="color: #16a34a; background: #dcfce7;"><i class="fa-solid fa-hand-holding-heart"></i></div>
                         <span>Zakat</span>
+                    </div>
+
+                    <div class="menu-item" id="btn-tutup" style="display: none;" onclick="collapseMoreMenu()">
+                        <div class="icon-box"><i class="fa-solid fa-chevron-up"></i></div>
+                        <span>Tutup</span>
                     </div>
 
                 </nav>
@@ -1228,38 +1233,39 @@
             }
         }
 
-        // --- TOGGLE MENU LAINNYA ---
-        function toggleMoreMenu(btn) {
+        // --- LOGIKA MENU LAINNYA (UPDATED) ---
+        function expandMoreMenu() {
+            // 1. Sembunyikan tombol "Lainnya"
+            document.getElementById('btn-lainnya').style.display = 'none';
+            
+            // 2. Tampilkan semua item tersembunyi
             const hiddenItems = document.querySelectorAll('.menu-item-hidden');
-            
-            // Cek apakah item sedang tersembunyi
-            const isHidden = hiddenItems[0].style.display === 'none';
-            
             hiddenItems.forEach(item => {
-                item.style.display = isHidden ? 'flex' : 'none';
-                // Animasi masuk sederhana
-                if(isHidden) {
-                    item.style.opacity = '0';
-                    setTimeout(() => {
-                        item.style.transition = 'opacity 0.3s';
-                        item.style.opacity = '1';
-                    }, 10);
-                }
+                item.style.display = 'flex';
+                // Animasi masuk
+                item.style.opacity = '0';
+                setTimeout(() => {
+                    item.style.transition = 'opacity 0.3s';
+                    item.style.opacity = '1';
+                }, 10);
             });
 
-            // Ubah Icon/Text tombol Lainnya
-            const span = btn.querySelector('span');
-            const icon = btn.querySelector('i');
-            
-            if (isHidden) {
-                span.innerText = 'Tutup';
-                icon.classList.remove('fa-ellipsis');
-                icon.classList.add('fa-chevron-up');
-            } else {
-                span.innerText = 'Lainnya';
-                icon.classList.remove('fa-chevron-up');
-                icon.classList.add('fa-ellipsis');
-            }
+            // 3. Tampilkan tombol "Tutup" di paling akhir
+            document.getElementById('btn-tutup').style.display = 'flex';
+        }
+
+        function collapseMoreMenu() {
+            // 1. Sembunyikan tombol "Tutup"
+            document.getElementById('btn-tutup').style.display = 'none';
+
+            // 2. Sembunyikan semua item tambahan
+            const hiddenItems = document.querySelectorAll('.menu-item-hidden');
+            hiddenItems.forEach(item => {
+                item.style.display = 'none';
+            });
+
+            // 3. Tampilkan kembali tombol "Lainnya"
+            document.getElementById('btn-lainnya').style.display = 'flex';
         }
 
         // --- TOP UP LOGIC (UPDATED) ---
