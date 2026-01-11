@@ -215,6 +215,60 @@
         border: 1px solid rgba(255, 255, 255, 0.3);
     }
 
+    /* --- RUNNING TEXT / TICKER --- */
+    .ticker-section {
+        background: #ffedd5;
+        margin: 15px 20px 5px 20px; /* Posisi di bawah header */
+        padding: 12px 15px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ticker-icon {
+        color: var(--warning); /* Warna oranye agar menarik perhatian */
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        animation: swing 2s ease-in-out infinite; /* Animasi lonceng bergoyang */
+    }
+
+    /* Animasi Lonceng */
+    @keyframes swing {
+        0%, 100% { transform: rotate(0deg); }
+        20% { transform: rotate(15deg); }
+        40% { transform: rotate(-10deg); }
+        60% { transform: rotate(5deg); }
+        80% { transform: rotate(-5deg); }
+    }
+
+    .ticker-wrapper {
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+        display: flex;
+    }
+
+    .ticker-content {
+        display: inline-block;
+        font-size: 0.8rem;
+        color: var(--text-main);
+        font-weight: 500;
+        animation: marquee 20s linear infinite;
+        padding-right: 50px; /* Jarak antar teks saat looping */
+    }
+
+    /* Animasi Seamless Tanpa Patah */
+    @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+    }
+
     /* --- MENU GRID --- */
     .menu-grid {
         display: grid;
@@ -918,6 +972,20 @@
                         </div>
                     </div>
                 </header>
+
+                <div class="ticker-section">
+                    <div class="ticker-icon">
+                        <i class="fa-solid fa-bell"></i>
+                    </div>
+                    <div class="ticker-wrapper">
+                        <div class="ticker-content">
+                            Selamat Datang di PayFast! • Promo Top Up Game Cashback 50% Hari Ini! • Server Pulsa & Data Stabil 24 Jam • Jangan Lupa Bayar Tagihan Listrik Tepat Waktu • Update Aplikasi Versi Terbaru Tersedia •
+                        </div>
+                        <div class="ticker-content">
+                            Selamat Datang di PayFast! • Promo Top Up Game Cashback 50% Hari Ini! • Server Pulsa & Data Stabil 24 Jam • Jangan Lupa Bayar Tagihan Listrik Tepat Waktu • Update Aplikasi Versi Terbaru Tersedia •
+                        </div>
+                    </div>
+                </div>
 
                 <nav class="menu-grid">
                     <div class="menu-item" onclick="openService('pulsa')">
