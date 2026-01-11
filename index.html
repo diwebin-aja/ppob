@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- RESET & VARIABLES --- */
+        /* --- RESET & VARIABLES (Original + Updates) --- */
         :root {
             --primary: #4F46E5;
             --primary-dark: #4338ca;
@@ -19,19 +19,16 @@
             --text-muted: #6B7280;
             --success: #10B981;
             --danger: #EF4444;
+            --warning: #F59E0B;
             --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
             --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
             --radius-lg: 16px;
             --app-width: 480px;
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-body);
@@ -39,6 +36,7 @@
             justify-content: center;
             min-height: 100vh;
             color: var(--text-main);
+            overflow: hidden; /* Mencegah scroll body utama */
         }
 
         /* --- APP CONTAINER --- */
@@ -46,161 +44,215 @@
             width: 100%;
             max-width: var(--app-width);
             background: var(--bg-card);
-            min-height: 100vh;
+            height: 100vh; /* Full height mobile */
             position: relative;
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
-            overflow-x: hidden;
-            padding-bottom: 90px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
 
-        /* --- HEADER --- */
+        /* --- CONTENT SCROLL AREA --- */
+        .content-area {
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 90px; /* Space for bottom nav */
+            position: relative;
+            scrollbar-width: none;
+        }
+        .content-area::-webkit-scrollbar { display: none; }
+
+        /* --- VIEWS SYSTEM --- */
+        .view-section {
+            position: absolute;
+            top: 0; left: 0; width: 100%; min-height: 100%;
+            background: var(--bg-body);
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(20px);
+            z-index: 10;
+            display: none; /* Performance */
+        }
+
+        .view-section.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translateX(0);
+            display: block;
+            z-index: 20;
+        }
+
+        /* --- HEADER (Original Style) --- */
         .header-section {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            padding: 25px 20px 25px; /* Padding dikurangi sedikit */
+            padding: 25px 20px;
             border-bottom-left-radius: 30px;
             border-bottom-right-radius: 30px;
             color: white;
             position: relative;
-            z-index: 1;
         }
 
-        .user-nav {
+        .user-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .user-info h2 { font-size: 1.1rem; font-weight: 600; }
+        .user-info p { font-size: 0.85rem; opacity: 0.9; }
+        .notif-btn {
+            background: rgba(255,255,255,0.2); border: none; width: 40px; height: 40px; border-radius: 50%; color: white; cursor: pointer; position: relative;
+        }
+        .notif-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 1px solid white; }
+
+        /* --- BALANCE CARD (Original Style) --- */
+        .balance-card {
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 16px 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 15px; /* Jarak ke kartu diperkecil */
-        }
-
-        .user-info h2 { font-size: 1.1rem; font-weight: 600; }
-        .user-info p { font-size: 0.85rem; opacity: 0.9; }
-        
-        .notif-btn {
-            background: rgba(255,255,255,0.2);
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            color: white;
-            cursor: pointer;
-            position: relative;
-        }
-        
-        .notif-dot {
-            position: absolute;
-            top: 10px; right: 10px;
-            width: 8px; height: 8px;
-            background: var(--danger);
-            border-radius: 50%;
-            border: 1px solid white;
-        }
-
-        /* --- MINIMALIST COMPACT BALANCE CARD (UPDATED) --- */
-        .balance-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 16px 20px; /* Padding compact */
-            display: flex;
-            justify-content: space-between; /* Layout Horizontal */
-            align-items: center;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
         }
-
-        .balance-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .balance-label {
-            font-size: 0.75rem;
-            opacity: 0.85;
-            font-weight: 400;
-        }
-
-        .balance-amount {
-            font-size: 1.5rem; /* Ukuran pas, tidak raksasa */
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .balance-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Tombol Aksi Minimalis (Icon Only) */
+        .balance-info { display: flex; flex-direction: column; gap: 2px; }
+        .balance-label { font-size: 0.75rem; opacity: 0.85; font-weight: 400; }
+        .balance-amount { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+        .balance-actions { display: flex; gap: 10px; }
+        
         .action-btn-mini {
-            width: 42px;
-            height: 42px;
-            background: white;
-            border: none;
-            border-radius: 12px; /* Soft square modern */
-            color: var(--primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            transition: transform 0.1s, background 0.2s;
+            width: 42px; height: 42px; background: white; border: none; border-radius: 12px; color: var(--primary);
+            display: flex; align-items: center; justify-content: center; font-size: 1rem; cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.1s;
         }
-        
         .action-btn-mini:active { transform: scale(0.92); }
-        
-        /* Opsi: Tombol kedua lebih transparan agar hirarki jelas */
-        .action-btn-mini.secondary {
-            background: rgba(255,255,255,0.2);
-            color: white;
-            box-shadow: none;
-            border: 1px solid rgba(255,255,255,0.3);
-        }
+        .action-btn-mini.secondary { background: rgba(255,255,255,0.2); color: white; box-shadow: none; border: 1px solid rgba(255,255,255,0.3); }
 
         /* --- MENU GRID --- */
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px 10px;
-            padding: 25px 20px; /* Spasi atas dikurangi karena header lebih pendek */
-        }
-
-        .menu-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
-
+        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px 10px; padding: 25px 20px; }
+        .menu-item { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
         .icon-box {
-            width: 50px;
-            height: 50px;
-            background: #F0F3FF;
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            color: var(--primary);
-            transition: all 0.2s;
-            box-shadow: var(--shadow-soft);
+            width: 50px; height: 50px; background: #F0F3FF; border-radius: 18px; display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; color: var(--primary); transition: all 0.2s; box-shadow: var(--shadow-soft);
         }
+        .menu-item:active .icon-box { transform: scale(0.95); }
+        .menu-item span { font-size: 0.75rem; font-weight: 500; color: var(--text-main); text-align: center; }
 
-        .menu-item:hover .icon-box {
-            transform: translateY(-3px);
-            background: white;
-            box-shadow: var(--shadow-card);
+        /* --- PROMO & HISTORY (Original) --- */
+        .promo-section { padding: 0 20px; margin-bottom: 25px; }
+        .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between; }
+        .section-title a { color: var(--primary); text-decoration: none; font-size: 0.8rem; }
+        
+        .banner-scroll { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px; scrollbar-width: none; }
+        .banner-card {
+            min-width: 280px; height: 140px; background: linear-gradient(to right, #2c3e50, #3498db); border-radius: var(--radius-lg);
+            padding: 20px; color: white; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0;
         }
+        .banner-card:nth-child(2) { background: linear-gradient(to right, #833ab4, #fd1d1d); }
+        
+        .history-section { padding: 20px; background: white; border-top-left-radius: 30px; border-top-right-radius: 30px; min-height: 200px; }
+        .transaction-item { display: flex; align-items: center; padding: 15px 0; border-bottom: 1px solid #F3F4F6; }
+        .trans-icon { width: 45px; height: 45px; border-radius: 12px; background: #F9FAFB; display: flex; align-items: center; justify-content: center; margin-right: 15px; font-size: 1.2rem; }
+        .trans-details { flex: 1; }
+        .trans-details h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
+        .trans-details p { font-size: 0.75rem; color: var(--text-muted); }
+        .trans-amount { font-weight: 600; font-size: 0.95rem; text-align: right; }
+        .trans-amount.expense { color: var(--text-main); }
+        .trans-amount.income { color: var(--success); }
 
-        .menu-item span {
-            font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--text-main);
-            text-align: center;
+        /* --- BOTTOM NAV --- */
+        .bottom-nav {
+            position: absolute; bottom: 0; width: 100%; background: white; height: 70px; display: flex;
+            justify-content: space-around; align-items: center; border-top: 1px solid #F3F4F6; z-index: 100;
         }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 5px; color: var(--text-muted); text-decoration: none; font-size: 0.7rem; font-weight: 500; width: 60px; }
+        .nav-item i { font-size: 1.3rem; transition: color 0.3s; }
+        .nav-item.active { color: var(--primary); }
+        .nav-fab-wrapper { position: relative; top: -25px; }
+        .nav-fab {
+            width: 60px; height: 60px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 1.5rem; box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4); transition: transform 0.2s; border: 4px solid var(--bg-card);
+        }
+        .nav-fab:active { transform: scale(0.9); }
 
+        /* --- NEW: SUB-PAGE STYLES (Pulsa, PLN, etc) --- */
+        .sub-header {
+            background: white; padding: 15px 20px; display: flex; align-items: center; gap: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 50;
+        }
+        .back-btn { background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; }
+        .page-title { font-size: 1.1rem; font-weight: 700; }
+        
+        .form-container { padding: 20px; }
+        
+        .input-group { margin-bottom: 20px; position: relative; }
+        .input-label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
+        .input-field {
+            width: 100%; padding: 14px 15px; border: 1px solid #E5E7EB; border-radius: 12px; font-size: 1rem; font-family: inherit;
+            outline: none; transition: border-color 0.2s; background: #F9FAFB;
+        }
+        .input-field:focus { border-color: var(--primary); background: white; }
+        
+        .hint-text { font-size: 0.75rem; color: var(--text-muted); margin-top: 5px; display: flex; justify-content: space-between; }
+        
+        .product-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
+        .product-card {
+            background: white; border: 1px solid #E5E7EB; border-radius: 12px; padding: 15px; cursor: pointer;
+            transition: all 0.2s; position: relative; overflow: hidden;
+        }
+        .product-card:hover { border-color: var(--primary); }
+        .product-card.selected { border-color: var(--primary); background: #EEF2FF; box-shadow: 0 0 0 1px var(--primary); }
+        .product-card.selected::after {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; top: 5px; right: 8px; color: var(--primary); font-size: 0.8rem;
+        }
+        
+        .p-name { font-size: 0.9rem; font-weight: 600; color: var(--text-main); display: block; margin-bottom: 4px; }
+        .p-price { font-size: 0.85rem; color: var(--text-muted); }
+        .p-price span { color: var(--primary); font-weight: 700; }
+
+        .action-btn {
+            width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px;
+            font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+        }
+        .action-btn:active { transform: scale(0.98); }
+        .action-btn:disabled { background: #CBD5E1; cursor: not-allowed; box-shadow: none; }
+
+        /* --- BOTTOM SHEET MODAL (Top Up) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: flex-end; justify-content: center;
+        }
+        .modal-overlay.open { opacity: 1; pointer-events: all; }
+        
+        .bottom-sheet {
+            width: 100%; max-width: var(--app-width); background: white; border-top-left-radius: 24px; border-top-right-radius: 24px;
+            padding: 25px 20px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        .modal-overlay.open .bottom-sheet { transform: translateY(0); }
+        
+        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .sheet-title { font-size: 1.1rem; font-weight: 700; }
+        .sheet-close { background: #F3F4F6; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
+        
+        .menu-list { display: flex; flex-direction: column; gap: 10px; }
+        .menu-item-row {
+            display: flex; align-items: center; gap: 15px; padding: 15px; background: #F9FAFB; border-radius: 12px; cursor: pointer;
+        }
+        .menu-item-row i { font-size: 1.2rem; color: var(--primary); width: 30px; text-align: center; }
+        .menu-item-text h4 { font-size: 0.95rem; font-weight: 600; }
+        .menu-item-text p { font-size: 0.75rem; color: var(--text-muted); }
+
+        /* --- TOAST NOTIFICATION --- */
+        .toast {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%) translateY(-100px);
+            background: #333; color: white; padding: 12px 24px; border-radius: 50px; font-size: 0.9rem; z-index: 999;
+            display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: max-content; max-width: 90%;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.success { background: var(--success); }
+        .toast.error { background: var(--danger); }
+
+        /* Utility colors */
         .icon-pln { color: #F59E0B; background: #FFFBEB; }
         .icon-pulsa { color: #EF4444; background: #FEF2F2; }
         .icon-data { color: #3B82F6; background: #EFF6FF; }
@@ -208,359 +260,528 @@
         .icon-bpjs { color: #10B981; background: #ECFDF5; }
         .icon-pdam { color: #06B6D4; background: #ECFEFF; }
 
-        /* --- PROMO BANNER --- */
-        .promo-section {
-            padding: 0 20px;
-            margin-bottom: 25px;
-        }
-
-        .section-title {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            color: var(--text-main);
-            display: flex;
-            justify-content: space-between;
-        }
-        .section-title a { color: var(--primary); text-decoration: none; font-size: 0.8rem; }
-
-        .banner-scroll {
-            display: flex;
-            overflow-x: auto;
-            gap: 15px;
-            padding-bottom: 10px;
-            scrollbar-width: none;
-        }
-        .banner-scroll::-webkit-scrollbar { display: none; }
-
-        .banner-card {
-            min-width: 280px;
-            height: 140px;
-            background: linear-gradient(to right, #2c3e50, #3498db);
-            border-radius: var(--radius-lg);
-            position: relative;
-            overflow: hidden;
-            color: white;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .banner-card:nth-child(2) { background: linear-gradient(to right, #833ab4, #fd1d1d); }
-
-        .banner-tag {
-            background: rgba(255,255,255,0.2);
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 0.7rem;
-            width: fit-content;
-            margin-bottom: 10px;
-        }
-        .banner-text h3 { font-size: 1.1rem; margin-bottom: 5px; }
-        .banner-text p { font-size: 0.8rem; opacity: 0.9; }
-
-        /* --- TRANSACTION HISTORY --- */
-        .history-section {
-            padding: 0 20px;
-            background: white;
-            border-top-left-radius: 30px;
-            border-top-right-radius: 30px;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.02);
-            padding-top: 20px;
-            min-height: 300px;
-        }
-
-        .transaction-item {
-            display: flex;
-            align-items: center;
-            padding: 15px 0;
-            border-bottom: 1px solid #F3F4F6;
-        }
-
-        .trans-icon {
-            width: 45px;
-            height: 45px;
-            border-radius: 12px;
-            background: #F9FAFB;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            font-size: 1.2rem;
-        }
-
-        .trans-details { flex: 1; }
-        .trans-details h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 4px; }
-        .trans-details p { font-size: 0.75rem; color: var(--text-muted); }
-
-        .trans-amount {
-            font-weight: 600;
-            font-size: 0.95rem;
-            text-align: right;
-        }
-        .trans-amount.expense { color: var(--text-main); }
-        .trans-amount.income { color: var(--success); }
-
-        /* --- BOTTOM NAVIGATION --- */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            max-width: var(--app-width);
-            background: white;
-            height: 70px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-top: 1px solid #F3F4F6;
-            z-index: 100;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            color: var(--text-muted);
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-weight: 500;
-            width: 60px;
-        }
-
-        .nav-item i { font-size: 1.3rem; transition: color 0.3s; }
-        .nav-item.active { color: var(--primary); }
-        
-        .nav-fab-wrapper {
-            position: relative;
-            top: -25px;
-        }
-        
-        .nav-fab {
-            width: 60px;
-            height: 60px;
-            background: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.5rem;
-            box-shadow: 0 8px 20px rgba(79, 70, 229, 0.4);
-            transition: transform 0.2s;
-            border: 4px solid var(--bg-card);
-        }
-
-        .nav-fab:active { transform: scale(0.9); }
-
-        /* --- UTILITY CLASSES --- */
-        .skeleton {
-            background: #eee;
-            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
-            background-size: 200% 100%;
-            animation: 1.5s shine-skeleton linear infinite;
-        }
-
-        @keyframes shine-skeleton {
-            to { background-position-x: -200%; }
-        }
-
     </style>
 </head>
 <body>
 
     <div class="app-container">
         
-        <header class="header-section">
-            <div class="user-nav">
-                <div class="user-info">
-                    <p>Selamat Pagi,</p>
-                    <h2>Rizky Developer</h2>
-                </div>
-                <button class="notif-btn">
-                    <i class="fa-regular fa-bell"></i>
-                    <div class="notif-dot"></div>
-                </button>
-            </div>
+        <!-- === TOAST NOTIFICATION === -->
+        <div id="toast" class="toast">
+            <i class="fa-solid fa-circle-check"></i>
+            <span id="toast-msg">Pesan disini</span>
+        </div>
 
-            <!-- COMPACT MINIMALIST CARD -->
-            <div class="balance-card">
-                <div class="balance-info">
-                    <div class="balance-label">Total Saldo</div>
-                    <div class="balance-amount">Rp 2.450.500</div>
-                </div>
-                
-                <div class="balance-actions">
-                    <!-- Tombol Aksi: Icon Only & Compact -->
-                    <button class="action-btn-mini secondary" onclick="alert('Menu Transfer')">
-                        <i class="fa-solid fa-paper-plane"></i>
-                    </button>
-                    <button class="action-btn-mini" onclick="alert('Menu Top Up')">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </div>
-            </div>
-        </header>
+        <!-- === VIEW 1: HOME (Original Dashboard) === -->
+        <div id="view-home" class="view-section active" style="display: block; position: relative; transform: none;">
+            <div class="content-area">
+                <header class="header-section">
+                    <div class="user-nav">
+                        <div class="user-info">
+                            <p>Selamat Pagi,</p>
+                            <h2 id="user-name">Rizky Developer</h2>
+                        </div>
+                        <button class="notif-btn" onclick="showToast('Tidak ada notifikasi baru', 'info')">
+                            <i class="fa-regular fa-bell"></i>
+                            <div class="notif-dot"></div>
+                        </button>
+                    </div>
 
-        <!-- Menu Grid Original -->
-        <nav class="menu-grid">
-            <div class="menu-item">
-                <div class="icon-box icon-pulsa"><i class="fa-solid fa-mobile-screen"></i></div>
-                <span>Pulsa</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box icon-data"><i class="fa-solid fa-wifi"></i></div>
-                <span>Data</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box icon-pln"><i class="fa-solid fa-bolt"></i></div>
-                <span>PLN</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box icon-pdam"><i class="fa-solid fa-faucet-drip"></i></div>
-                <span>PDAM</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box icon-game"><i class="fa-solid fa-gamepad"></i></div>
-                <span>Games</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box icon-bpjs"><i class="fa-solid fa-heart-pulse"></i></div>
-                <span>BPJS</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box"><i class="fa-solid fa-wallet"></i></div>
-                <span>E-Money</span>
-            </div>
-            <div class="menu-item">
-                <div class="icon-box"><i class="fa-solid fa-ellipsis"></i></div>
-                <span>Lainnya</span>
-            </div>
-        </nav>
+                    <!-- Balance Card -->
+                    <div class="balance-card">
+                        <div class="balance-info">
+                            <div class="balance-label">Total Saldo</div>
+                            <div class="balance-amount" id="main-balance">Rp 2.450.500</div>
+                        </div>
+                        
+                        <div class="balance-actions">
+                            <button class="action-btn-mini secondary" onclick="navigateTo('view-transfer')">
+                                <i class="fa-solid fa-paper-plane"></i>
+                            </button>
+                            <button class="action-btn-mini" onclick="openTopUpModal()">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </header>
 
-        <!-- Promo Section Original -->
-        <section class="promo-section">
-            <div class="section-title">
-                Promo Spesial
-                <a href="#">Lihat Semua</a>
+                <!-- Menu Grid -->
+                <nav class="menu-grid">
+                    <div class="menu-item" onclick="openService('pulsa')">
+                        <div class="icon-box icon-pulsa"><i class="fa-solid fa-mobile-screen"></i></div>
+                        <span>Pulsa</span>
+                    </div>
+                    <div class="menu-item" onclick="openService('data')">
+                        <div class="icon-box icon-data"><i class="fa-solid fa-wifi"></i></div>
+                        <span>Data</span>
+                    </div>
+                    <div class="menu-item" onclick="openService('pln')">
+                        <div class="icon-box icon-pln"><i class="fa-solid fa-bolt"></i></div>
+                        <span>PLN</span>
+                    </div>
+                    <div class="menu-item" onclick="openService('pdam')">
+                        <div class="icon-box icon-pdam"><i class="fa-solid fa-faucet-drip"></i></div>
+                        <span>PDAM</span>
+                    </div>
+                    <div class="menu-item" onclick="openService('game')">
+                        <div class="icon-box icon-game"><i class="fa-solid fa-gamepad"></i></div>
+                        <span>Games</span>
+                    </div>
+                    <div class="menu-item" onclick="openService('bpjs')">
+                        <div class="icon-box icon-bpjs"><i class="fa-solid fa-heart-pulse"></i></div>
+                        <span>BPJS</span>
+                    </div>
+                    <div class="menu-item" onclick="openService('emoney')">
+                        <div class="icon-box"><i class="fa-solid fa-wallet"></i></div>
+                        <span>E-Money</span>
+                    </div>
+                    <div class="menu-item" onclick="showToast('Fitur lainnya segera hadir!', 'info')">
+                        <div class="icon-box"><i class="fa-solid fa-ellipsis"></i></div>
+                        <span>Lainnya</span>
+                    </div>
+                </nav>
+
+                <!-- Promo Section -->
+                <section class="promo-section">
+                    <div class="section-title">
+                        Promo Spesial
+                        <a href="#" onclick="showToast('Halaman promo kosong', 'info')">Lihat Semua</a>
+                    </div>
+                    <div class="banner-scroll">
+                        <div class="banner-card" onclick="openService('pulsa')">
+                            <div class="banner-tag">Diskon 50%</div>
+                            <div class="banner-text">
+                                <h3>Flash Sale Pulsa</h3>
+                                <p>Berlaku hingga besok!</p>
+                            </div>
+                        </div>
+                        <div class="banner-card" onclick="openService('pln')">
+                            <div class="banner-tag">Cashback</div>
+                            <div class="banner-text">
+                                <h3>Bayar Tagihan PLN</h3>
+                                <p>Dapatkan koin rewards.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- History Section -->
+                <section class="history-section">
+                    <div class="section-title">
+                        Transaksi Terakhir
+                    </div>
+                    <div class="transaction-list" id="transaction-list">
+                        <!-- Items injected by JS -->
+                        <div class="transaction-item">
+                            <div class="trans-icon" style="color: var(--primary);">
+                                <i class="fa-solid fa-bolt"></i>
+                            </div>
+                            <div class="trans-details">
+                                <h4>Token Listrik 100rb</h4>
+                                <p>Hari ini, 10:30</p>
+                            </div>
+                            <div class="trans-amount expense">- Rp 102.500</div>
+                        </div>
+                        <div class="transaction-item">
+                            <div class="trans-icon" style="color: var(--success);">
+                                <i class="fa-solid fa-arrow-down"></i>
+                            </div>
+                            <div class="trans-details">
+                                <h4>Top Up Saldo</h4>
+                                <p>Kemarin, 15:45</p>
+                            </div>
+                            <div class="trans-amount income">+ Rp 500.000</div>
+                        </div>
+                    </div>
+                </section>
             </div>
-            <div class="banner-scroll">
-                <div class="banner-card">
-                    <div class="banner-tag">Diskon 50%</div>
-                    <div class="banner-text">
-                        <h3>Flash Sale Pulsa</h3>
-                        <p>Berlaku hingga besok!</p>
+        </div>
+
+        <!-- === VIEW 2: PULSA/DATA SERVICE === -->
+        <div id="view-pulsa" class="view-section">
+            <div class="sub-header">
+                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="page-title">Isi Pulsa & Data</div>
+            </div>
+            <div class="content-area form-container">
+                <div class="input-group">
+                    <label class="input-label">Nomor Handphone</label>
+                    <input type="tel" id="pulsa-number" class="input-field" placeholder="08xx-xxxx-xxxx" onkeyup="checkProvider()">
+                    <div class="hint-text">
+                        <span id="provider-detected"></span>
+                        <span>Simpan nomor</span>
                     </div>
                 </div>
-                <div class="banner-card">
-                    <div class="banner-tag">Cashback</div>
-                    <div class="banner-text">
-                        <h3>Bayar Tagihan PLN</h3>
-                        <p>Dapatkan koin rewards.</p>
+
+                <div class="input-group">
+                    <label class="input-label">Pilih Nominal</label>
+                    <div class="product-grid" id="pulsa-grid">
+                        <!-- Generated by JS -->
                     </div>
                 </div>
+
+                <button id="btn-beli-pulsa" class="action-btn" disabled onclick="processTransaction('Pulsa')">Beli Sekarang</button>
             </div>
-        </section>
+        </div>
 
-        <!-- History Section Original -->
-        <section class="history-section">
-            <div class="section-title">
-                Transaksi Terakhir
+        <!-- === VIEW 3: PLN SERVICE === -->
+        <div id="view-pln" class="view-section">
+            <div class="sub-header">
+                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="page-title">Token Listrik PLN</div>
             </div>
-
-            <div class="transaction-list">
-                <div class="transaction-item">
-                    <div class="trans-icon" style="color: var(--primary);">
-                        <i class="fa-solid fa-bolt"></i>
+            <div class="content-area form-container">
+                <div class="input-group">
+                    <label class="input-label">ID Pelanggan / No. Meter</label>
+                    <input type="number" id="pln-id" class="input-field" placeholder="Contoh: 12345678901">
+                    <div class="hint-text">
+                        <span id="pln-name" style="color: var(--primary); font-weight: 500;"></span>
                     </div>
-                    <div class="trans-details">
-                        <h4>Token Listrik 100rb</h4>
-                        <p>Hari ini, 10:30</p>
-                    </div>
-                    <div class="trans-amount expense">- Rp 102.500</div>
                 </div>
 
-                <div class="transaction-item">
-                    <div class="trans-icon" style="color: var(--success);">
-                        <i class="fa-solid fa-arrow-down"></i>
+                <div class="input-group">
+                    <label class="input-label">Nominal Token</label>
+                    <div class="product-grid" id="pln-grid">
+                        <!-- Generated JS -->
                     </div>
-                    <div class="trans-details">
-                        <h4>Top Up Saldo</h4>
-                        <p>Kemarin, 15:45</p>
-                    </div>
-                    <div class="trans-amount income">+ Rp 500.000</div>
                 </div>
 
-                <div class="transaction-item">
-                    <div class="trans-icon" style="color: var(--secondary);">
-                        <i class="fa-solid fa-mobile-screen"></i>
-                    </div>
-                    <div class="trans-details">
-                        <h4>Telkomsel Data 20GB</h4>
-                        <p>12 Jan 2023</p>
-                    </div>
-                    <div class="trans-amount expense">- Rp 98.000</div>
-                </div>
-                 <div class="transaction-item">
-                    <div class="trans-icon" style="color: #F59E0B;">
-                        <i class="fa-solid fa-gamepad"></i>
-                    </div>
-                    <div class="trans-details">
-                        <h4>Topup Mobile Legends</h4>
-                        <p>10 Jan 2023</p>
-                    </div>
-                    <div class="trans-amount expense">- Rp 33.000</div>
-                </div>
+                <button id="btn-beli-pln" class="action-btn" disabled onclick="processTransaction('PLN Token')">Beli Token</button>
             </div>
-        </section>
+        </div>
 
-        <!-- Bottom Nav Original -->
+        <!-- === VIEW 4: GENERIC VIEW FOR OTHERS (Placeholder) === -->
+        <div id="view-generic" class="view-section">
+            <div class="sub-header">
+                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="page-title" id="generic-title">Layanan</div>
+            </div>
+            <div class="content-area form-container" style="text-align: center; padding-top: 50px;">
+                <div class="icon-box" style="width: 80px; height: 80px; margin: 0 auto 20px; font-size: 2rem;">
+                    <i class="fa-solid fa-person-digging"></i>
+                </div>
+                <h3 style="margin-bottom: 10px;">Dalam Pengembangan</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Layanan ini sedang diperbarui sistemnya.</p>
+            </div>
+        </div>
+
+        <!-- === BOTTOM NAV (Fixed) === -->
         <div class="bottom-nav">
-            <a href="#" class="nav-item active" onclick="setActive(this)">
+            <a href="#" class="nav-item active" onclick="switchTab('home', this)">
                 <i class="fa-solid fa-house"></i>
                 Home
             </a>
-            <a href="#" class="nav-item" onclick="setActive(this)">
+            <a href="#" class="nav-item" onclick="switchTab('history', this)">
                 <i class="fa-solid fa-clock-rotate-left"></i>
                 Riwayat
             </a>
             
             <div class="nav-fab-wrapper">
-                <div class="nav-fab" onclick="alert('Fitur Scan QR akan aktif pada versi PRO')">
+                <div class="nav-fab" onclick="openTopUpModal()">
                     <i class="fa-solid fa-qrcode"></i>
                 </div>
             </div>
 
-            <a href="#" class="nav-item" onclick="setActive(this)">
+            <a href="#" class="nav-item" onclick="showToast('Inbox kosong', 'info')">
                 <i class="fa-solid fa-inbox"></i>
                 Inbox
             </a>
-            <a href="#" class="nav-item" onclick="setActive(this)">
+            <a href="#" class="nav-item" onclick="showToast('Halaman Akun', 'info')">
                 <i class="fa-regular fa-user"></i>
                 Akun
             </a>
         </div>
     </div>
 
+    <!-- === TOP UP MODAL (Bottom Sheet) === -->
+    <div id="topup-modal" class="modal-overlay">
+        <div class="bottom-sheet">
+            <div class="sheet-header">
+                <h3 class="sheet-title">Isi Saldo</h3>
+                <button class="sheet-close" onclick="closeTopUpModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="menu-list">
+                <div class="menu-item-row" onclick="processTopUp('Bank Transfer')">
+                    <i class="fa-solid fa-building-columns"></i>
+                    <div class="menu-item-text">
+                        <h4>Transfer Bank</h4>
+                        <p>BCA, Mandiri, BRI, BNI</p>
+                    </div>
+                </div>
+                <div class="menu-item-row" onclick="processTopUp('Minimarket')">
+                    <i class="fa-solid fa-store"></i>
+                    <div class="menu-item-text">
+                        <h4>Minimarket</h4>
+                        <p>Alfamart / Indomaret</p>
+                    </div>
+                </div>
+                <div class="menu-item-row" onclick="processTopUp('QRIS')">
+                    <i class="fa-solid fa-qrcode"></i>
+                    <div class="menu-item-text">
+                        <h4>Scan QRIS</h4>
+                        <p>Gopay, OVO, Dana, ShopeePay</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // Simple Interaction Script
-        function setActive(element) {
-            document.querySelectorAll('.nav-item').forEach(item => {
-                item.classList.remove('active');
+        // --- STATE MANAGEMENT ---
+        let currentBalance = 2450500;
+        let selectedProduct = null;
+        let historyCount = 0;
+
+        // --- NAVIGATION LOGIC ---
+        function navigateTo(viewId) {
+            // Sembunyikan semua view
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.remove('active');
+                setTimeout(() => {
+                    if(!el.classList.contains('active')) el.style.display = 'none';
+                }, 300); 
             });
-            element.classList.add('active');
+
+            // Tampilkan view target
+            const target = document.getElementById(viewId);
+            if(target) {
+                target.style.display = 'block';
+                // Sedikit delay agar animasi CSS berjalan
+                setTimeout(() => target.classList.add('active'), 10);
+            }
         }
 
-        const menuItems = document.querySelectorAll('.menu-item');
-        menuItems.forEach(item => {
-            item.addEventListener('click', function() {
-                this.style.opacity = '0.5';
-                setTimeout(() => {
-                    this.style.opacity = '1';
-                }, 150);
+        function goBack() {
+            navigateTo('view-home');
+        }
+
+        function switchTab(tabName, el) {
+            // Update Active State UI
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            if(el) el.classList.add('active');
+            
+            if(tabName === 'home') {
+                navigateTo('view-home');
+            } else {
+                showToast('Halaman ' + tabName + ' belum tersedia', 'info');
+            }
+        }
+
+        // --- TOP UP MODAL LOGIC ---
+        function openTopUpModal() {
+            document.getElementById('topup-modal').classList.add('open');
+        }
+
+        function closeTopUpModal() {
+            document.getElementById('topup-modal').classList.remove('open');
+        }
+
+        function processTopUp(method) {
+            closeTopUpModal();
+            showToast('Membuka haluna ' + method + '...', 'info');
+            // Simulasi loading
+            setTimeout(() => {
+                const amount = 500000;
+                updateBalance(amount, 'income');
+                addHistory('Top Up Saldo (' + method + ')', amount, 'income');
+                showToast('Top Up Rp ' + formatRupiah(amount) + ' Berhasil!', 'success');
+            }, 1500);
+        }
+
+        // --- SERVICE LOGIC (Pulsa & Data) ---
+        const pulsaData = [
+            { name: "Pulsa 5.000", price: 6000 },
+            { name: "Pulsa 10.000", price: 11000 },
+            { name: "Pulsa 25.000", price: 26000 },
+            { name: "Pulsa 50.000", price: 51000 },
+            { name: "Data 10GB", price: 55000 },
+            { name: "Data 20GB", price: 85000 },
+        ];
+
+        function openService(serviceType) {
+            if(serviceType === 'pulsa' || serviceType === 'data') {
+                renderProductGrid('pulsa-grid', pulsaData);
+                document.getElementById('view-pulsa').querySelector('.page-title').innerText = 
+                    serviceType === 'pulsa' ? 'Isi Pulsa' : 'Paket Data';
+                navigateTo('view-pulsa');
+            } else if (serviceType === 'pln') {
+                renderProductGrid('pln-grid', [
+                    {name: "Token 20.000", price: 22000},
+                    {name: "Token 50.000", price: 52000},
+                    {name: "Token 100.000", price: 102000},
+                    {name: "Token 200.000", price: 202000}
+                ]);
+                navigateTo('view-pln');
+            } else {
+                document.getElementById('generic-title').innerText = serviceType.toUpperCase();
+                navigateTo('view-generic');
+            }
+        }
+
+        function renderProductGrid(elementId, data) {
+            const container = document.getElementById(elementId);
+            container.innerHTML = '';
+            data.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'product-card';
+                div.onclick = () => selectProduct(div, item.price, elementId === 'pulsa-grid' ? 'btn-beli-pulsa' : 'btn-beli-pln');
+                div.innerHTML = `
+                    <span class="p-name">${item.name}</span>
+                    <span class="p-price">Rp <span>${item.price.toLocaleString('id-ID')}</span></span>
+                `;
+                container.appendChild(div);
             });
+        }
+
+        function selectProduct(el, price, btnId) {
+            // Reset selection
+            const parent = el.parentElement;
+            Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+            
+            // Set new selection
+            el.classList.add('selected');
+            selectedProduct = price;
+            
+            // Enable button
+            const btn = document.getElementById(btnId);
+            btn.disabled = false;
+            btn.innerText = "Bayar Rp " + formatRupiah(price);
+        }
+
+        // --- INTERACTION LOGIC ---
+        function checkProvider() {
+            const val = document.getElementById('pulsa-number').value;
+            const label = document.getElementById('provider-detected');
+            if(val.length >= 4) {
+                label.innerText = "Mendeteksi Provider...";
+                setTimeout(() => {
+                    if(val.startsWith('0812') || val.startsWith('0813')) label.innerText = "Telkomsel";
+                    else if(val.startsWith('0818') || val.startsWith('0878')) label.innerText = "XL Axiata";
+                    else if(val.startsWith('0857') || val.startsWith('0858')) label.innerText = "Indosat Ooredoo";
+                    else label.innerText = "Provider Lain";
+                }, 500);
+            } else {
+                label.innerText = "";
+            }
+        }
+
+        document.getElementById('pln-id').addEventListener('keyup', function(e) {
+            const val = this.value;
+            const label = document.getElementById('pln-name');
+            const btn = document.getElementById('btn-beli-pln');
+            
+            if(val.length >= 10) {
+                label.innerText = "SUBSCRIBER ID: " + val;
+                btn.disabled = !selectedProduct; 
+            } else {
+                label.innerText = "";
+            }
         });
+
+        function processTransaction(type) {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            
+            if(!selectedProduct) return;
+
+            // 1. Validasi Saldo
+            if(currentBalance < selectedProduct) {
+                showToast("Saldo tidak mencukupi!", "error");
+                return;
+            }
+
+            // 2. Loading State
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
+
+            // 3. Simulasi API
+            setTimeout(() => {
+                // Success
+                updateBalance(selectedProduct, 'expense');
+                addHistory(type + ' (' + document.getElementById('pulsa-number').value || 'No Pelanggan' + ')', selectedProduct, 'expense');
+                
+                showToast("Transaksi Berhasil!", "success");
+                
+                // Reset Form & Return Home
+                btn.innerText = "Berhasil!";
+                btn.style.background = "var(--success)";
+                
+                setTimeout(() => {
+                    goBack();
+                    // Reset inputs for next use
+                    document.querySelectorAll('.input-field').forEach(i => i.value = "");
+                    document.querySelectorAll('.product-grid').forEach(g => g.innerHTML = "");
+                    selectedProduct = null;
+                    btn.disabled = true;
+                    btn.innerText = originalText;
+                    btn.style.background = "var(--primary)";
+                }, 1000);
+
+            }, 1500);
+        }
+
+        // --- UTILITIES ---
+        function updateBalance(amount, type) {
+            if(type === 'expense') currentBalance -= amount;
+            else currentBalance += amount;
+            
+            const el = document.getElementById('main-balance');
+            el.innerText = "Rp " + currentBalance.toLocaleString('id-ID');
+            
+            // Animasi flash
+            el.style.color = type === 'income' ? 'var(--success)' : 'var(--danger)';
+            setTimeout(() => el.style.color = 'white', 500);
+        }
+
+        function addHistory(title, amount, type) {
+            const list = document.getElementById('transaction-list');
+            const isIncome = type === 'income';
+            const colorClass = isIncome ? 'income' : 'expense';
+            const sign = isIncome ? '+' : '-';
+            const icon = isIncome ? 'fa-arrow-down' : 'fa-bolt'; // Simplified icon logic
+            
+            const html = `
+                <div class="transaction-item" style="animation: slideDown 0.3s ease;">
+                    <div class="trans-icon" style="color: ${isIncome ? 'var(--success)' : 'var(--primary)'};">
+                        <i class="fa-solid ${isIncome ? 'fa-wallet' : 'fa-mobile-screen'}"></i>
+                    </div>
+                    <div class="trans-details">
+                        <h4>${title}</h4>
+                        <p>Baru Saja</p>
+                    </div>
+                    <div class="trans-amount ${colorClass}">${sign} Rp ${amount.toLocaleString('id-ID')}</div>
+                </div>
+            `;
+            
+            list.insertAdjacentHTML('afterbegin', html);
+        }
+
+        function formatRupiah(angka) {
+            return new Intl.NumberFormat('id-ID').format(angka);
+        }
+
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toast-msg');
+            const icon = toast.querySelector('i');
+            
+            toastMsg.innerText = msg;
+            toast.className = `toast show ${type}`;
+            
+            if(type === 'success') icon.className = 'fa-solid fa-circle-check';
+            else if(type === 'error') icon.className = 'fa-solid fa-circle-xmark';
+            else icon.className = 'fa-solid fa-circle-info';
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Close modal on outside click
+        document.getElementById('topup-modal').addEventListener('click', function(e) {
+            if (e.target === this) closeTopUpModal();
+        });
+
     </script>
 </body>
 </html>
