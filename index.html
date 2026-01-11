@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* --- RESET & VARIABLES (Original + Updates) --- */
+        /* --- RESET & VARIABLES --- */
         :root {
             --primary: #4F46E5;
             --primary-dark: #4338ca;
@@ -29,14 +29,17 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
+        /* FIX SCROLL: Pastikan html & body penuh */
+        html { height: 100%; }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--bg-body);
+            background-color: #e5e7eb; /* Background luar agar terlihat frame app */
+            height: 100%;
+            overflow: hidden; /* Mencegah scroll body utama */
+            color: var(--text-main);
             display: flex;
             justify-content: center;
-            min-height: 100vh;
-            color: var(--text-main);
-            overflow: hidden; /* Mencegah scroll body utama */
         }
 
         /* --- APP CONTAINER --- */
@@ -44,7 +47,7 @@
             width: 100%;
             max-width: var(--app-width);
             background: var(--bg-card);
-            height: 100vh; /* Full height mobile */
+            height: 100%; /* Ambil tinggi penuh */
             position: relative;
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
             overflow: hidden;
@@ -52,38 +55,41 @@
             flex-direction: column;
         }
 
-        /* --- CONTENT SCROLL AREA --- */
+        /* --- CONTENT AREA SCROLLABLE (FIX) --- */
         .content-area {
-            flex: 1;
-            overflow-y: auto;
+            flex: 1; /* Ini kuncinya: mengisi sisa ruang vertikal */
+            overflow-y: auto; /* Mengaktifkan scroll vertikal */
             padding-bottom: 90px; /* Space for bottom nav */
             position: relative;
-            scrollbar-width: none;
+            scrollbar-width: none; /* Firefox */
+            -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
         }
         .content-area::-webkit-scrollbar { display: none; }
 
-        /* --- VIEWS SYSTEM --- */
+        /* --- VIEWS SYSTEM (FIX) --- */
         .view-section {
             position: absolute;
-            top: 0; left: 0; width: 100%; min-height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: var(--bg-body);
             transition: transform 0.3s ease-in-out, opacity 0.3s ease;
             opacity: 0;
             pointer-events: none;
             transform: translateX(20px);
             z-index: 10;
-            display: none; /* Performance */
+            
+            /* SELALU FLEX agar .content-area bisa flex: 1 */
+            display: flex; 
+            flex-direction: column; 
         }
 
         .view-section.active {
             opacity: 1;
             pointer-events: all;
             transform: translateX(0);
-            display: block;
             z-index: 20;
         }
 
-        /* --- HEADER (Original Style) --- */
+        /* --- HEADER --- */
         .header-section {
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             padding: 25px 20px;
@@ -91,6 +97,8 @@
             border-bottom-right-radius: 30px;
             color: white;
             position: relative;
+            z-index: 5;
+            flex-shrink: 0; /* Jangan di-compress */
         }
 
         .user-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -101,7 +109,7 @@
         }
         .notif-dot { position: absolute; top: 10px; right: 10px; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; border: 1px solid white; }
 
-        /* --- BALANCE CARD (Original Style) --- */
+        /* --- BALANCE CARD --- */
         .balance-card {
             margin-top: 1.5rem;
             background: rgba(255, 255, 255, 0.15);
@@ -116,7 +124,7 @@
         }
         .balance-info { display: flex; flex-direction: column; gap: 2px; }
         .balance-label { font-size: 0.75rem; opacity: 0.85; font-weight: 400; }
-        .balance-amount { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
+        .balance-amount { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; transition: color 0.3s; }
         .balance-actions { display: flex; gap: 10px; }
         
         .action-btn-mini {
@@ -137,7 +145,7 @@
         .menu-item:active .icon-box { transform: scale(0.95); }
         .menu-item span { font-size: 0.75rem; font-weight: 500; color: var(--text-main); text-align: center; }
 
-        /* --- PROMO & HISTORY (Original) --- */
+        /* --- PROMO & HISTORY --- */
         .promo-section { padding: 0 20px; margin-bottom: 25px; }
         .section-title { font-size: 1rem; font-weight: 700; margin-bottom: 15px; display: flex; justify-content: space-between; }
         .section-title a { color: var(--primary); text-decoration: none; font-size: 0.8rem; }
@@ -145,7 +153,7 @@
         .banner-scroll { display: flex; overflow-x: auto; gap: 15px; padding-bottom: 10px; scrollbar-width: none; }
         .banner-card {
             min-width: 280px; height: 140px; background: linear-gradient(to right, #2c3e50, #3498db); border-radius: var(--radius-lg);
-            padding: 20px; color: white; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0;
+            padding: 20px; color: white; display: flex; flex-direction: column; justify-content: center; flex-shrink: 0; cursor: pointer;
         }
         .banner-card:nth-child(2) { background: linear-gradient(to right, #833ab4, #fd1d1d); }
         
@@ -174,12 +182,12 @@
         }
         .nav-fab:active { transform: scale(0.9); }
 
-        /* --- NEW: SUB-PAGE STYLES (Pulsa, PLN, etc) --- */
+        /* --- SUB-PAGE STYLES --- */
         .sub-header {
             background: white; padding: 15px 20px; display: flex; align-items: center; gap: 15px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05); position: sticky; top: 0; z-index: 50; flex-shrink: 0;
         }
-        .back-btn { background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; }
+        .back-btn { background: none; border: none; font-size: 1.2rem; color: var(--text-main); cursor: pointer; padding: 5px; }
         .page-title { font-size: 1.1rem; font-weight: 700; }
         
         .form-container { padding: 20px; }
@@ -212,11 +220,11 @@
         .action-btn {
             width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 12px;
             font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+            transition: background 0.3s;
         }
-        .action-btn:active { transform: scale(0.98); }
         .action-btn:disabled { background: #CBD5E1; cursor: not-allowed; box-shadow: none; }
 
-        /* --- BOTTOM SHEET MODAL (Top Up) --- */
+        /* --- BOTTOM SHEET MODAL --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200;
             opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: flex-end; justify-content: center;
@@ -273,7 +281,7 @@
         </div>
 
         <!-- === VIEW 1: HOME (Original Dashboard) === -->
-        <div id="view-home" class="view-section active" style="display: block; position: relative; transform: none;">
+        <div id="view-home" class="view-section active">
             <div class="content-area">
                 <header class="header-section">
                     <div class="user-nav">
@@ -295,7 +303,7 @@
                         </div>
                         
                         <div class="balance-actions">
-                            <button class="action-btn-mini secondary" onclick="navigateTo('view-transfer')">
+                            <button class="action-btn-mini secondary" onclick="showToast('Menu Transfer', 'info')">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
                             <button class="action-btn-mini" onclick="openTopUpModal()">
@@ -331,7 +339,7 @@
                         <div class="icon-box icon-bpjs"><i class="fa-solid fa-heart-pulse"></i></div>
                         <span>BPJS</span>
                     </div>
-                    <div class="menu-item" onclick="openService('emoney')">
+                    <div class="menu-item" onclick="showToast('Fitur e-money segera hadir!', 'info')">
                         <div class="icon-box"><i class="fa-solid fa-wallet"></i></div>
                         <span>E-Money</span>
                     </div>
@@ -391,6 +399,16 @@
                                 <p>Kemarin, 15:45</p>
                             </div>
                             <div class="trans-amount income">+ Rp 500.000</div>
+                        </div>
+                         <div class="transaction-item">
+                            <div class="trans-icon" style="color: var(--secondary);">
+                                <i class="fa-solid fa-mobile-screen"></i>
+                            </div>
+                            <div class="trans-details">
+                                <h4>Telkomsel Data 20GB</h4>
+                                <p>12 Jan 2023</p>
+                            </div>
+                            <div class="trans-amount expense">- Rp 98.000</div>
                         </div>
                     </div>
                 </section>
@@ -534,20 +552,14 @@
 
         // --- NAVIGATION LOGIC ---
         function navigateTo(viewId) {
-            // Sembunyikan semua view
+            // Sembunyikan semua view (hapus class active)
             document.querySelectorAll('.view-section').forEach(el => {
                 el.classList.remove('active');
-                setTimeout(() => {
-                    if(!el.classList.contains('active')) el.style.display = 'none';
-                }, 300); 
             });
-
             // Tampilkan view target
             const target = document.getElementById(viewId);
             if(target) {
-                target.style.display = 'block';
-                // Sedikit delay agar animasi CSS berjalan
-                setTimeout(() => target.classList.add('active'), 10);
+                target.classList.add('active');
             }
         }
 
@@ -578,7 +590,7 @@
 
         function processTopUp(method) {
             closeTopUpModal();
-            showToast('Membuka haluna ' + method + '...', 'info');
+            showToast('Membuka haluan ' + method + '...', 'info');
             // Simulasi loading
             setTimeout(() => {
                 const amount = 500000;
@@ -698,7 +710,7 @@
             setTimeout(() => {
                 // Success
                 updateBalance(selectedProduct, 'expense');
-                addHistory(type + ' (' + document.getElementById('pulsa-number').value || 'No Pelanggan' + ')', selectedProduct, 'expense');
+                addHistory(type + ' (' + (document.getElementById('pulsa-number').value || 'No Pelanggan') + ')', selectedProduct, 'expense');
                 
                 showToast("Transaksi Berhasil!", "success");
                 
@@ -738,7 +750,6 @@
             const isIncome = type === 'income';
             const colorClass = isIncome ? 'income' : 'expense';
             const sign = isIncome ? '+' : '-';
-            const icon = isIncome ? 'fa-arrow-down' : 'fa-bolt'; // Simplified icon logic
             
             const html = `
                 <div class="transaction-item" style="animation: slideDown 0.3s ease;">
