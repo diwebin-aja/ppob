@@ -256,35 +256,34 @@
         text-align: center;
     }
 
-    /* --- BADGE HOT STYLE --- */
-.menu-item {
-    position: relative; /* Wajib ada agar badge menempel pada item ini */
-    overflow: visible;  /* Pastikan badge tidak terpotong */
-}
+    .menu-item {
+        position: relative;
+        overflow: visible;
+    }
 
-.badge-hot {
-    position: absolute;
-    top: -5px;          /* Mengatur posisi vertikal di atas icon */
-    right: 0px;        /* Mengatur posisi horizontal */
-    background: #EF4444;
-    color: white;
-    font-size: 0.6rem;
-    font-weight: 700;
-    padding: 2px 6px;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
-    z-index: 5;
-    display: flex;
-    align-items: center;
-    gap: 3px;
-    animation: bounce 2s infinite; /* Animasi loncat kecil agar menarik perhatian */
-}
+    .badge-hot {
+        position: absolute;
+        top: -5px;
+        right: 0px;
+        background: #EF4444;
+        color: white;
+        font-size: 0.6rem;
+        font-weight: 700;
+        padding: 2px 6px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        gap: 3px;
+        animation: bounce 2s infinite;
+    }
 
-@keyframes bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-    40% {transform: translateY(-3px);}
-    60% {transform: translateY(-1.5px);}
-}
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+        40% {transform: translateY(-3px);}
+        60% {transform: translateY(-1.5px);}
+    }
 
     /* --- PROMO & HISTORY --- */
     .promo-section {
@@ -596,7 +595,7 @@
         box-shadow: none;
     }
 
-    /* --- TOP UP SPECIFIC STYLES (NEW ACCORDION) --- */
+    /* --- TOP UP SPECIFIC STYLES --- */
     .nominal-grid {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
@@ -750,12 +749,6 @@
         gap: 10px;
     }
 
-    .sub-name img {
-        width: 25px;
-        height: 25px;
-        object-fit: contain;
-    }
-
     .check-circle {
         width: 18px;
         height: 18px;
@@ -806,44 +799,82 @@
         transform: translateX(-50%) translateY(0);
     }
 
-    .toast.success {
-        background: var(--success);
+    .toast.success { background: var(--success); }
+    .toast.error { background: var(--danger); }
+
+    /* --- GAMES VIEW SPECIFIC STYLES --- */
+    .games-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 20px;
     }
 
-    .toast.error {
-        background: var(--danger);
+    .game-card {
+        background: white;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: var(--shadow-soft);
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 2px solid transparent;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .game-card.active {
+        border-color: var(--primary);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .game-img {
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        background: #e5e7eb;
+    }
+
+    .game-info {
+        padding: 8px;
+        text-align: center;
+    }
+
+    .game-title {
+        font-size: 0.75rem;
+        font-weight: 600;
+        line-height: 1.2;
+        color: var(--text-main);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* Game Form Container (Initially Hidden) */
+    #game-form-container {
+        display: none;
+        padding: 0 20px 20px 20px;
+        animation: fadeInUp 0.3s ease-out;
+    }
+
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .input-row {
+        display: flex;
+        gap: 10px;
     }
 
     /* Utility colors */
-    .icon-pln {
-        color: #F59E0B;
-        background: #FFFBEB;
-    }
-
-    .icon-pulsa {
-        color: #EF4444;
-        background: #FEF2F2;
-    }
-
-    .icon-data {
-        color: #3B82F6;
-        background: #EFF6FF;
-    }
-
-    .icon-game {
-        color: #8B5CF6;
-        background: #F5F3FF;
-    }
-
-    .icon-bpjs {
-        color: #10B981;
-        background: #ECFDF5;
-    }
-
-    .icon-pdam {
-        color: #06B6D4;
-        background: #ECFEFF;
-    }
+    .icon-pln { color: #F59E0B; background: #FFFBEB; }
+    .icon-pulsa { color: #EF4444; background: #FEF2F2; }
+    .icon-data { color: #3B82F6; background: #EFF6FF; }
+    .icon-game { color: #8B5CF6; background: #F5F3FF; }
+    .icon-bpjs { color: #10B981; background: #ECFDF5; }
+    .icon-pdam { color: #06B6D4; background: #ECFEFF; }
 
 </style>
 </head>
@@ -856,6 +887,7 @@
             <span id="toast-msg">Pesan disini</span>
         </div>
 
+        <!-- VIEW HOME -->
         <div id="view-home" class="view-section active">
             <div class="content-area">
                 <header class="header-section">
@@ -890,7 +922,7 @@
                 <nav class="menu-grid">
                     <div class="menu-item" onclick="openService('pulsa')">
                         <div class="badge-hot"><i class="fa-solid fa-fire"></i> HOT</div>
-                           <div class="icon-box icon-pulsa"><i class="fa-solid fa-mobile-screen"></i></div>
+                           <div class="icon-box icon-pulsa"><i class="fa-solid fa-mobile-screen"></i></div> 
                         <span>Pulsa</span>
                     </div>
 
@@ -1027,15 +1059,16 @@
             </div>
         </div>
 
+        <!-- VIEW PULSA -->
         <div id="view-pulsa" class="view-section">
             <div class="sub-header">
                 <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="page-title">Isi Pulsa & Data</div>
+                <div class="page-title">Isi Pulsa</div>
             </div>
             <div class="content-area form-container">
                 <div class="input-group">
                     <label class="input-label">Nomor Handphone</label>
-                    <input type="tel" id="pulsa-number" class="input-field" placeholder="08xx-xxxx-xxxx" onkeyup="checkProvider()">
+                    <input type="tel" id="pulsa-number" class="input-field" placeholder="08xx-xxxx-xxxx" onkeyup="checkProvider(); validatePulsaForm()">
                     <div class="hint-text">
                         <span id="provider-detected"></span>
                         <span>Simpan nomor</span>
@@ -1048,7 +1081,203 @@
                         </div>
                 </div>
 
-                <button id="btn-beli-pulsa" class="action-btn" disabled onclick="processTransaction('Pulsa')">Beli Sekarang</button>
+                <div class="input-group" style="margin-top: 20px;">
+                    <label class="input-label">Metode Pembayaran</label>
+                    <div class="method-accordion">
+                        
+                        <div class="sub-option" id="opt-saldo" onclick="selectPulsaMethod('Saldo Akun', 'Saldo', this)" style="border: 1px solid #E5E7EB; margin-bottom: 10px;">
+                            <div class="sub-name"><i class="fa-solid fa-wallet" style="color:var(--primary)"></i> Saldo Akun</div>
+                            <div class="check-circle"></div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('pulsa-bank-content', this)">
+                                <div class="accordion-icon"><i class="fa-solid fa-building-columns"></i></div>
+                                <div class="accordion-info">
+                                    <h4>Transfer Bank</h4>
+                                    <p>Virtual Account</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                            </div>
+                            <div id="pulsa-bank-content" class="accordion-body">
+                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'BCA', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BCA</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'BRI', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BRI</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'Mandiri', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Mandiri</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'BNI', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BNI</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('pulsa-ewallet-content', this)">
+                                <div class="accordion-icon"><i class="fa-solid fa-qrcode"></i></div>
+                                <div class="accordion-info">
+                                    <h4>QRIS / E-Wallet</h4>
+                                    <p>GoPay, OVO, Dana, ShopeePay</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                            </div>
+                            <div id="pulsa-ewallet-content" class="accordion-body">
+                                <div class="sub-option" onclick="selectPulsaMethod('QRIS', 'QRIS Universal', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-qrcode"></i> QRIS (Semua E-Wallet)</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('E-Wallet', 'OVO', this)">
+                                    <div class="sub-name">OVO</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('E-Wallet', 'DANA', this)">
+                                    <div class="sub-name">DANA</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('E-Wallet', 'ShopeePay', this)">
+                                    <div class="sub-name">ShopeePay</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('pulsa-retail-content', this)">
+                                <div class="accordion-icon"><i class="fa-solid fa-store"></i></div>
+                                <div class="accordion-info">
+                                    <h4>Minimarket</h4>
+                                    <p>Alfamart / Indomaret</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                            </div>
+                            <div id="pulsa-retail-content" class="accordion-body">
+                                <div class="sub-option" onclick="selectPulsaMethod('Minimarket', 'Alfamart', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Alfamart</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectPulsaMethod('Minimarket', 'Indomaret', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Indomaret</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <button id="btn-bayar-pulsa" class="action-btn" disabled onclick="processPulsaTransaction()">Pilih Nominal & Metode</button>
+            </div>
+        </div>
+
+        <!-- VIEW GAMES -->
+        <div id="view-games" class="view-section">
+            <div class="sub-header">
+                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="page-title">Voucher Game</div>
+            </div>
+            <div class="content-area">
+                <!-- 1. List Game Grid -->
+                <div class="games-grid" id="games-list-container">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <!-- 2. Form Produk (Muncul setelah pilih game) -->
+                <div id="game-form-container">
+                    
+                    <div style="background: #EEF2FF; padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fa-solid fa-gamepad" style="color: var(--primary);"></i>
+                        <span style="font-size: 0.85rem; color: var(--primary-dark); font-weight: 500;">Dipilih: <b id="selected-game-name">Game Name</b></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">User ID</label>
+                        <div class="input-row">
+                            <input type="number" id="game-userid" class="input-field" placeholder="Masukkan User ID" onkeyup="validateGamesForm()">
+                            <input type="number" id="game-zoneid" class="input-field" placeholder="Zone ID (Opsional)" style="width: 40%;" onkeyup="validateGamesForm()">
+                        </div>
+                        <div class="hint-text">
+                            <span id="game-nickname"></span>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label class="input-label">Pilih Nominal</label>
+                        <div class="product-grid" id="games-product-grid">
+                            <!-- Products rendered here -->
+                        </div>
+                    </div>
+
+                    <div class="input-group" style="margin-top: 20px;">
+                        <label class="input-label">Metode Pembayaran</label>
+                        <div class="method-accordion">
+                            
+                            <div class="sub-option" id="opt-game-saldo" onclick="selectGamesMethod('Saldo Akun', 'Saldo', this)" style="border: 1px solid #E5E7EB; margin-bottom: 10px;">
+                                <div class="sub-name"><i class="fa-solid fa-wallet" style="color:var(--primary)"></i> Saldo Akun</div>
+                                <div class="check-circle"></div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <div class="accordion-header" onclick="toggleAccordion('game-bank-content', this)">
+                                    <div class="accordion-icon"><i class="fa-solid fa-building-columns"></i></div>
+                                    <div class="accordion-info">
+                                        <h4>Transfer Bank</h4>
+                                        <p>Virtual Account</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                                </div>
+                                <div id="game-bank-content" class="accordion-body">
+                                    <div class="sub-option" onclick="selectGamesMethod('Transfer Bank', 'BCA', this)">
+                                        <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BCA</div>
+                                        <div class="check-circle"></div>
+                                    </div>
+                                    <div class="sub-option" onclick="selectGamesMethod('Transfer Bank', 'BRI', this)">
+                                        <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BRI</div>
+                                        <div class="check-circle"></div>
+                                    </div>
+                                    <div class="sub-option" onclick="selectGamesMethod('Transfer Bank', 'Mandiri', this)">
+                                        <div class="sub-name"><i class="fa-solid fa-bank"></i> Mandiri</div>
+                                        <div class="check-circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <div class="accordion-header" onclick="toggleAccordion('game-ewallet-content', this)">
+                                    <div class="accordion-icon"><i class="fa-solid fa-qrcode"></i></div>
+                                    <div class="accordion-info">
+                                        <h4>QRIS / E-Wallet</h4>
+                                        <p>GoPay, OVO, Dana, ShopeePay</p>
+                                    </div>
+                                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
+                                </div>
+                                <div id="game-ewallet-content" class="accordion-body">
+                                    <div class="sub-option" onclick="selectGamesMethod('QRIS', 'QRIS Universal', this)">
+                                        <div class="sub-name"><i class="fa-solid fa-qrcode"></i> QRIS (Semua E-Wallet)</div>
+                                        <div class="check-circle"></div>
+                                    </div>
+                                    <div class="sub-option" onclick="selectGamesMethod('E-Wallet', 'OVO', this)">
+                                        <div class="sub-name">OVO</div>
+                                        <div class="check-circle"></div>
+                                    </div>
+                                    <div class="sub-option" onclick="selectGamesMethod('E-Wallet', 'DANA', this)">
+                                        <div class="sub-name">DANA</div>
+                                        <div class="check-circle"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <button id="btn-bayar-game" class="action-btn" disabled onclick="processGamesTransaction()">Pilih Nominal & Metode</button>
+                </div>
             </div>
         </div>
 
@@ -1237,13 +1466,98 @@
         let topUpCategory = null; // e.g., Bank Transfer
         let topUpProvider = null; // e.g., BCA
 
+        // State Baru untuk Transaksi Pulsa
+        let selectedPulsaMethod = null;   // 'Saldo', 'Bank', 'E-Wallet'
+        let selectedPulsaProvider = null; // 'BCA', 'DANA', dll
+
+        // --- STATE BARU UNTUK GAMES ---
+        let selectedGameId = null;
+        let selectedGameProduct = null;
+        let selectedGamesMethod = null;
+        let selectedGamesProvider = null;
+
+        const gamesCatalog = [
+            {
+                id: 'mlbb',
+                name: 'Mobile Legends',
+                img: 'https://picsum.photos/seed/mlbb/200/200', 
+                items: [
+                    { name: '86 Diamonds', price: 23000 },
+                    { name: '172 Diamonds', price: 46000 },
+                    { name: '257 Diamonds', price: 68000 },
+                    { name: '706 Diamonds', price: 185000 },
+                    { name: 'Weekly Pass', price: 28000 },
+                    { name: 'Twilight Pass', price: 150000 }
+                ]
+            },
+            {
+                id: 'ff',
+                name: 'Free Fire',
+                img: 'https://picsum.photos/seed/ff/200/200',
+                items: [
+                    { name: '70 Diamonds', price: 10000 },
+                    { name: '140 Diamonds', price: 20000 },
+                    { name: '355 Diamonds', price: 50000 },
+                    { name: '720 Diamonds', price: 100000 },
+                    { name: 'Member Mingguan', price: 30000 },
+                    { name: 'Member Bulanan', price: 150000 }
+                ]
+            },
+            {
+                id: 'pubgm',
+                name: 'PUBG Mobile',
+                img: 'https://picsum.photos/seed/pubg/200/200',
+                items: [
+                    { name: '60 UC', price: 15000 },
+                    { name: '325 UC', price: 75000 },
+                    { name: '660 UC', price: 150000 },
+                    { name: '1800 UC', price: 350000 },
+                    { name: 'Royal Pass', price: 160000 },
+                    { name: 'UC Pack', price: 50000 }
+                ]
+            },
+            {
+                id: 'gi',
+                name: 'Genshin Impact',
+                img: 'https://picsum.photos/seed/genshin/200/200',
+                items: [
+                    { name: '60 Genesis', price: 16000 },
+                    { name: '300 Genesis', price: 79000 },
+                    { name: '980 Genesis', price: 249000 },
+                    { name: 'Welkin Moon', price: 79000 },
+                    { name: 'Gnostic Hymn', price: 159000 }
+                ]
+            },
+            {
+                id: 'val',
+                name: 'Valorant',
+                img: 'https://picsum.photos/seed/valorant/200/200',
+                items: [
+                    { name: '125 VP', price: 15000 },
+                    { name: '420 VP', price: 50000 },
+                    { name: '700 VP', price: 80000 },
+                    { name: '1375 VP', price: 150000 },
+                    { name: '2400 VP', price: 250000 }
+                ]
+            },
+            {
+                id: 'hok',
+                name: 'Honor of Kings',
+                img: 'https://picsum.photos/seed/hok/200/200',
+                items: [
+                    { name: '16 Tokens', price: 3000 },
+                    { name: '80 Tokens', price: 15000 },
+                    { name: '240 Tokens', price: 45000 },
+                    { name: '800 Tokens', price: 150000 }
+                ]
+            }
+        ];
+
         // --- NAVIGATION LOGIC ---
         function navigateTo(viewId) {
-            // Sembunyikan semua view (hapus class active)
             document.querySelectorAll('.view-section').forEach(el => {
                 el.classList.remove('active');
             });
-            // Tampilkan view target
             const target = document.getElementById(viewId);
             if(target) {
                 target.classList.add('active');
@@ -1255,7 +1569,6 @@
         }
 
         function switchTab(tabName, el) {
-            // Update Active State UI
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             if(el) el.classList.add('active');
             
@@ -1266,48 +1579,171 @@
             }
         }
 
-        // --- LOGIKA MENU LAINNYA (UPDATED) ---
+        // --- LOGIKA MENU LAINNYA ---
         function expandMoreMenu() {
-            // 1. Sembunyikan tombol "Lainnya"
             document.getElementById('btn-lainnya').style.display = 'none';
-            
-            // 2. Tampilkan semua item tersembunyi
             const hiddenItems = document.querySelectorAll('.menu-item-hidden');
             hiddenItems.forEach(item => {
                 item.style.display = 'flex';
-                // Animasi masuk
                 item.style.opacity = '0';
                 setTimeout(() => {
                     item.style.transition = 'opacity 0.3s';
                     item.style.opacity = '1';
                 }, 10);
             });
-
-            // 3. Tampilkan tombol "Tutup" di paling akhir
             document.getElementById('btn-tutup').style.display = 'flex';
         }
 
         function collapseMoreMenu() {
-            // 1. Sembunyikan tombol "Tutup"
             document.getElementById('btn-tutup').style.display = 'none';
-
-            // 2. Sembunyikan semua item tambahan
             const hiddenItems = document.querySelectorAll('.menu-item-hidden');
             hiddenItems.forEach(item => {
                 item.style.display = 'none';
             });
-
-            // 3. Tampilkan kembali tombol "Lainnya"
             document.getElementById('btn-lainnya').style.display = 'flex';
         }
 
-        // --- TOP UP LOGIC (UPDATED) ---
+        // --- GAMES LOGIC ---
+        function openGamesView() {
+            // Reset State Games
+            selectedGameId = null;
+            selectedGameProduct = null;
+            selectedGamesMethod = null;
+            selectedGamesProvider = null;
+
+            document.getElementById('games-list-container').style.display = 'grid';
+            document.getElementById('game-form-container').style.display = 'none';
+            document.getElementById('game-userid').value = '';
+            document.getElementById('game-zoneid').value = '';
+            document.getElementById('game-nickname').innerText = '';
+
+            // Reset UI Accordion
+            document.querySelectorAll('#view-games .accordion-body').forEach(b => b.classList.remove('show'));
+            document.querySelectorAll('#view-games .accordion-header').forEach(h => h.classList.remove('active'));
+            document.querySelectorAll('#view-games .sub-option').forEach(o => o.classList.remove('selected'));
+
+            // Render Games List
+            const container = document.getElementById('games-list-container');
+            container.innerHTML = '';
+            gamesCatalog.forEach(game => {
+                const card = document.createElement('div');
+                card.className = 'game-card';
+                card.onclick = () => selectGame(game.id, card);
+                card.innerHTML = `
+                    <img src="${game.img}" class="game-img" alt="${game.name}">
+                    <div class="game-info">
+                        <div class="game-title">${game.name}</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+
+            navigateTo('view-games');
+        }
+
+        function selectGame(gameId, cardEl) {
+            // Visual feedback
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
+            cardEl.classList.add('active');
+
+            // Set data
+            selectedGameId = gameId;
+            const gameData = gamesCatalog.find(g => g.id === gameId);
+            
+            // Show form
+            document.getElementById('selected-game-name').innerText = gameData.name;
+            const formContainer = document.getElementById('game-form-container');
+            formContainer.style.display = 'block';
+            
+            // Scroll to form
+            setTimeout(() => {
+                formContainer.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+
+            // Render Products
+            const productGrid = document.getElementById('games-product-grid');
+            productGrid.innerHTML = '';
+            gameData.items.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'product-card';
+                div.onclick = () => selectGamesProduct(div, item.price);
+                div.innerHTML = `
+                    <span class="p-name">${item.name}</span>
+                    <span class="p-price">Rp <span>${item.price.toLocaleString('id-ID')}</span></span>
+                `;
+                productGrid.appendChild(div);
+            });
+        }
+
+        function selectGamesProduct(el, price) {
+            const parent = el.parentElement;
+            Array.from(parent.children).forEach(child => child.classList.remove('selected'));
+            el.classList.add('selected');
+            selectedGameProduct = price;
+            validateGamesForm();
+        }
+
+        function selectGamesMethod(category, provider, el) {
+            const container = document.querySelector('#view-games');
+            container.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            
+            selectedGamesMethod = category;
+            selectedGamesProvider = provider;
+            
+            validateGamesForm();
+        }
+
+        function validateGamesForm() {
+            const btn = document.getElementById('btn-bayar-game');
+            const userId = document.getElementById('game-userid').value;
+            
+            if (selectedGameProduct && userId.length > 3 && selectedGamesProvider) {
+                btn.disabled = false;
+                btn.innerHTML = `Bayar <b>Rp ${formatRupiah(selectedGameProduct)}</b> via ${selectedGamesProvider}`;
+            } else {
+                btn.disabled = true;
+                btn.innerText = "Pilih Nominal & Metode";
+            }
+        }
+
+        function processGamesTransaction() {
+            const btn = document.getElementById('btn-bayar-game');
+            const userId = document.getElementById('game-userid').value;
+            const gameData = gamesCatalog.find(g => g.id === selectedGameId);
+
+            // 1. Cek Saldo jika pakai Saldo
+            if (selectedGamesProvider === 'Saldo') {
+                if (currentBalance < selectedGameProduct) {
+                    showToast("Saldo akun tidak mencukupi!", "error");
+                    return;
+                }
+            }
+
+            // 2. Loading
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
+
+            // 3. Simulasi Proses
+            setTimeout(() => {
+                if (selectedGamesProvider === 'Saldo') {
+                    updateBalance(selectedGameProduct, 'expense');
+                }
+                
+                addHistory(`${gameData.name} (${userId}) via ${selectedGamesProvider}`, selectedGameProduct, 'expense');
+                showToast("Voucher Game Berhasil Dikirim!", "success");
+
+                setTimeout(() => {
+                    goBack();
+                }, 1000);
+            }, 2000);
+        }
+
+
+        // --- TOP UP LOGIC ---
         function openTopUpPage() {
-            // Reset fields
             document.getElementById('topup-amount-input').value = '';
             document.querySelectorAll('.nominal-chip').forEach(c => c.classList.remove('active'));
-            
-            // Reset accordions
             document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
             document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
             document.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
@@ -1325,8 +1761,6 @@
         function handleTopUpInput(val) {
             topUpAmount = parseInt(val);
             if(isNaN(topUpAmount)) topUpAmount = 0;
-            
-            // Sync chips
             document.querySelectorAll('.nominal-chip').forEach(chip => {
                 chip.classList.remove('active');
                 let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
@@ -1340,8 +1774,6 @@
         function selectTopUpAmount(amount) {
             topUpAmount = amount;
             document.getElementById('topup-amount-input').value = amount;
-            
-            // Highlight chip
             document.querySelectorAll('.nominal-chip').forEach(chip => {
                 chip.classList.remove('active');
                 let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
@@ -1350,14 +1782,13 @@
             validateTopUp();
         }
 
-        // Accordion Toggle
         function toggleAccordion(contentId, headerEl) {
-            // Close other accordions
             const isClosed = !headerEl.classList.contains('active');
-            
-            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
-            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
-            
+            const parent = headerEl.closest('.method-accordion');
+            if(parent) {
+                parent.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
+                parent.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+            }
             if(isClosed) {
                 document.getElementById(contentId).classList.add('show');
                 headerEl.classList.add('active');
@@ -1365,15 +1796,11 @@
         }
 
         function selectSubMethod(category, provider, el) {
-            // Reset selection visibilty
-            document.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
-            
-            // Select clicked
+            const parent = el.closest('.method-accordion');
+            parent.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
             el.classList.add('selected');
-            
             topUpCategory = category;
             topUpProvider = provider;
-            
             validateTopUp();
         }
 
@@ -1390,18 +1817,14 @@
 
         function processTopUpNew() {
             const btn = document.getElementById('btn-process-topup');
-            
-            // Loading
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
             
-            // Simulasi API
             setTimeout(() => {
                 updateBalance(topUpAmount, 'income');
                 addHistory('Top Up via ' + topUpProvider, topUpAmount, 'income');
                 showToast('Top Up Berhasil!', 'success');
                 
-                // Reset & Back
                 btn.innerHTML = 'Berhasil!';
                 setTimeout(() => {
                     goBack();
@@ -1410,42 +1833,67 @@
         }
 
         // --- SERVICE LOGIC (Pulsa & Data) ---
-        const pulsaData = [
-            { name: "Pulsa 5.000", price: 6000 },
-            { name: "Pulsa 10.000", price: 11000 },
-            { name: "Pulsa 25.000", price: 26000 },
-            { name: "Pulsa 50.000", price: 51000 },
-            { name: "Data 10GB", price: 55000 },
-            { name: "Data 20GB", price: 85000 },
+        const pulsaOnlyData = [
+            { name: "Pulsa 5.000", price: 6500 }, 
+            { name: "Pulsa 10.000", price: 11500 },
+            { name: "Pulsa 25.000", price: 26500 },
+            { name: "Pulsa 50.000", price: 51500 },
+            { name: "Pulsa 100.000", price: 101500 },
+            { name: "Pulsa 200.000", price: 201500 },
+        ];
+
+        const dataPackageData = [
+            { name: "Data 10GB / 30 Hari", price: 55000 },
+            { name: "Data 20GB / 30 Hari", price: 85000 },
+            { name: "Data Unlimited", price: 120000 },
         ];
 
         function openService(serviceType) {
-            if(serviceType === 'pulsa' || serviceType === 'data') {
-                renderProductGrid('pulsa-grid', pulsaData);
-                document.getElementById('view-pulsa').querySelector('.page-title').innerText = 
-                    serviceType === 'pulsa' ? 'Isi Pulsa' : 'Paket Data';
+            selectedProduct = null;
+            selectedPulsaMethod = null;
+            selectedPulsaProvider = null;
+            document.getElementById('btn-bayar-pulsa').disabled = true;
+            document.getElementById('btn-bayar-pulsa').innerText = "Pilih Nominal & Metode";
+            document.getElementById('pulsa-number').value = "";
+            
+            document.querySelectorAll('.sub-option').forEach(el => el.classList.remove('selected'));
+            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+
+            if(serviceType === 'pulsa') {
+                renderProductGrid('pulsa-grid', pulsaOnlyData, 'btn-bayar-pulsa');
+                document.querySelector('#view-pulsa .page-title').innerText = 'Isi Pulsa';
                 navigateTo('view-pulsa');
-            } else if (serviceType === 'pln') {
+            } 
+            else if (serviceType === 'data') {
+                renderProductGrid('pulsa-grid', dataPackageData, 'btn-bayar-pulsa');
+                document.querySelector('#view-pulsa .page-title').innerText = 'Paket Data';
+                navigateTo('view-pulsa');
+            } 
+            else if (serviceType === 'pln') {
                 renderProductGrid('pln-grid', [
                     {name: "Token 20.000", price: 22000},
                     {name: "Token 50.000", price: 52000},
-                    {name: "Token 100.000", price: 102000},
-                    {name: "Token 200.000", price: 202000}
-                ]);
+                    {name: "Token 100.000", price: 102000}
+                ], 'btn-beli-pln');
                 navigateTo('view-pln');
-            } else {
+            }
+            else if (serviceType === 'game') {
+                openGamesView();
+            }
+            else {
                 document.getElementById('generic-title').innerText = serviceType.toUpperCase();
                 navigateTo('view-generic');
             }
         }
 
-        function renderProductGrid(elementId, data) {
+        function renderProductGrid(elementId, data, btnId) {
             const container = document.getElementById(elementId);
             container.innerHTML = '';
             data.forEach(item => {
                 const div = document.createElement('div');
                 div.className = 'product-card';
-                div.onclick = () => selectProduct(div, item.price, elementId === 'pulsa-grid' ? 'btn-beli-pulsa' : 'btn-beli-pln');
+                div.onclick = () => selectProduct(div, item.price, btnId);
                 div.innerHTML = `
                     <span class="p-name">${item.name}</span>
                     <span class="p-price">Rp <span>${item.price.toLocaleString('id-ID')}</span></span>
@@ -1455,21 +1903,71 @@
         }
 
         function selectProduct(el, price, btnId) {
-            // Reset selection
             const parent = el.parentElement;
             Array.from(parent.children).forEach(child => child.classList.remove('selected'));
-            
-            // Set new selection
             el.classList.add('selected');
             selectedProduct = price;
             
-            // Enable button
-            const btn = document.getElementById(btnId);
-            btn.disabled = false;
-            btn.innerText = "Bayar Rp " + formatRupiah(price);
+            if(btnId === 'btn-bayar-pulsa') {
+                validatePulsaForm();
+            } else {
+                const btn = document.getElementById(btnId);
+                btn.disabled = false;
+                btn.innerText = "Bayar Rp " + formatRupiah(price);
+            }
         }
 
-        // --- INTERACTION LOGIC ---
+        function selectPulsaMethod(category, provider, el) {
+            const container = document.querySelector('#view-pulsa');
+            container.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            
+            selectedPulsaMethod = category;
+            selectedPulsaProvider = provider;
+            
+            validatePulsaForm();
+        }
+
+        function validatePulsaForm() {
+            const btn = document.getElementById('btn-bayar-pulsa');
+            const phone = document.getElementById('pulsa-number').value;
+            
+            if (selectedProduct && phone.length > 9 && selectedPulsaProvider) {
+                btn.disabled = false;
+                btn.innerHTML = `Bayar <b>Rp ${formatRupiah(selectedProduct)}</b> via ${selectedPulsaProvider}`;
+            } else {
+                btn.disabled = true;
+                btn.innerText = "Pilih Nominal & Metode";
+            }
+        }
+
+        function processPulsaTransaction() {
+            const btn = document.getElementById('btn-bayar-pulsa');
+            const phone = document.getElementById('pulsa-number').value;
+            
+            if (selectedPulsaProvider === 'Saldo') {
+                if (currentBalance < selectedProduct) {
+                    showToast("Saldo akun tidak mencukupi!", "error");
+                    return;
+                }
+            }
+
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
+
+            setTimeout(() => {
+                if (selectedPulsaProvider === 'Saldo') {
+                    updateBalance(selectedProduct, 'expense');
+                }
+                addHistory(`Pulsa ${phone} via ${selectedPulsaProvider}`, selectedProduct, 'expense');
+                showToast("Transaksi Berhasil!", "success");
+
+                setTimeout(() => {
+                    goBack();
+                }, 1000);
+            }, 2000);
+        }
+
         function checkProvider() {
             const val = document.getElementById('pulsa-number').value;
             const label = document.getElementById('provider-detected');
@@ -1505,31 +2003,25 @@
             
             if(!selectedProduct) return;
 
-            // 1. Validasi Saldo
             if(currentBalance < selectedProduct) {
                 showToast("Saldo tidak mencukupi!", "error");
                 return;
             }
 
-            // 2. Loading State
             btn.disabled = true;
             btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
 
-            // 3. Simulasi API
             setTimeout(() => {
-                // Success
                 updateBalance(selectedProduct, 'expense');
-                addHistory(type + ' (' + (document.getElementById('pulsa-number').value || 'No Pelanggan') + ')', selectedProduct, 'expense');
+                addHistory(type, selectedProduct, 'expense');
                 
                 showToast("Transaksi Berhasil!", "success");
                 
-                // Reset Form & Return Home
                 btn.innerText = "Berhasil!";
                 btn.style.background = "var(--success)";
                 
                 setTimeout(() => {
                     goBack();
-                    // Reset inputs for next use
                     document.querySelectorAll('.input-field').forEach(i => i.value = "");
                     document.querySelectorAll('.product-grid').forEach(g => g.innerHTML = "");
                     selectedProduct = null;
@@ -1549,7 +2041,6 @@
             const el = document.getElementById('main-balance');
             el.innerText = "Rp " + currentBalance.toLocaleString('id-ID');
             
-            // Animasi flash
             el.style.color = type === 'income' ? 'var(--success)' : 'var(--danger)';
             setTimeout(() => el.style.color = 'white', 500);
         }
