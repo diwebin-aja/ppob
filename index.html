@@ -21,22 +21,19 @@
             --danger: #EF4444;
             --warning: #F59E0B;
             --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-            --shadow-card: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
             --radius-lg: 16px;
             --app-width: 480px;
-            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
-        /* FIX SCROLL: Pastikan html & body penuh */
         html { height: 100%; }
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #e5e7eb; /* Background luar agar terlihat frame app */
+            background-color: #e5e7eb;
             height: 100%;
-            overflow: hidden; /* Mencegah scroll body utama */
+            overflow: hidden;
             color: var(--text-main);
             display: flex;
             justify-content: center;
@@ -47,7 +44,7 @@
             width: 100%;
             max-width: var(--app-width);
             background: var(--bg-card);
-            height: 100%; /* Ambil tinggi penuh */
+            height: 100%;
             position: relative;
             box-shadow: 0 0 40px rgba(0,0,0,0.1);
             overflow: hidden;
@@ -55,18 +52,18 @@
             flex-direction: column;
         }
 
-        /* --- CONTENT AREA SCROLLABLE (FIX) --- */
+        /* --- CONTENT AREA SCROLLABLE --- */
         .content-area {
-            flex: 1; /* Ini kuncinya: mengisi sisa ruang vertikal */
-            overflow-y: auto; /* Mengaktifkan scroll vertikal */
-            padding-bottom: 90px; /* Space for bottom nav */
+            flex: 1;
+            overflow-y: auto;
+            padding-bottom: 90px;
             position: relative;
-            scrollbar-width: none; /* Firefox */
-            -webkit-overflow-scrolling: touch; /* Smooth scroll iOS */
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
         }
         .content-area::-webkit-scrollbar { display: none; }
 
-        /* --- VIEWS SYSTEM (FIX) --- */
+        /* --- VIEWS SYSTEM --- */
         .view-section {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -76,8 +73,6 @@
             pointer-events: none;
             transform: translateX(20px);
             z-index: 10;
-            
-            /* SELALU FLEX agar .content-area bisa flex: 1 */
             display: flex; 
             flex-direction: column; 
         }
@@ -98,7 +93,7 @@
             color: white;
             position: relative;
             z-index: 5;
-            flex-shrink: 0; /* Jangan di-compress */
+            flex-shrink: 0;
         }
 
         .user-nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
@@ -224,30 +219,42 @@
         }
         .action-btn:disabled { background: #CBD5E1; cursor: not-allowed; box-shadow: none; }
 
-        /* --- BOTTOM SHEET MODAL --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 200;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s; display: flex; align-items: flex-end; justify-content: center;
+        /* --- TOP UP SPECIFIC STYLES --- */
+        .nominal-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;
         }
-        .modal-overlay.open { opacity: 1; pointer-events: all; }
-        
-        .bottom-sheet {
-            width: 100%; max-width: var(--app-width); background: white; border-top-left-radius: 24px; border-top-right-radius: 24px;
-            padding: 25px 20px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+        .nominal-chip {
+            padding: 10px; border: 1px solid #E5E7EB; border-radius: 10px; background: white;
+            text-align: center; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
         }
-        .modal-overlay.open .bottom-sheet { transform: translateY(0); }
-        
-        .sheet-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .sheet-title { font-size: 1.1rem; font-weight: 700; }
-        .sheet-close { background: #F3F4F6; border: none; width: 30px; height: 30px; border-radius: 50%; cursor: pointer; }
-        
-        .menu-list { display: flex; flex-direction: column; gap: 10px; }
-        .menu-item-row {
-            display: flex; align-items: center; gap: 15px; padding: 15px; background: #F9FAFB; border-radius: 12px; cursor: pointer;
+        .nominal-chip.active {
+            background: var(--primary); color: white; border-color: var(--primary);
         }
-        .menu-item-row i { font-size: 1.2rem; color: var(--primary); width: 30px; text-align: center; }
-        .menu-item-text h4 { font-size: 0.95rem; font-weight: 600; }
-        .menu-item-text p { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .method-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
+        .method-item {
+            display: flex; align-items: center; padding: 15px; background: white; border: 1px solid #E5E7EB;
+            border-radius: 12px; cursor: pointer; transition: all 0.2s;
+        }
+        .method-item:hover { border-color: #d1d5db; }
+        .method-item.active { border-color: var(--primary); background: #F5F3FF; }
+        
+        .method-icon {
+            width: 40px; height: 40px; border-radius: 8px; background: #F3F4F6; display: flex;
+            align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text-main); margin-right: 15px;
+        }
+        .method-info { flex: 1; }
+        .method-info h4 { font-size: 0.9rem; font-weight: 600; }
+        .method-info p { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .radio-circle {
+            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #D1D5DB; position: relative;
+        }
+        .method-item.active .radio-circle { border-color: var(--primary); }
+        .method-item.active .radio-circle::after {
+            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
+        }
 
         /* --- TOAST NOTIFICATION --- */
         .toast {
@@ -274,13 +281,11 @@
 
     <div class="app-container">
         
-        <!-- === TOAST NOTIFICATION === -->
         <div id="toast" class="toast">
             <i class="fa-solid fa-circle-check"></i>
             <span id="toast-msg">Pesan disini</span>
         </div>
 
-        <!-- === VIEW 1: HOME (Original Dashboard) === -->
         <div id="view-home" class="view-section active">
             <div class="content-area">
                 <header class="header-section">
@@ -295,7 +300,6 @@
                         </button>
                     </div>
 
-                    <!-- Balance Card -->
                     <div class="balance-card">
                         <div class="balance-info">
                             <div class="balance-label">Total Saldo</div>
@@ -306,14 +310,13 @@
                             <button class="action-btn-mini secondary" onclick="showToast('Menu Transfer', 'info')">
                                 <i class="fa-solid fa-paper-plane"></i>
                             </button>
-                            <button class="action-btn-mini" onclick="openTopUpModal()">
+                            <button class="action-btn-mini" onclick="openTopUpPage()">
                                 <i class="fa-solid fa-plus"></i>
                             </button>
                         </div>
                     </div>
                 </header>
 
-                <!-- Menu Grid -->
                 <nav class="menu-grid">
                     <div class="menu-item" onclick="openService('pulsa')">
                         <div class="icon-box icon-pulsa"><i class="fa-solid fa-mobile-screen"></i></div>
@@ -349,7 +352,6 @@
                     </div>
                 </nav>
 
-                <!-- Promo Section -->
                 <section class="promo-section">
                     <div class="section-title">
                         Promo Spesial
@@ -373,13 +375,11 @@
                     </div>
                 </section>
 
-                <!-- History Section -->
                 <section class="history-section">
                     <div class="section-title">
                         Transaksi Terakhir
                     </div>
                     <div class="transaction-list" id="transaction-list">
-                        <!-- Items injected by JS -->
                         <div class="transaction-item">
                             <div class="trans-icon" style="color: var(--primary);">
                                 <i class="fa-solid fa-bolt"></i>
@@ -415,7 +415,6 @@
             </div>
         </div>
 
-        <!-- === VIEW 2: PULSA/DATA SERVICE === -->
         <div id="view-pulsa" class="view-section">
             <div class="sub-header">
                 <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -434,15 +433,13 @@
                 <div class="input-group">
                     <label class="input-label">Pilih Nominal</label>
                     <div class="product-grid" id="pulsa-grid">
-                        <!-- Generated by JS -->
-                    </div>
+                        </div>
                 </div>
 
                 <button id="btn-beli-pulsa" class="action-btn" disabled onclick="processTransaction('Pulsa')">Beli Sekarang</button>
             </div>
         </div>
 
-        <!-- === VIEW 3: PLN SERVICE === -->
         <div id="view-pln" class="view-section">
             <div class="sub-header">
                 <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -460,15 +457,13 @@
                 <div class="input-group">
                     <label class="input-label">Nominal Token</label>
                     <div class="product-grid" id="pln-grid">
-                        <!-- Generated JS -->
-                    </div>
+                        </div>
                 </div>
 
                 <button id="btn-beli-pln" class="action-btn" disabled onclick="processTransaction('PLN Token')">Beli Token</button>
             </div>
         </div>
 
-        <!-- === VIEW 4: GENERIC VIEW FOR OTHERS (Placeholder) === -->
         <div id="view-generic" class="view-section">
             <div class="sub-header">
                 <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
@@ -483,7 +478,61 @@
             </div>
         </div>
 
-        <!-- === BOTTOM NAV (Fixed) === -->
+        <div id="view-topup" class="view-section">
+            <div class="sub-header">
+                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
+                <div class="page-title">Isi Saldo</div>
+            </div>
+            <div class="content-area form-container">
+                <div class="input-group">
+                    <label class="input-label">Masukkan Nominal (Rp)</label>
+                    <input type="number" id="topup-amount-input" class="input-field" placeholder="Minimal Rp 10.000" onkeyup="handleTopUpInput(this.value)">
+                    <div class="nominal-grid">
+                        <div class="nominal-chip" onclick="selectTopUpAmount(20000)">20.000</div>
+                        <div class="nominal-chip" onclick="selectTopUpAmount(50000)">50.000</div>
+                        <div class="nominal-chip" onclick="selectTopUpAmount(100000)">100.000</div>
+                        <div class="nominal-chip" onclick="selectTopUpAmount(200000)">200.000</div>
+                        <div class="nominal-chip" onclick="selectTopUpAmount(500000)">500.000</div>
+                        <div class="nominal-chip" onclick="selectTopUpAmount(1000000)">1.000.000</div>
+                    </div>
+                </div>
+
+                <div class="input-group" style="margin-top: 30px;">
+                    <label class="input-label">Metode Pembayaran</label>
+                    <div class="method-list">
+                        <div class="method-item" onclick="selectPaymentMethod('Bank Transfer', this)">
+                            <div class="method-icon"><i class="fa-solid fa-building-columns"></i></div>
+                            <div class="method-info">
+                                <h4>Transfer Bank</h4>
+                                <p>BCA, BRI, Mandiri, BNI</p>
+                            </div>
+                            <div class="radio-circle"></div>
+                        </div>
+                        
+                        <div class="method-item" onclick="selectPaymentMethod('QRIS', this)">
+                            <div class="method-icon"><i class="fa-solid fa-qrcode"></i></div>
+                            <div class="method-info">
+                                <h4>QRIS / E-Wallet</h4>
+                                <p>GoPay, OVO, Dana, ShopeePay</p>
+                            </div>
+                            <div class="radio-circle"></div>
+                        </div>
+
+                        <div class="method-item" onclick="selectPaymentMethod('Minimarket', this)">
+                            <div class="method-icon"><i class="fa-solid fa-store"></i></div>
+                            <div class="method-info">
+                                <h4>Minimarket</h4>
+                                <p>Alfamart / Indomaret</p>
+                            </div>
+                            <div class="radio-circle"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="btn-process-topup" class="action-btn" disabled onclick="processTopUpNew()">Lanjut Bayar</button>
+            </div>
+        </div>
+
         <div class="bottom-nav">
             <a href="#" class="nav-item active" onclick="switchTab('home', this)">
                 <i class="fa-solid fa-house"></i>
@@ -495,8 +544,8 @@
             </a>
             
             <div class="nav-fab-wrapper">
-                <div class="nav-fab" onclick="openTopUpModal()">
-                    <i class="fa-solid fa-qrcode"></i>
+                <div class="nav-fab" onclick="openTopUpPage()">
+                    <i class="fa-solid fa-plus"></i>
                 </div>
             </div>
 
@@ -511,44 +560,15 @@
         </div>
     </div>
 
-    <!-- === TOP UP MODAL (Bottom Sheet) === -->
-    <div id="topup-modal" class="modal-overlay">
-        <div class="bottom-sheet">
-            <div class="sheet-header">
-                <h3 class="sheet-title">Isi Saldo</h3>
-                <button class="sheet-close" onclick="closeTopUpModal()"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="menu-list">
-                <div class="menu-item-row" onclick="processTopUp('Bank Transfer')">
-                    <i class="fa-solid fa-building-columns"></i>
-                    <div class="menu-item-text">
-                        <h4>Transfer Bank</h4>
-                        <p>BCA, Mandiri, BRI, BNI</p>
-                    </div>
-                </div>
-                <div class="menu-item-row" onclick="processTopUp('Minimarket')">
-                    <i class="fa-solid fa-store"></i>
-                    <div class="menu-item-text">
-                        <h4>Minimarket</h4>
-                        <p>Alfamart / Indomaret</p>
-                    </div>
-                </div>
-                <div class="menu-item-row" onclick="processTopUp('QRIS')">
-                    <i class="fa-solid fa-qrcode"></i>
-                    <div class="menu-item-text">
-                        <h4>Scan QRIS</h4>
-                        <p>Gopay, OVO, Dana, ShopeePay</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script>
         // --- STATE MANAGEMENT ---
         let currentBalance = 2450500;
         let selectedProduct = null;
         let historyCount = 0;
+        
+        // State for Top Up
+        let topUpAmount = 0;
+        let topUpMethod = null;
 
         // --- NAVIGATION LOGIC ---
         function navigateTo(viewId) {
@@ -579,24 +599,86 @@
             }
         }
 
-        // --- TOP UP MODAL LOGIC ---
-        function openTopUpModal() {
-            document.getElementById('topup-modal').classList.add('open');
+        // --- TOP UP LOGIC (NEW) ---
+        function openTopUpPage() {
+            // Reset fields
+            document.getElementById('topup-amount-input').value = '';
+            document.querySelectorAll('.nominal-chip').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.method-item').forEach(m => m.classList.remove('active'));
+            document.getElementById('btn-process-topup').disabled = true;
+            document.getElementById('btn-process-topup').innerText = "Lanjut Bayar";
+            topUpAmount = 0;
+            topUpMethod = null;
+            
+            navigateTo('view-topup');
         }
 
-        function closeTopUpModal() {
-            document.getElementById('topup-modal').classList.remove('open');
+        function handleTopUpInput(val) {
+            topUpAmount = parseInt(val);
+            if(isNaN(topUpAmount)) topUpAmount = 0;
+            
+            // Sync chips
+            document.querySelectorAll('.nominal-chip').forEach(chip => {
+                // Remove active first
+                chip.classList.remove('active');
+                // parse number from text (e.g., 20.000 -> 20000)
+                let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
+                if(chipVal === topUpAmount) {
+                    chip.classList.add('active');
+                }
+            });
+            validateTopUp();
         }
 
-        function processTopUp(method) {
-            closeTopUpModal();
-            showToast('Membuka haluan ' + method + '...', 'info');
-            // Simulasi loading
+        function selectTopUpAmount(amount) {
+            topUpAmount = amount;
+            document.getElementById('topup-amount-input').value = amount;
+            
+            // Highlight chip
+            document.querySelectorAll('.nominal-chip').forEach(chip => {
+                chip.classList.remove('active');
+                let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
+                if(chipVal === amount) chip.classList.add('active');
+            });
+            validateTopUp();
+        }
+
+        function selectPaymentMethod(method, el) {
+            topUpMethod = method;
+            document.querySelectorAll('.method-item').forEach(m => m.classList.remove('active'));
+            el.classList.add('active');
+            validateTopUp();
+        }
+
+        function validateTopUp() {
+            const btn = document.getElementById('btn-process-topup');
+            if(topUpAmount >= 10000 && topUpMethod) {
+                btn.disabled = false;
+                btn.innerText = "Bayar Rp " + formatRupiah(topUpAmount);
+            } else {
+                btn.disabled = true;
+                btn.innerText = "Lanjut Bayar";
+            }
+        }
+
+        function processTopUpNew() {
+            const btn = document.getElementById('btn-process-topup');
+            
+            // Loading
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
+            
+            // Simulasi API
             setTimeout(() => {
-                const amount = 500000;
-                updateBalance(amount, 'income');
-                addHistory('Top Up Saldo (' + method + ')', amount, 'income');
-                showToast('Top Up Rp ' + formatRupiah(amount) + ' Berhasil!', 'success');
+                updateBalance(topUpAmount, 'income');
+                addHistory('Top Up via ' + topUpMethod, topUpAmount, 'income');
+                showToast('Top Up Berhasil!', 'success');
+                
+                // Reset & Back
+                btn.innerHTML = 'Berhasil!';
+                setTimeout(() => {
+                    goBack();
+                }, 1000);
             }, 1500);
         }
 
@@ -787,11 +869,6 @@
                 toast.classList.remove('show');
             }, 3000);
         }
-
-        // Close modal on outside click
-        document.getElementById('topup-modal').addEventListener('click', function(e) {
-            if (e.target === this) closeTopUpModal();
-        });
 
     </script>
 </body>
