@@ -219,7 +219,7 @@
         }
         .action-btn:disabled { background: #CBD5E1; cursor: not-allowed; box-shadow: none; }
 
-        /* --- TOP UP SPECIFIC STYLES --- */
+        /* --- TOP UP SPECIFIC STYLES (NEW ACCORDION) --- */
         .nominal-grid {
             display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px;
         }
@@ -230,30 +230,82 @@
         .nominal-chip.active {
             background: var(--primary); color: white; border-color: var(--primary);
         }
+
+        /* Accordion Style */
+        .method-accordion { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
         
-        .method-list { display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .method-item {
-            display: flex; align-items: center; padding: 15px; background: white; border: 1px solid #E5E7EB;
-            border-radius: 12px; cursor: pointer; transition: all 0.2s;
+        .accordion-item {
+            border: 1px solid #E5E7EB;
+            border-radius: 12px;
+            background: white;
+            overflow: hidden;
+            transition: border-color 0.2s;
         }
-        .method-item:hover { border-color: #d1d5db; }
-        .method-item.active { border-color: var(--primary); background: #F5F3FF; }
         
-        .method-icon {
+        .accordion-header {
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            background: white;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover { background: #F9FAFB; }
+        .accordion-header.active { background: #F9FAFB; border-bottom: 1px solid #E5E7EB; }
+        
+        .accordion-icon {
             width: 40px; height: 40px; border-radius: 8px; background: #F3F4F6; display: flex;
             align-items: center; justify-content: center; font-size: 1.2rem; color: var(--text-main); margin-right: 15px;
         }
-        .method-info { flex: 1; }
-        .method-info h4 { font-size: 0.9rem; font-weight: 600; }
-        .method-info p { font-size: 0.75rem; color: var(--text-muted); }
         
-        .radio-circle {
-            width: 20px; height: 20px; border-radius: 50%; border: 2px solid #D1D5DB; position: relative;
+        .accordion-info { flex: 1; }
+        .accordion-info h4 { font-size: 0.9rem; font-weight: 600; }
+        .accordion-info p { font-size: 0.75rem; color: var(--text-muted); }
+        
+        .chevron-icon { font-size: 0.8rem; color: var(--text-muted); transition: transform 0.3s; }
+        .accordion-header.active .chevron-icon { transform: rotate(180deg); }
+
+        .accordion-body {
+            display: none;
+            background: #F9FAFB;
+            padding: 10px;
         }
-        .method-item.active .radio-circle { border-color: var(--primary); }
-        .method-item.active .radio-circle::after {
-            content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 10px; height: 10px; background: var(--primary); border-radius: 50%;
+        .accordion-body.show { display: block; animation: slideDown 0.2s ease-out; }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .sub-option {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: white;
+            border: 1px solid #E5E7EB;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .sub-option:last-child { margin-bottom: 0; }
+        .sub-option:hover { border-color: #d1d5db; }
+        
+        .sub-option.selected {
+            border-color: var(--primary);
+            background: #EEF2FF;
+        }
+        
+        .sub-name { font-size: 0.85rem; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .sub-name img { width: 25px; height: 25px; object-fit: contain; } /* Placeholder for logos */
+        
+        .check-circle {
+            width: 18px; height: 18px; border-radius: 50%; border: 2px solid #D1D5DB; position: relative;
+        }
+        .sub-option.selected .check-circle { border-color: var(--primary); background: var(--primary); }
+        .sub-option.selected .check-circle::after {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; font-size: 10px;
         }
 
         /* --- TOAST NOTIFICATION --- */
@@ -499,37 +551,91 @@
 
                 <div class="input-group" style="margin-top: 30px;">
                     <label class="input-label">Metode Pembayaran</label>
-                    <div class="method-list">
-                        <div class="method-item" onclick="selectPaymentMethod('Bank Transfer', this)">
-                            <div class="method-icon"><i class="fa-solid fa-building-columns"></i></div>
-                            <div class="method-info">
-                                <h4>Transfer Bank</h4>
-                                <p>BCA, BRI, Mandiri, BNI</p>
+                    <div class="method-accordion">
+                        
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('bank-content', this)">
+                                <div class="accordion-icon"><i class="fa-solid fa-building-columns"></i></div>
+                                <div class="accordion-info">
+                                    <h4>Transfer Bank</h4>
+                                    <p>Otomatis verifikasi</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
                             </div>
-                            <div class="radio-circle"></div>
+                            <div id="bank-content" class="accordion-body">
+                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'BCA', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BCA</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'BRI', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BRI</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'Mandiri', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Mandiri</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'BNI', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BNI</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                            </div>
                         </div>
                         
-                        <div class="method-item" onclick="selectPaymentMethod('QRIS', this)">
-                            <div class="method-icon"><i class="fa-solid fa-qrcode"></i></div>
-                            <div class="method-info">
-                                <h4>QRIS / E-Wallet</h4>
-                                <p>GoPay, OVO, Dana, ShopeePay</p>
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('ewallet-content', this)">
+                                <div class="accordion-icon"><i class="fa-solid fa-qrcode"></i></div>
+                                <div class="accordion-info">
+                                    <h4>QRIS / E-Wallet</h4>
+                                    <p>GoPay, OVO, Dana, ShopeePay</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
                             </div>
-                            <div class="radio-circle"></div>
+                            <div id="ewallet-content" class="accordion-body">
+                                <div class="sub-option" onclick="selectSubMethod('QRIS', 'QRIS Universal', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-qrcode"></i> QRIS (Semua E-Wallet)</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('E-Wallet', 'OVO', this)">
+                                    <div class="sub-name">OVO</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('E-Wallet', 'DANA', this)">
+                                    <div class="sub-name">DANA</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('E-Wallet', 'ShopeePay', this)">
+                                    <div class="sub-name">ShopeePay</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="method-item" onclick="selectPaymentMethod('Minimarket', this)">
-                            <div class="method-icon"><i class="fa-solid fa-store"></i></div>
-                            <div class="method-info">
-                                <h4>Minimarket</h4>
-                                <p>Alfamart / Indomaret</p>
+                        <div class="accordion-item">
+                            <div class="accordion-header" onclick="toggleAccordion('retail-content', this)">
+                                <div class="accordion-icon"><i class="fa-solid fa-store"></i></div>
+                                <div class="accordion-info">
+                                    <h4>Minimarket</h4>
+                                    <p>Alfamart / Indomaret</p>
+                                </div>
+                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
                             </div>
-                            <div class="radio-circle"></div>
+                            <div id="retail-content" class="accordion-body">
+                                <div class="sub-option" onclick="selectSubMethod('Minimarket', 'Alfamart', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Alfamart</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                                <div class="sub-option" onclick="selectSubMethod('Minimarket', 'Indomaret', this)">
+                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Indomaret</div>
+                                    <div class="check-circle"></div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
                 </div>
 
-                <button id="btn-process-topup" class="action-btn" disabled onclick="processTopUpNew()">Lanjut Bayar</button>
+                <button id="btn-process-topup" class="action-btn" disabled onclick="processTopUpNew()">Konfirmasi Pembayaran</button>
             </div>
         </div>
 
@@ -568,7 +674,8 @@
         
         // State for Top Up
         let topUpAmount = 0;
-        let topUpMethod = null;
+        let topUpCategory = null; // e.g., Bank Transfer
+        let topUpProvider = null; // e.g., BCA
 
         // --- NAVIGATION LOGIC ---
         function navigateTo(viewId) {
@@ -599,16 +706,23 @@
             }
         }
 
-        // --- TOP UP LOGIC (NEW) ---
+        // --- TOP UP LOGIC (UPDATED) ---
         function openTopUpPage() {
             // Reset fields
             document.getElementById('topup-amount-input').value = '';
             document.querySelectorAll('.nominal-chip').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.method-item').forEach(m => m.classList.remove('active'));
+            
+            // Reset accordions
+            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+            document.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
+            
             document.getElementById('btn-process-topup').disabled = true;
-            document.getElementById('btn-process-topup').innerText = "Lanjut Bayar";
+            document.getElementById('btn-process-topup').innerText = "Konfirmasi Pembayaran";
+            
             topUpAmount = 0;
-            topUpMethod = null;
+            topUpCategory = null;
+            topUpProvider = null;
             
             navigateTo('view-topup');
         }
@@ -619,9 +733,7 @@
             
             // Sync chips
             document.querySelectorAll('.nominal-chip').forEach(chip => {
-                // Remove active first
                 chip.classList.remove('active');
-                // parse number from text (e.g., 20.000 -> 20000)
                 let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
                 if(chipVal === topUpAmount) {
                     chip.classList.add('active');
@@ -643,21 +755,41 @@
             validateTopUp();
         }
 
-        function selectPaymentMethod(method, el) {
-            topUpMethod = method;
-            document.querySelectorAll('.method-item').forEach(m => m.classList.remove('active'));
-            el.classList.add('active');
+        // Accordion Toggle
+        function toggleAccordion(contentId, headerEl) {
+            // Close other accordions
+            const isClosed = !headerEl.classList.contains('active');
+            
+            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
+            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
+            
+            if(isClosed) {
+                document.getElementById(contentId).classList.add('show');
+                headerEl.classList.add('active');
+            }
+        }
+
+        function selectSubMethod(category, provider, el) {
+            // Reset selection visibilty
+            document.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
+            
+            // Select clicked
+            el.classList.add('selected');
+            
+            topUpCategory = category;
+            topUpProvider = provider;
+            
             validateTopUp();
         }
 
         function validateTopUp() {
             const btn = document.getElementById('btn-process-topup');
-            if(topUpAmount >= 10000 && topUpMethod) {
+            if(topUpAmount >= 10000 && topUpProvider) {
                 btn.disabled = false;
                 btn.innerText = "Bayar Rp " + formatRupiah(topUpAmount);
             } else {
                 btn.disabled = true;
-                btn.innerText = "Lanjut Bayar";
+                btn.innerText = "Konfirmasi Pembayaran";
             }
         }
 
@@ -671,7 +803,7 @@
             // Simulasi API
             setTimeout(() => {
                 updateBalance(topUpAmount, 'income');
-                addHistory('Top Up via ' + topUpMethod, topUpAmount, 'income');
+                addHistory('Top Up via ' + topUpProvider, topUpAmount, 'income');
                 showToast('Top Up Berhasil!', 'success');
                 
                 // Reset & Back
