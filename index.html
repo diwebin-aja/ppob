@@ -101,7 +101,7 @@
     .header-section {
         margin-top: 20px;
         background: linear-gradient(135deg, var(--primary), var(--secondary));
-        padding: 25px 20px;
+        padding: 22px 15px 20px;
         margin-left: 10px;
         margin-right: 10px;
         border-bottom-left-radius: 30px;
@@ -122,7 +122,7 @@
         top: 0;
         left: 0;
         width: 100%;
-        height: 75px;
+        height: 98px;
         background: var(--primary-dark); 
         border-bottom-right-radius: 0px;
         border-bottom-left-radius: 0px;
@@ -168,73 +168,160 @@
         border: 1px solid white;
     }
 
-    /* --- BALANCE CARD --- */
-    .balance-card {
-        margin-top: 1.5rem;
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(10px);
-        /*border: 1px solid rgba(255, 255, 255, 0.2);*/
-        border-bottom-left-radius: 20px;
-        border-top-left-radius: 20px;
-        border-top-right-radius: 20px;
-        border-bottom-right-radius: 20px;
-        padding: 16px 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    }
+      /* --- HERO SLIDER MODERN --- */
+.hero-slider-container {
+    margin-top: 15px;
+    width: 100%;
+    overflow: hidden; /* Menyembunyikan slide di luar area */
+    position: relative;
+    border-radius: 20px;
+}
 
-    .balance-info {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-    }
+.hero-wrapper {
+    display: flex;
+    width: 100%;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Efek slide smooth */
+}
 
-    .balance-label {
-        font-size: 0.75rem;
-        opacity: 0.85;
-        font-weight: 400;
-    }
+.hero-slide {
+    min-width: 100%;
+    padding: 0 5px; /* Sedikit gap antar slide */
+    box-sizing: border-box;
+}
 
-    .balance-amount {
-        font-size: 1.35rem;
-        font-weight: 700;
-        letter-spacing: -0.5px;
-        transition: color 0.3s;
-    }
+/* Card Base Style */
+.card-slide {
+    height: 160px;
+    border-radius: 20px;
+    padding: 20px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    overflow: hidden;
+    box-shadow: 0px 5px 3px rgba(0,0,0,0.15);
+}
 
-    .balance-actions {
-        display: flex;
-        gap: 10px;
-    }
+/* Slide 1: Glassmorphism (Mirip desain awal tapi lebih fresh) */
+.glass-card {
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+}
 
-    .action-btn-mini {
-        width: 42px;
-        height: 42px;
-        background: white;
-        border: none;
-        border-radius: 16px;
-        color: var(--primary);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1rem;
-        cursor: pointer;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        transition: transform 0.1s;
-    }
+/* Slide 2: Gradient Purple */
+.gradient-purple {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
 
-    .action-btn-mini:active {
-        transform: scale(0.92);
-    }
+/* Slide 3: Dark Mode */
+.dark-mode {
+    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+    color: #f3f4f6;
+    border: 1px solid rgba(255,255,255,0.1);
+}
 
-    .action-btn-mini.secondary {
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
-        box-shadow: none;
-        border: 1px solid rgba(255, 255, 255, 0.3);
-    }
+/* Content Styling */
+.slide-content {
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+    flex: 1;
+}
+
+.slide-label {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    font-weight: 500;
+    margin-bottom: 5px;
+    letter-spacing: 0.5px;
+}
+
+.slide-amount {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    letter-spacing: -1px;
+}
+
+.slide-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+/* Action Buttons di dalam Slide */
+.slide-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.slide-btn {
+    padding: 8px 16px;
+    background: white;
+    color: var(--primary);
+    border: none;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    transition: transform 0.2s;
+}
+
+.slide-btn:active {
+    transform: scale(0.95);
+}
+
+.slide-btn.outline {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    box-shadow: none;
+    backdrop-filter: blur(4px);
+}
+
+/* Dekorasi Icon Latar Belakang */
+.slide-decor {
+    position: absolute;
+    right: -20px;
+    bottom: -30px;
+    font-size: 8rem;
+    opacity: 0.15;
+    transform: rotate(-15deg);
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Dots Indikator */
+.hero-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    gap: 8px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    background: rgba(255,255,255,0.4);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    width: 25px;
+    background: white;
+    border-radius: 10px;
+}
 
     /* --- RUNNING TEXT / TICKER (Updated: Start from Right) --- */
     .ticker-section {
@@ -966,34 +1053,81 @@
         <!-- VIEW HOME -->
         <div id="view-home" class="view-section active">
             <div class="content-area">
-                <header class="header-section">
-                    <div class="user-nav">
-                        <div class="user-info">
-                            <p>Selamat Pagi,</p>
-                            <h2 id="user-name">Rizky Developer</h2>
-                        </div>
-                        <button class="notif-btn">
-                            <i class="fa-regular fa-bell"></i>
-                            <div class="notif-dot"></div>
-                        </button>
-                    </div>
+ 
+<header class="header-section">
+    <div class="user-nav">
+        <div class="user-info">
+            <p>Selamat Datang,</p>
+            <h2 id="user-name">Guest User</h2>
+        </div>
+        <button class="notif-btn" onclick="showToast('Mode Tamu Aktif', 'info')">
+            <i class="fa-regular fa-user"></i>
+        </button>
+    </div>
 
-                    <div class="balance-card">
-                        <div class="balance-info">
-                            <div class="balance-label">Saldo Akun</div>
-                            <div class="balance-amount" id="main-balance">Rp 2.450.500</div>
-                        </div>
-                        
-                        <div class="balance-actions">
-                            <button class="action-btn-mini secondary" onclick="showToast('Menu Transfer', 'info')">
-                                <i class="fa-solid fa-paper-plane"></i>
-                            </button>
-                            <button class="action-btn-mini" onclick="openTopUpPage()">
-                                <i class="fa-solid fa-plus"></i>
+    <div class="hero-slider-container">
+        <div class="hero-wrapper" id="hero-wrapper">
+            
+            <div class="hero-slide">
+                <div class="card-slide gradient-blue">
+                    <div class="slide-content">
+                        <span class="slide-label">Tanpa Registrasi</span>
+                        <h2 class="slide-title">Beli Pulsa & Data <br>Langsung Bayar</h2>
+                        <div class="slide-actions">
+                             <button class="slide-btn" onclick="openService('pulsa')">
+                                <i class="fa-solid fa-cart-shopping"></i> Pesan Sekarang
                             </button>
                         </div>
                     </div>
-                </header>
+                    <div class="slide-decor">
+                        <i class="fa-solid fa-rocket"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-slide">
+                <div class="card-slide gradient-purple">
+                    <div class="slide-content">
+                        <span class="slide-label">Proses Otomatis</span>
+                        <h2 class="slide-title">Server 24 Jam <br>Anti Pending</h2>
+                        <div class="slide-actions">
+                             <button class="slide-btn" onclick="openService('game')">
+                                Top Up Game <i class="fa-solid fa-gamepad"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="slide-decor">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-slide">
+                <div class="card-slide dark-mode">
+                    <div class="slide-content">
+                        <span class="slide-label">Pembayaran Aman</span>
+                        <h2 class="slide-title">Support QRIS <br>& Semua Bank</h2>
+                        <div class="slide-actions">
+                             <button class="slide-btn" onclick="showToast('Metode Pembayaran Lengkap', 'success')">
+                                <i class="fa-solid fa-check-shield"></i> Info Detail
+                            </button>
+                        </div>
+                    </div>
+                    <div class="slide-decor">
+                        <i class="fa-solid fa-lock"></i>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="hero-dots" id="hero-dots">
+            <span class="dot active" onclick="goToSlide(0)"></span>
+            <span class="dot" onclick="goToSlide(1)"></span>
+            <span class="dot" onclick="goToSlide(2)"></span>
+        </div>
+    </div>
+</header>
 
                 <div class="ticker-section">
                     <div class="ticker-icon">
@@ -2175,6 +2309,79 @@
             }, 3000);
         }
 
+
+        /* --- LOGIC HERO SLIDER --- */
+let currentSlide = 0;
+const slides = document.querySelectorAll('.hero-slide');
+const totalSlides = slides.length;
+const wrapper = document.getElementById('hero-wrapper');
+const dots = document.querySelectorAll('.dot');
+let slideInterval;
+
+// Fungsi pindah slide
+function goToSlide(index) {
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+
+    currentSlide = index;
+    const offset = -currentSlide * 100;
+    wrapper.style.transform = `translateX(${offset}%)`;
+
+    // Update Dots
+    dots.forEach(dot => dot.classList.remove('active'));
+    dots[currentSlide].classList.add('active');
+    
+    // Reset timer agar tidak langsung loncat setelah user klik manual
+    resetSlideTimer();
+}
+
+function nextSlide() {
+    goToSlide(currentSlide + 1);
+}
+
+// Timer Otomatis (Autoplay 4 detik)
+function startSlideTimer() {
+    slideInterval = setInterval(nextSlide, 4000);
+}
+
+function resetSlideTimer() {
+    clearInterval(slideInterval);
+    startSlideTimer();
+}
+
+// --- TOUCH SWIPE SUPPORT (Penting untuk UX Mobile) ---
+let touchStartX = 0;
+let touchEndX = 0;
+
+const sliderContainer = document.querySelector('.hero-slider-container');
+
+sliderContainer.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    clearInterval(slideInterval); // Stop auto slide saat disentuh
+}, {passive: true});
+
+sliderContainer.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    handleSwipe();
+    startSlideTimer(); // Jalan lagi setelah dilepas
+}, {passive: true});
+
+function handleSwipe() {
+    const threshold = 50; // Minimal geser 50px baru pindah
+    if (touchEndX < touchStartX - threshold) {
+        // Swipe Kiri -> Next
+        nextSlide();
+    }
+    if (touchEndX > touchStartX + threshold) {
+        // Swipe Kanan -> Prev
+        goToSlide(currentSlide - 1);
+    }
+}
+
+// Inisialisasi saat load
+document.addEventListener('DOMContentLoaded', () => {
+    startSlideTimer();
+});
     </script>
 </body>
 </html>
