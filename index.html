@@ -2,2387 +2,400 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PayFast - PPOB Modern</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameSquad Clone</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 
     <style>
-    /* --- RESET & VARIABLES --- */
-    :root {
-        --primary: #4F46E5;
-        --primary-dark: #4338ca;
-        --secondary: #EC4899;
-        --bg-body: #F3F4F6;
-        --bg-card: #ffffff;
-        --text-main: #1F2937;
-        --text-muted: #6B7280;
-        --success: #10B981;
-        --danger: #EF4444;
-        --warning: #F59E0B;
-        --shadow-soft: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        --radius-lg: 16px;
-        --app-width: 480px;
-    }
-
-    * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    html {
-        height: 100%;
-    }
-
-    body {
-        font-family: 'Inter', sans-serif;
-        background-color: #e5e7eb;
-        height: 100%;
-        overflow: hidden;
-        color: var(--text-main);
-        display: flex;
-        justify-content: center;
-    }
-
-    /* --- APP CONTAINER --- */
-    .app-container {
-        width: 100%;
-        max-width: var(--app-width);
-        background: var(--bg-card);
-        height: 100%;
-        position: relative;
-        box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-    }
-
-    /* --- CONTENT AREA SCROLLABLE --- */
-    .content-area {
-        flex: 1;
-        overflow-y: auto;
-        padding-bottom: 70px;
-        position: relative;
-        scrollbar-width: none;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .content-area::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* --- VIEWS SYSTEM --- */
-    .view-section {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--bg-body);
-        transition: transform 0.3s ease-in-out, opacity 0.3s ease;
-        opacity: 0;
-        pointer-events: none;
-        transform: translateX(20px);
-        z-index: 10;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .view-section.active {
-        opacity: 1;
-        pointer-events: all;
-        transform: translateX(0);
-        z-index: 20;
-    }
-
-    /* --- HEADER --- */
-    .header-section {
-        margin-top: 20px;
-        background: linear-gradient(135deg, var(--primary), var(--secondary));
-        padding: 22px 15px 20px;
-        margin-left: 10px;
-        margin-right: 10px;
-        border-bottom-left-radius: 30px;
-        border-bottom-right-radius: 30px; 
-        border-top-left-radius: 30px; 
-        border-top-right-radius: 30px;
-        color: white;
-        position: relative;
-        z-index: 5;
-        flex-shrink: 0;
-    }
-    /* --- BACKGROUND LAYER DI BELAKANG HEADER --- */
-    
-    /* Kita tempel background ini ke content-area khusus di view-home */
-    #view-home .content-area::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 98px;
-        background: var(--primary-dark); 
-        border-bottom-right-radius: 0px;
-        border-bottom-left-radius: 0px;
-        z-index: 0;
-    }
-
-    .user-nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .user-info h2 {
-        font-size: 1.1rem;
-        font-weight: 600;
-    }
-
-    .user-info p {
-        font-size: 0.85rem;
-        opacity: 0.9;
-    }
-
-    .notif-btn {
-        background: rgba(255, 255, 255, 0.2);
-        border: none;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        color: white;
-        cursor: pointer;
-        position: relative;
-    }
-
-    .notif-dot {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        width: 8px;
-        height: 8px;
-        background: var(--danger);
-        border-radius: 50%;
-        border: 1px solid white;
-    }
-
-      /* --- HERO SLIDER MODERN --- */
-.hero-slider-container {
-    margin-top: 15px;
-    width: 100%;
-    overflow: hidden; /* Menyembunyikan slide di luar area */
-    position: relative;
-    border-radius: 20px;
-}
-
-.hero-wrapper {
-    display: flex;
-    width: 100%;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1); /* Efek slide smooth */
-}
-
-.hero-slide {
-    min-width: 100%;
-    padding: 0 5px; /* Sedikit gap antar slide */
-    box-sizing: border-box;
-}
-
-/* Card Base Style */
-.card-slide {
-    height: 160px;
-    border-radius: 20px;
-    padding: 20px;
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    box-shadow: 0px 5px 3px rgba(0,0,0,0.15);
-}
-
-/* Slide 1: Glassmorphism (Mirip desain awal tapi lebih fresh) */
-.glass-card {
-    background: rgba(255, 255, 255, 0.25);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
-}
-
-/* Slide 2: Gradient Purple */
-.gradient-purple {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-}
-
-/* Slide 3: Dark Mode */
-.dark-mode {
-    background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
-    color: #f3f4f6;
-    border: 1px solid rgba(255,255,255,0.1);
-}
-
-/* Content Styling */
-.slide-content {
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-    flex: 1;
-}
-
-.slide-label {
-    font-size: 0.8rem;
-    opacity: 0.9;
-    font-weight: 500;
-    margin-bottom: 5px;
-    letter-spacing: 0.5px;
-}
-
-.slide-amount {
-    font-size: 1.6rem;
-    font-weight: 700;
-    margin-bottom: 15px;
-    letter-spacing: -1px;
-}
-
-.slide-title {
-    font-size: 1.2rem;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 15px;
-}
-
-/* Action Buttons di dalam Slide */
-.slide-actions {
-    display: flex;
-    gap: 10px;
-}
-
-.slide-btn {
-    padding: 8px 16px;
-    background: white;
-    color: var(--primary);
-    border: none;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-}
-
-.slide-btn:active {
-    transform: scale(0.95);
-}
-
-.slide-btn.outline {
-    background: rgba(255,255,255,0.2);
-    color: white;
-    box-shadow: none;
-    backdrop-filter: blur(4px);
-}
-
-/* Dekorasi Icon Latar Belakang */
-.slide-decor {
-    position: absolute;
-    right: 20px;
-    bottom: 0px;
-    font-size: 6rem;
-    opacity: 0.15;
-    transform: rotate(0deg); 
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* Dots Indikator */
-.hero-dots {
-    display: flex;
-    justify-content: center;
-    margin-top: 15px;
-    gap: 8px;
-}
-
-.dot {
-    width: 8px;
-    height: 8px;
-    background: rgba(255,255,255,0.4);
-    border-radius: 50%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.dot.active {
-    width: 25px;
-    background: white;
-    border-radius: 10px;
-}
-
-    /* --- RUNNING TEXT / TICKER (Updated: Start from Right) --- */
-    .ticker-section {
-        background: #ffedd5;
-        margin: 15px 20px 5px 20px;
-        padding: 12px 15px;
-        border-radius: 16px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .ticker-icon {
-        color: var(--warning);
-        font-size: 1.1rem;
-        flex-shrink: 0;
-        z-index: 2; /* Supaya icon tetap di atas teks */
-        animation: swing 2s ease-in-out infinite;
-    }
-
-    @keyframes swing {
-        0%, 100% { transform: rotate(0deg); }
-        20% { transform: rotate(15deg); }
-        40% { transform: rotate(-10deg); }
-        60% { transform: rotate(5deg); }
-        80% { transform: rotate(-5deg); }
-    }
-
-    .ticker-wrapper {
-        flex: 1;
-        overflow: hidden;
-        position: relative;
-        mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
-        -webkit-mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent);
-    }
-
-    .ticker-content {
-        display: inline-block;
-        white-space: nowrap;
-        font-size: 0.8rem;
-        color: var(--text-main);
-        font-weight: 500;
-        /* Start animasi dari kanan luar */
-        padding-left: 100%; 
-        animation: marquee 20s linear infinite;
-    }
-
-    /* Animasi: Bergerak dari posisi awal (kanan) ke kiri sampai habis */
-    @keyframes marquee {
-        0% { transform: translate3d(0, 0, 0); }
-        100% { transform: translate3d(-100%, 0, 0); }
-    }
-
-    /* --- MENU GRID --- */
-    .menu-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 20px 10px;
-        padding: 25px 20px;
-    }
-
-    .menu-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-        cursor: pointer;
-    }
-
-    .icon-box {
-        width: 50px;
-        height: 50px;
-        background: #F0F3FF;
-        border-radius: 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        color: var(--primary);
-        transition: all 0.2s;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .menu-item:active .icon-box {
-        transform: scale(0.95);
-    }
-
-    .menu-item span {
-        font-size: 0.75rem;
-        font-weight: 500;
-        color: var(--text-main);
-        text-align: center;
-    }
-
-    .menu-item {
-        position: relative;
-        overflow: visible;
-    }
-
-    .badge-hot {
-        position: absolute;
-        top: -5px;
-        right: 0px;
-        background: #EF4444;
-        color: white;
-        font-size: 0.6rem;
-        font-weight: 700;
-        padding: 2px 6px;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3);
-        z-index: 5;
-        display: flex;
-        align-items: center;
-        gap: 3px;
-        animation: bounce 2s infinite;
-    }
-
-    @keyframes bounce {
-        0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
-        40% {transform: translateY(-3px);}
-        60% {transform: translateY(-1.5px);}
-    }
-
-    /* --- PROMO & HISTORY --- */
-    .promo-section {
-        padding: 0 20px;
-        margin-bottom: 25px;
-    }
-
-    .section-title {
-        font-size: 1rem;
-        font-weight: 700;
-        margin-bottom: 15px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .section-title a {
-        color: var(--primary);
-        text-decoration: none;
-        font-size: 0.8rem;
-    }
-
-    .banner-scroll {
-        display: flex;
-        overflow-x: auto;
-        gap: 15px;
-        padding-bottom: 10px;
-        scrollbar-width: none;
-    }
-
-    .banner-card {
-        min-width: 280px;
-        height: 140px;
-        background: linear-gradient(to right, #2c3e50, #3498db);
-        border-radius: var(--radius-lg);
-        padding: 20px;
-        color: white;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        flex-shrink: 0;
-        cursor: pointer;
-    }
-
-    .banner-card:nth-child(2) {
-        background: linear-gradient(to right, #833ab4, #fd1d1d);
-    }
-
-    .history-section {
-        padding: 20px;
-        background: white;
-        border-top-left-radius: 30px;
-        border-top-right-radius: 30px;
-        min-height: 200px;
-    }
-
-    .transaction-item {
-        display: flex;
-        align-items: center;
-        padding: 15px 0;
-        border-bottom: 1px solid #F3F4F6;
-    }
-
-    .trans-icon {
-        width: 45px;
-        height: 45px;
-        border-radius: 12px;
-        background: #F9FAFB;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: 15px;
-        font-size: 1.2rem;
-    }
-
-    .trans-details {
-        flex: 1;
-    }
-
-    .trans-details h4 {
-        font-size: 0.95rem;
-        font-weight: 600;
-        margin-bottom: 4px;
-    }
-
-    .trans-details p {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-    }
-
-    .trans-amount {
-        font-weight: 600;
-        font-size: 0.95rem;
-        text-align: right;
-    }
-
-    .trans-amount.expense {
-        color: var(--text-main);
-    }
-
-    .trans-amount.income {
-        color: var(--success);
-    }
-
-    /* --- BOTTOM NAV --- */
-    .bottom-nav {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        background: white;
-        height: 70px;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        border-top: 1px solid #F3F4F6;
-        z-index: 100;
-    }
-
-    .nav-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        color: var(--text-muted);
-        text-decoration: none;
-        font-size: 0.7rem;
-        font-weight: 500;
-        width: 60px;
-    }
-
-    .nav-item i {
-        font-size: 1.3rem;
-        transition: color 0.3s;
-    }
-
-    .nav-item.active {
-        color: var(--primary);
-    }
-
-    .nav-fab-wrapper {
-        position: relative;
-        top: -25px;
-    }
-
-    .nav-fab {
-        width: 60px;
-        height: 60px;
-        background: var(--primary);
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-size: 1.8rem;
-        box-shadow: 0 8px 20px rgba(79, 70, 229, 4);
-        transition: transform 0.2s;
-        border: 3px solid var(--bg-card);
-        rotate: calc(-15deg);
-    }
-
-    .nav-fab:active {
-        transform: scale(0.9);
-    }
-
-    /* --- SUB-PAGE STYLES --- */
-    .sub-header {
-        background: white;
-        padding: 15px 20px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-        position: sticky;
-        top: 0;
-        z-index: 50;
-        flex-shrink: 0;
-    }
-
-    .back-btn {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        color: var(--text-main);
-        cursor: pointer;
-        padding: 5px;
-    }
-
-    .page-title {
-        font-size: 1.1rem;
-        font-weight: 700;
-    }
-
-    .form-container {
-        padding: 20px;
-    }
-
-    .input-group {
-        margin-bottom: 20px;
-        position: relative;
-    }
-
-    .input-label {
-        display: block;
-        font-size: 0.85rem;
-        font-weight: 600;
-        margin-bottom: 8px;
-        color: var(--text-main);
-    }
-
-    .input-field {
-        width: 100%;
-        padding: 14px 15px;
-        border: 1px solid #E5E7EB;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-family: inherit;
-        outline: none;
-        transition: border-color 0.2s;
-        background: #F9FAFB;
-    }
-
-    .input-field:focus {
-        border-color: var(--primary);
-        background: white;
-    }
-
-    .hint-text {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-        margin-top: 5px;
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .product-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-        margin-top: 10px;
-    }
-
-    .product-card {
-        background: white;
-        border: 1px solid #E5E7EB;
-        border-radius: 12px;
-        padding: 15px;
-        cursor: pointer;
-        transition: all 0.2s;
-        position: relative;
-        overflow: hidden;
-    }
-
-    .product-card:hover {
-        border-color: var(--primary);
-    }
-
-    .product-card.selected {
-        border-color: var(--primary);
-        background: #EEF2FF;
-        box-shadow: 0 0 0 1px var(--primary);
-    }
-
-    .product-card.selected::after {
-        content: '\f00c';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        position: absolute;
-        top: 5px;
-        right: 8px;
-        color: var(--primary);
-        font-size: 0.8rem;
-    }
-
-    .p-name {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--text-main);
-        display: block;
-        margin-bottom: 4px;
-    }
-
-    .p-price {
-        font-size: 0.85rem;
-        color: var(--text-muted);
-    }
-
-    .p-price span {
-        color: var(--primary);
-        font-weight: 700;
-    }
-
-    .action-btn {
-        width: 100%;
-        padding: 16px;
-        background: var(--primary);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-weight: 600;
-        cursor: pointer;
-        margin-top: 20px;
-        box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
-        transition: background 0.3s;
-        margin-bottom: 90px;
-    }
-
-    .action-btn:disabled {
-        background: #CBD5E1;
-        cursor: not-allowed;
-        box-shadow: none;
-    }
-
-    /* --- TOP UP SPECIFIC STYLES --- */
-    .nominal-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .nominal-chip {
-        padding: 10px;
-        border: 1px solid #E5E7EB;
-        border-radius: 10px;
-        background: white;
-        text-align: center;
-        font-size: 0.85rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
-
-    .nominal-chip.active {
-        background: var(--primary);
-        color: white;
-        border-color: var(--primary);
-    }
-
-    /* Accordion Style */
-    .method-accordion {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        margin-top: 10px;
-    }
-
-    .accordion-item {
-        border: 1px solid #E5E7EB;
-        border-radius: 12px;
-        background: white;
-        overflow: hidden;
-        transition: border-color 0.2s;
-    }
-
-    .accordion-header {
-        padding: 15px;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        background: white;
-        transition: background 0.2s;
-    }
-
-    .accordion-header:hover {
-        background: #F9FAFB;
-    }
-
-    .accordion-header.active {
-        background: #F9FAFB;
-        border-bottom: 1px solid #E5E7EB;
-    }
-
-    .accordion-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 8px;
-        background: #F3F4F6;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.2rem;
-        color: var(--text-main);
-        margin-right: 15px;
-    }
-
-    .accordion-info {
-        flex: 1;
-    }
-
-    .accordion-info h4 {
-        font-size: 0.9rem;
-        font-weight: 600;
-    }
-
-    .accordion-info p {
-        font-size: 0.75rem;
-        color: var(--text-muted);
-    }
-
-    .chevron-icon {
-        font-size: 0.8rem;
-        color: var(--text-muted);
-        transition: transform 0.3s;
-    }
-
-    .accordion-header.active .chevron-icon {
-        transform: rotate(180deg);
-    }
-
-    .accordion-body {
-        display: none;
-        background: #F9FAFB;
-        padding: 10px;
-    }
-
-    .accordion-body.show {
-        display: block;
-        animation: slideDown 0.2s ease-out;
-    }
-
-    @keyframes slideDown {
-        from {
-            opacity: 0;
-            transform: translateY(-5px);
+        /* --- RESET & VARIABLES --- */
+        :root {
+            --bg-dark: #02122b; /* Warna latar belakang utama */
+            --bg-card: #0d2752; /* Warna kartu game */
+            --primary-blue: #1c468a;
+            --accent-red: #b91c32; /* Warna tombol All */
+            --text-white: #ffffff;
+            --text-grey: #a0aec0;
+            --whatsapp-green: #25D366;
+            
+            --font-title: 'Outfit', sans-serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
         }
-        to {
-            opacity: 1;
-            transform: translateY(0);
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
         }
-    }
 
-    .sub-option {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 12px 15px;
-        margin-bottom: 8px;
-        background: white;
-        border: 1px solid #E5E7EB;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: all 0.2s;
-    }
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: var(--font-body);
+            padding-bottom: 80px; /* Space for FAB */
+            max-width: 480px; /* Membatasi lebar agar terlihat seperti tampilan mobile di desktop */
+            margin: 0 auto;
+            border-left: 1px solid #1c2e4a;
+            border-right: 1px solid #1c2e4a;
+            min-height: 100vh;
+        }
 
-    .sub-option:last-child {
-        margin-bottom: 0;
-    }
+        /* --- HEADER / NAVBAR --- */
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px;
+            background-color: var(--bg-dark);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-    .sub-option:hover {
-        border-color: #d1d5db;
-    }
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: var(--font-title);
+            font-weight: 700;
+            line-height: 1;
+        }
+        .logo span:first-child { font-size: 18px; letter-spacing: 1px; }
+        .logo span:last-child { font-size: 8px; color: var(--text-grey); }
 
-    .sub-option.selected {
-        border-color: var(--primary);
-        background: #EEF2FF;
-    }
+        .search-container {
+            flex-grow: 1;
+            margin: 0 10px;
+            position: relative;
+        }
 
-    .sub-name {
-        font-size: 0.85rem;
-        font-weight: 600;
-        color: var(--text-main);
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
+        .search-container input {
+            width: 100%;
+            padding: 8px 35px 8px 15px;
+            border-radius: 6px;
+            border: none;
+            background-color: white;
+            font-family: var(--font-body);
+        }
 
-    .check-circle {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        border: 2px solid #D1D5DB;
-        position: relative;
-    }
+        .search-icon {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            color: #666;
+        }
 
-    .sub-option.selected .check-circle {
-        border-color: var(--primary);
-        background: var(--primary);
-    }
+        .btn-masuk {
+            background-color: #2b4c80;
+            color: white;
+            border: 1px solid #4a6fa5;
+            padding: 6px 15px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 10px;
+        }
 
-    .sub-option.selected .check-circle::after {
-        content: '\f00c';
-        font-family: 'Font Awesome 6 Free';
-        font-weight: 900;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        color: white;
-        font-size: 10px;
-    }
+        .menu-icon {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            fill: white;
+        }
 
-    /* --- TOAST NOTIFICATION --- */
-    .toast {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%) translateY(-100px);
-        background: #333;
-        color: white;
-        padding: 12px 24px;
-        border-radius: 50px;
-        font-size: 0.9rem;
-        z-index: 999;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        width: max-content;
-        max-width: 90%;
-    }
+        /* --- QUICK TAGS --- */
+        .quick-tags {
+            display: flex;
+            gap: 8px;
+            padding: 0 15px 15px;
+            justify-content: center;
+        }
 
-    .toast.show {
-        transform: translateX(-50%) translateY(0);
-    }
+        .tag {
+            background-color: #e2e8f0;
+            color: #333;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-decoration: none;
+        }
 
-    .toast.success { background: var(--success); }
-    .toast.error { background: var(--danger); }
+        /* --- HERO BANNER --- */
+        .hero-section {
+            padding: 0 15px;
+            margin-bottom: 20px;
+        }
 
-    /* --- GAMES VIEW SPECIFIC STYLES --- */
-    .games-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-        padding: 20px;
-    }
+        .hero-card {
+            background: linear-gradient(90deg, #0d2752 0%, #1a3c75 100%);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 160px;
+            display: flex;
+            align-items: center;
+        }
 
-    .game-card {
-        background: white;
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: var(--shadow-soft);
-        cursor: pointer;
-        transition: all 0.2s;
-        border: 2px solid transparent;
-        display: flex;
-        flex-direction: column;
-    }
+        /* Menggunakan overlay gambar untuk meniru banner */
+        .hero-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+        
+        .hero-content {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            max-width: 60%;
+        }
 
-    .game-card.active {
-        border-color: var(--primary);
-        transform: translateY(-2px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    }
+        .hero-content h3 {
+            font-family: var(--font-title);
+            font-size: 18px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .hero-content p {
+            font-size: 10px;
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
 
-    .game-img {
-        width: 100%;
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        background: #e5e7eb;
-    }
+        .dots {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 10px;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: #4a5568;
+        }
+        .dot.active { background-color: white; }
 
-    .game-info {
-        padding: 8px;
-        text-align: center;
-    }
+        /* --- FILTERS --- */
+        .filters {
+            display: flex;
+            gap: 10px;
+            padding: 0 15px;
+            margin-bottom: 25px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+        .filters::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
 
-    .game-title {
-        font-size: 0.75rem;
-        font-weight: 600;
-        line-height: 1.2;
-        color: var(--text-main);
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-    }
+        .filter-btn {
+            background: transparent;
+            border: 1px solid #4a6fa5;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: 14px;
+            white-space: nowrap;
+            cursor: pointer;
+        }
 
-    /* Game Form Container (Initially Hidden) */
-    #game-form-container {
-        display: none;
-        padding: 0 20px 20px 20px;
-        animation: fadeInUp 0.3s ease-out;
-    }
+        .filter-btn.active {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+        }
 
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+        /* --- GAME GRID --- */
+        .section-title {
+            font-family: var(--font-title);
+            padding: 0 15px;
+            margin-bottom: 15px;
+            font-size: 18px;
+            font-weight: 600;
+        }
 
-    .input-row {
-        display: flex;
-        gap: 10px;
-    }
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            padding: 0 15px;
+        }
 
-    /* Utility colors */
-    .icon-pln { color: #F59E0B; background: #FFFBEB; }
-    .icon-pulsa { color: #EF4444; background: #FEF2F2; }
-    .icon-data { color: #3B82F6; background: #EFF6FF; }
-    .icon-game { color: #8B5CF6; background: #F5F3FF; }
-    .icon-bpjs { color: #10B981; background: #ECFDF5; }
-    .icon-pdam { color: #06B6D4; background: #ECFEFF; }
+        .game-card {
+            background-color: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-</style>
+        .game-card:active {
+            transform: scale(0.98);
+        }
+
+        .game-img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            margin-bottom: 8px;
+        }
+
+        .game-title {
+            font-size: 12px;
+            font-weight: 600;
+            text-align: center;
+            padding: 0 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
+        /* --- FLOATING BUTTON --- */
+        .fab {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--whatsapp-green);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 200;
+        }
+        
+        .fab svg {
+            width: 30px;
+            height: 30px;
+            fill: white;
+        }
+
+    </style>
 </head>
 <body>
 
-    <div class="app-container">
+    <header>
+        <div class="logo">
+            <span>GS</span>
+            <span>GAMESQUAD</span>
+        </div>
+        <div class="search-container">
+            <input type="text" placeholder="Free fire">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+        </div>
+        <button class="btn-masuk">Masuk</button>
+        <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
+            <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
+        </svg>
+    </header>
+
+    <nav class="quick-tags">
+        <a href="#" class="tag">Free Fire</a>
+        <a href="#" class="tag">Mobile Legends</a>
+        <a href="#" class="tag">PUBG</a>
+    </nav>
+
+    <section class="hero-section">
+        <div class="hero-card">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Banner" class="hero-bg">
+            <div class="hero-content">
+                <h3>PUSH RANK, PAKAI SKIN KEREN</h3>
+                <p>TOP UP MLBB LEBIH LENGKAP</p>
+            </div>
+        </div>
+        <div class="dots">
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </section>
+
+    <div class="filters">
+        <button class="filter-btn active">All</button>
+        <button class="filter-btn">Top Up</button>
+        <button class="filter-btn">Voucher</button>
+        <button class="filter-btn">Pembayaran</button>
+    </div>
+
+    <main>
+        <h2 class="section-title">Top up game</h2>
         
-        <div id="toast" class="toast">
-            <i class="fa-solid fa-circle-check"></i>
-            <span id="toast-msg">Pesan disini</span>
+        <div class="game-grid">
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="MLBB" class="game-img">
+                <span class="game-title">Mobile Legends</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1599961103738-c67d71701314?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="PUBG" class="game-img">
+                <span class="game-title">PUBG Mobile</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1628260412297-a3377e45006f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Free Fire" class="game-img">
+                <span class="game-title">Free Fire</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1551103782-8ab07afd45c1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Metal Slug" class="game-img">
+                <span class="game-title">METAL SLUG</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1616440347437-b1c73416ef12?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Ride Out" class="game-img">
+                <span class="game-title">RIDE OUT HEROES</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1580234550905-408d62633e92?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Laplace" class="game-img">
+                <span class="game-title">LAPLACE M</span>
+            </article>
+
+             <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1560419015-7c427e8ae5ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="LoL" class="game-img">
+                <span class="game-title">League of Legends</span>
+            </article>
+
+             <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1614680376593-902f74cf0d41?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Game" class="game-img">
+                <span class="game-title">Cyber Hunter</span>
+            </article>
+
+             <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Game" class="game-img">
+                <span class="game-title">Marvel Super War</span>
+            </article>
         </div>
+    </main>
 
-        <!-- VIEW HOME -->
-        <div id="view-home" class="view-section active">
-            <div class="content-area">
- 
-<header class="header-section">
-    <div class="user-nav">
-        <div class="user-info">
-            <p>Selamat Datang,</p>
-            <h2 id="user-name">Guest User</h2>
-        </div>
-        <button class="notif-btn" onclick="showToast('Mode Tamu Aktif', 'info')">
-            <i class="fa-regular fa-user"></i>
-        </button>
-    </div>
+    <a href="#" class="fab">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.654-.698c.99.54 1.743.838 2.808.838 3.182 0 5.768-2.587 5.769-5.767.001-3.181-2.585-5.768-5.767-5.768zm0-2c4.28 0 7.769 3.488 7.769 7.768 0 4.28-3.488 7.768-7.769 7.768-1.35 0-2.616-.34-3.714-.933l-4.137 1.087 1.107-4.03C4.743 16.712 4.263 15.39 4.263 13.94c0-4.28 3.488-7.768 7.768-7.768zm3.92 9.58c-.16-.08-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.44-1.34-1.68-.14-.24-.02-.36.1-.48.1-.1.24-.26.36-.4.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.46-.4-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.14.16 3.42 5.3 8.3 7.06.46.16 1.48.56 2.3.4.82-.16 1.94-.8 2.22-1.56.26-.78.26-1.44.18-1.56-.08-.12-.3-.2-.54-.32z"/>
+        </svg>
+    </a>
 
-    <div class="hero-slider-container">
-        <div class="hero-wrapper" id="hero-wrapper">
-            
-            <div class="hero-slide">
-                <div class="card-slide gradient-blue">
-                    <div class="slide-content">
-                        <span class="slide-label">Tanpa Registrasi</span>
-                        <h2 class="slide-title">Beli Pulsa & Data <br>Langsung Bayar</h2>
-                        <div class="slide-actions">
-                             <button class="slide-btn" onclick="openService('pulsa')">
-                                <i class="fa-solid fa-cart-shopping"></i> Pesan Sekarang
-                            </button>
-                        </div>
-                    </div>
-                    <div class="slide-decor">
-                        <i class="fa-solid fa-rocket"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-slide">
-                <div class="card-slide gradient-purple">
-                    <div class="slide-content">
-                        <span class="slide-label">Proses Otomatis</span>
-                        <h2 class="slide-title">Server 24 Jam <br>Anti Pending</h2>
-                        <div class="slide-actions">
-                             <button class="slide-btn" onclick="openService('game')">
-                                Top Up Game <i class="fa-solid fa-gamepad"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="slide-decor">
-                        <i class="fa-solid fa-bolt"></i>
-                    </div>
-                </div>
-            </div>
-
-            <div class="hero-slide">
-                <div class="card-slide dark-mode">
-                    <div class="slide-content">
-                        <span class="slide-label">Pembayaran Aman</span>
-                        <h2 class="slide-title">Support QRIS <br>& Semua Bank</h2>
-                        <div class="slide-actions">
-                             <button class="slide-btn" onclick="showToast('Metode Pembayaran Lengkap', 'success')">
-                                <i class="fa-solid fa-check-shield"></i> Info Detail
-                            </button>
-                        </div>
-                    </div>
-                    <div class="slide-decor">
-                        <i class="fa-solid fa-lock"></i>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="hero-dots" id="hero-dots">
-            <span class="dot active" onclick="goToSlide(0)"></span>
-            <span class="dot" onclick="goToSlide(1)"></span>
-            <span class="dot" onclick="goToSlide(2)"></span>
-        </div>
-    </div>
-</header>
-
-                <div class="ticker-section">
-                    <div class="ticker-icon">
-                        <i class="fa-solid fa-bell"></i>
-                    </div>
-                    <div class="ticker-wrapper">
-                        <div class="ticker-content">
-                            Selamat Datang di PayFast! • Promo Top Up Game Cashback 50% Hari Ini! • Server Pulsa & Data Stabil 24 Jam • Jangan Lupa Bayar Tagihan Listrik Tepat Waktu • Update Aplikasi Versi Terbaru Tersedia
-                        </div>
-                    </div>
-                </div>
-
-                <nav class="menu-grid">
-                    <div class="menu-item" onclick="openService('pulsa')">
-                        <div class="badge-hot"><i class="fa-solid fa-fire"></i> HOT</div>
-                           <div class="icon-box icon-pulsa"><i class="fa-solid fa-mobile-screen"></i></div> 
-                        <span>Pulsa</span>
-                    </div>
-
-                    <div class="menu-item" onclick="openService('data')">
-                        <div class="icon-box icon-data"><i class="fa-solid fa-wifi"></i></div>
-                        <span>Data</span>
-                    </div>
-                    <div class="menu-item" onclick="openService('pln')">
-                        <div class="icon-box icon-pln"><i class="fa-solid fa-bolt"></i></div>
-                        <span>PLN</span>
-                    </div>
-                    <div class="menu-item" onclick="openService('pdam')">
-                        <div class="icon-box icon-pdam"><i class="fa-solid fa-faucet-drip"></i></div>
-                        <span>PDAM</span>
-                    </div>
-                    <div class="menu-item" onclick="openService('game')">
-                        <div class="badge-hot"><i class="fa-solid fa-fire"></i> HOT</div>
-                        <div class="icon-box icon-game"><i class="fa-solid fa-gamepad"></i></div>
-                        <span>Games</span>
-                    </div>
-                    <div class="menu-item" onclick="openService('bpjs')">
-                        <div class="icon-box icon-bpjs"><i class="fa-solid fa-heart-pulse"></i></div>
-                        <span>BPJS</span>
-                    </div>
-                    <div class="menu-item" onclick="showToast('Fitur e-money segera hadir!', 'info')">
-                        <div class="icon-box"><i class="fa-solid fa-wallet"></i></div>
-                        <span>E-Money</span>
-                    </div>
-                    
-                    <div class="menu-item" id="btn-lainnya" onclick="expandMoreMenu()">
-                        <div class="icon-box"><i class="fa-solid fa-ellipsis"></i></div>
-                        <span>Lainnya</span>
-                    </div>
-
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Internet segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #EF4444; background: #FEF2F2;"><i class="fa-solid fa-rss"></i></div>
-                        <span>Internet</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur TV Kabel segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #F59E0B; background: #FFFBEB;"><i class="fa-solid fa-tv"></i></div>
-                        <span>TV Kabel</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Multifinance segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #10B981; background: #ECFDF5;"><i class="fa-solid fa-file-invoice-dollar"></i></div>
-                        <span>Cicilan</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Pajak PBB segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #6366f1; background: #e0e7ff;"><i class="fa-solid fa-building-columns"></i></div>
-                        <span>Pajak PBB</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Gas PGN segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #3b82f6; background: #dbeafe;"><i class="fa-solid fa-fire-flame-simple"></i></div>
-                        <span>Gas PGN</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Tiket KAI segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #f97316; background: #ffedd5;"><i class="fa-solid fa-train"></i></div>
-                        <span>Kereta</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Tiket Pesawat segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #0ea5e9; background: #e0f2fe;"><i class="fa-solid fa-plane"></i></div>
-                        <span>Pesawat</span>
-                    </div>
-                    <div class="menu-item menu-item-hidden" style="display: none;" onclick="showToast('Fitur Zakat segera hadir!', 'info')">
-                        <div class="icon-box" style="color: #16a34a; background: #dcfce7;"><i class="fa-solid fa-hand-holding-heart"></i></div>
-                        <span>Zakat</span>
-                    </div>
-
-                    <div class="menu-item" id="btn-tutup" style="display: none;" onclick="collapseMoreMenu()">
-                        <div class="icon-box"><i class="fa-solid fa-chevron-up"></i></div>
-                        <span>Tutup</span>
-                    </div>
-
-                </nav>
-
-                <section class="promo-section">
-                    <div class="section-title">
-                        Promo Spesial
-                    </div>
-                    <div class="banner-scroll">
-                        <div class="banner-card" onclick="openService('pulsa')">
-                            <div class="banner-tag">Diskon 50%</div>
-                            <div class="banner-text">
-                                <h3>Flash Sale Pulsa</h3>
-                                <p>Berlaku hingga besok!</p>
-                            </div>
-                        </div>
-                        <div class="banner-card" onclick="openService('pln')">
-                            <div class="banner-tag">Cashback</div>
-                            <div class="banner-text">
-                                <h3>Bayar Tagihan PLN</h3>
-                                <p>Dapatkan koin rewards.</p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="history-section">
-                    <div class="section-title">
-                        Transaksi Terakhir
-                    </div>
-                    <div class="transaction-list" id="transaction-list">
-                        <div class="transaction-item">
-                            <div class="trans-icon" style="color: var(--primary);">
-                                <i class="fa-solid fa-bolt"></i>
-                            </div>
-                            <div class="trans-details">
-                                <h4>Token Listrik 100rb</h4>
-                                <p>Hari ini, 10:30</p>
-                            </div>
-                            <div class="trans-amount expense">- Rp 102.500</div>
-                        </div>
-                        <div class="transaction-item">
-                            <div class="trans-icon" style="color: var(--success);">
-                                <i class="fa-solid fa-arrow-down"></i>
-                            </div>
-                            <div class="trans-details">
-                                <h4>Top Up Saldo</h4>
-                                <p>Kemarin, 15:45</p>
-                            </div>
-                            <div class="trans-amount income">+ Rp 500.000</div>
-                        </div>
-                         <div class="transaction-item">
-                            <div class="trans-icon" style="color: var(--secondary);">
-                                <i class="fa-solid fa-mobile-screen"></i>
-                            </div>
-                            <div class="trans-details">
-                                <h4>Telkomsel Data 20GB</h4>
-                                <p>12 Jan 2023</p>
-                            </div>
-                            <div class="trans-amount expense">- Rp 98.000</div>
-                        </div>
-                    </div>
-                </section>
-            </div>
-        </div>
-
-        <!-- VIEW PULSA -->
-        <div id="view-pulsa" class="view-section">
-            <div class="sub-header">
-                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="page-title">Isi Pulsa</div>
-            </div>
-            <div class="content-area form-container">
-                <div class="input-group">
-                    <label class="input-label">Nomor Handphone</label>
-                    <input type="tel" id="pulsa-number" class="input-field" placeholder="08xx-xxxx-xxxx" onkeyup="checkProvider(); validatePulsaForm()">
-                    <div class="hint-text">
-                        <span id="provider-detected"></span>
-                        <span>Simpan nomor</span>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">Pilih Nominal</label>
-                    <div class="product-grid" id="pulsa-grid">
-                        </div>
-                </div>
-
-                <div class="input-group" style="margin-top: 20px;">
-                    <label class="input-label">Metode Pembayaran</label>
-                    <div class="method-accordion">
-                        
-                        <div class="sub-option" id="opt-saldo" onclick="selectPulsaMethod('Saldo Akun', 'Saldo', this)" style="border: 1px solid #E5E7EB; margin-bottom: 10px;">
-                            <div class="sub-name"><i class="fa-solid fa-wallet" style="color:var(--primary)"></i> Saldo Akun</div>
-                            <div class="check-circle"></div>
-                        </div>
-
-                        <div class="accordion-item">
-                            <div class="accordion-header" onclick="toggleAccordion('pulsa-bank-content', this)">
-                                <div class="accordion-icon"><i class="fa-solid fa-building-columns"></i></div>
-                                <div class="accordion-info">
-                                    <h4>Transfer Bank</h4>
-                                    <p>Virtual Account</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                            </div>
-                            <div id="pulsa-bank-content" class="accordion-body">
-                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'BCA', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BCA</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'BRI', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BRI</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'Mandiri', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Mandiri</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('Transfer Bank', 'BNI', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BNI</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item">
-                            <div class="accordion-header" onclick="toggleAccordion('pulsa-ewallet-content', this)">
-                                <div class="accordion-icon"><i class="fa-solid fa-qrcode"></i></div>
-                                <div class="accordion-info">
-                                    <h4>QRIS / E-Wallet</h4>
-                                    <p>GoPay, OVO, Dana, ShopeePay</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                            </div>
-                            <div id="pulsa-ewallet-content" class="accordion-body">
-                                <div class="sub-option" onclick="selectPulsaMethod('QRIS', 'QRIS Universal', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-qrcode"></i> QRIS (Semua E-Wallet)</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('E-Wallet', 'OVO', this)">
-                                    <div class="sub-name">OVO</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('E-Wallet', 'DANA', this)">
-                                    <div class="sub-name">DANA</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('E-Wallet', 'ShopeePay', this)">
-                                    <div class="sub-name">ShopeePay</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item">
-                            <div class="accordion-header" onclick="toggleAccordion('pulsa-retail-content', this)">
-                                <div class="accordion-icon"><i class="fa-solid fa-store"></i></div>
-                                <div class="accordion-info">
-                                    <h4>Minimarket</h4>
-                                    <p>Alfamart / Indomaret</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                            </div>
-                            <div id="pulsa-retail-content" class="accordion-body">
-                                <div class="sub-option" onclick="selectPulsaMethod('Minimarket', 'Alfamart', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Alfamart</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectPulsaMethod('Minimarket', 'Indomaret', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Indomaret</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <button id="btn-bayar-pulsa" class="action-btn" disabled onclick="processPulsaTransaction()">Pilih Nominal & Metode</button>
-            </div>
-        </div>
-
-        <!-- VIEW GAMES -->
-        <div id="view-games" class="view-section">
-            <div class="sub-header">
-                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="page-title">Voucher Game</div>
-            </div>
-            <div class="content-area">
-                <!-- 1. List Game Grid -->
-                <div class="games-grid" id="games-list-container">
-                    <!-- Rendered by JS -->
-                </div>
-
-                <!-- 2. Form Produk (Muncul setelah pilih game) -->
-                <div id="game-form-container">
-                    
-                    <div style="background: #EEF2FF; padding: 10px 15px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
-                        <i class="fa-solid fa-gamepad" style="color: var(--primary);"></i>
-                        <span style="font-size: 0.85rem; color: var(--primary-dark); font-weight: 500;">Dipilih: <b id="selected-game-name">Game Name</b></span>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="input-label">User ID</label>
-                        <div class="input-row">
-                            <input type="number" id="game-userid" class="input-field" placeholder="Masukkan User ID" onkeyup="validateGamesForm()">
-                            <input type="number" id="game-zoneid" class="input-field" placeholder="Zone ID (Opsional)" style="width: 40%;" onkeyup="validateGamesForm()">
-                        </div>
-                        <div class="hint-text">
-                            <span id="game-nickname"></span>
-                        </div>
-                    </div>
-
-                    <div class="input-group">
-                        <label class="input-label">Pilih Nominal</label>
-                        <div class="product-grid" id="games-product-grid">
-                            <!-- Products rendered here -->
-                        </div>
-                    </div>
-
-                    <div class="input-group" style="margin-top: 20px;">
-                        <label class="input-label">Metode Pembayaran</label>
-                        <div class="method-accordion">
-                            
-                            <div class="sub-option" id="opt-game-saldo" onclick="selectGamesMethod('Saldo Akun', 'Saldo', this)" style="border: 1px solid #E5E7EB; margin-bottom: 10px;">
-                                <div class="sub-name"><i class="fa-solid fa-wallet" style="color:var(--primary)"></i> Saldo Akun</div>
-                                <div class="check-circle"></div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <div class="accordion-header" onclick="toggleAccordion('game-bank-content', this)">
-                                    <div class="accordion-icon"><i class="fa-solid fa-building-columns"></i></div>
-                                    <div class="accordion-info">
-                                        <h4>Transfer Bank</h4>
-                                        <p>Virtual Account</p>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                                </div>
-                                <div id="game-bank-content" class="accordion-body">
-                                    <div class="sub-option" onclick="selectGamesMethod('Transfer Bank', 'BCA', this)">
-                                        <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BCA</div>
-                                        <div class="check-circle"></div>
-                                    </div>
-                                    <div class="sub-option" onclick="selectGamesMethod('Transfer Bank', 'BRI', this)">
-                                        <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BRI</div>
-                                        <div class="check-circle"></div>
-                                    </div>
-                                    <div class="sub-option" onclick="selectGamesMethod('Transfer Bank', 'Mandiri', this)">
-                                        <div class="sub-name"><i class="fa-solid fa-bank"></i> Mandiri</div>
-                                        <div class="check-circle"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="accordion-item">
-                                <div class="accordion-header" onclick="toggleAccordion('game-ewallet-content', this)">
-                                    <div class="accordion-icon"><i class="fa-solid fa-qrcode"></i></div>
-                                    <div class="accordion-info">
-                                        <h4>QRIS / E-Wallet</h4>
-                                        <p>GoPay, OVO, Dana, ShopeePay</p>
-                                    </div>
-                                    <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                                </div>
-                                <div id="game-ewallet-content" class="accordion-body">
-                                    <div class="sub-option" onclick="selectGamesMethod('QRIS', 'QRIS Universal', this)">
-                                        <div class="sub-name"><i class="fa-solid fa-qrcode"></i> QRIS (Semua E-Wallet)</div>
-                                        <div class="check-circle"></div>
-                                    </div>
-                                    <div class="sub-option" onclick="selectGamesMethod('E-Wallet', 'OVO', this)">
-                                        <div class="sub-name">OVO</div>
-                                        <div class="check-circle"></div>
-                                    </div>
-                                    <div class="sub-option" onclick="selectGamesMethod('E-Wallet', 'DANA', this)">
-                                        <div class="sub-name">DANA</div>
-                                        <div class="check-circle"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <button id="btn-bayar-game" class="action-btn" disabled onclick="processGamesTransaction()">Pilih Nominal & Metode</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="view-pln" class="view-section">
-            <div class="sub-header">
-                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="page-title">Token Listrik PLN</div>
-            </div>
-            <div class="content-area form-container">
-                <div class="input-group">
-                    <label class="input-label">ID Pelanggan / No. Meter</label>
-                    <input type="number" id="pln-id" class="input-field" placeholder="Contoh: 12345678901">
-                    <div class="hint-text">
-                        <span id="pln-name" style="color: var(--primary); font-weight: 500;"></span>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label class="input-label">Nominal Token</label>
-                    <div class="product-grid" id="pln-grid">
-                        </div>
-                </div>
-
-                <button id="btn-beli-pln" class="action-btn" disabled onclick="processTransaction('PLN Token')">Beli Token</button>
-            </div>
-        </div>
-
-        <div id="view-generic" class="view-section">
-            <div class="sub-header">
-                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="page-title" id="generic-title">Layanan</div>
-            </div>
-            <div class="content-area form-container" style="text-align: center; padding-top: 50px;">
-                <div class="icon-box" style="width: 80px; height: 80px; margin: 0 auto 20px; font-size: 2rem;">
-                    <i class="fa-solid fa-person-digging"></i>
-                </div>
-                <h3 style="margin-bottom: 10px;">Dalam Pengembangan</h3>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Layanan ini sedang diperbarui sistemnya.</p>
-            </div>
-        </div>
-
-        <div id="view-topup" class="view-section">
-            <div class="sub-header">
-                <button class="back-btn" onclick="goBack()"><i class="fa-solid fa-arrow-left"></i></button>
-                <div class="page-title">Isi Saldo</div>
-            </div>
-            <div class="content-area form-container">
-                <div class="input-group">
-                    <label class="input-label">Masukkan Nominal (Rp)</label>
-                    <input type="number" id="topup-amount-input" class="input-field" placeholder="Minimal Rp 10.000" onkeyup="handleTopUpInput(this.value)">
-                    <div class="nominal-grid">
-                        <div class="nominal-chip" onclick="selectTopUpAmount(20000)">20.000</div>
-                        <div class="nominal-chip" onclick="selectTopUpAmount(50000)">50.000</div>
-                        <div class="nominal-chip" onclick="selectTopUpAmount(100000)">100.000</div>
-                        <div class="nominal-chip" onclick="selectTopUpAmount(200000)">200.000</div>
-                        <div class="nominal-chip" onclick="selectTopUpAmount(500000)">500.000</div>
-                        <div class="nominal-chip" onclick="selectTopUpAmount(1000000)">1.000.000</div>
-                    </div>
-                </div>
-
-                <div class="input-group" style="margin-top: 30px;">
-                    <label class="input-label">Metode Pembayaran</label>
-                    <div class="method-accordion">
-                        
-                        <div class="accordion-item">
-                            <div class="accordion-header" onclick="toggleAccordion('bank-content', this)">
-                                <div class="accordion-icon"><i class="fa-solid fa-building-columns"></i></div>
-                                <div class="accordion-info">
-                                    <h4>Transfer Bank</h4>
-                                    <p>Otomatis verifikasi</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                            </div>
-                            <div id="bank-content" class="accordion-body">
-                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'BCA', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BCA</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'BRI', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BRI</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'Mandiri', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Mandiri</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('Transfer Bank', 'BNI', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-bank"></i> Bank BNI</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="accordion-item">
-                            <div class="accordion-header" onclick="toggleAccordion('ewallet-content', this)">
-                                <div class="accordion-icon"><i class="fa-solid fa-qrcode"></i></div>
-                                <div class="accordion-info">
-                                    <h4>QRIS / E-Wallet</h4>
-                                    <p>GoPay, OVO, Dana, ShopeePay</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                            </div>
-                            <div id="ewallet-content" class="accordion-body">
-                                <div class="sub-option" onclick="selectSubMethod('QRIS', 'QRIS Universal', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-qrcode"></i> QRIS (Semua E-Wallet)</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('E-Wallet', 'OVO', this)">
-                                    <div class="sub-name">OVO</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('E-Wallet', 'DANA', this)">
-                                    <div class="sub-name">DANA</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('E-Wallet', 'ShopeePay', this)">
-                                    <div class="sub-name">ShopeePay</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="accordion-item">
-                            <div class="accordion-header" onclick="toggleAccordion('retail-content', this)">
-                                <div class="accordion-icon"><i class="fa-solid fa-store"></i></div>
-                                <div class="accordion-info">
-                                    <h4>Minimarket</h4>
-                                    <p>Alfamart / Indomaret</p>
-                                </div>
-                                <i class="fa-solid fa-chevron-down chevron-icon"></i>
-                            </div>
-                            <div id="retail-content" class="accordion-body">
-                                <div class="sub-option" onclick="selectSubMethod('Minimarket', 'Alfamart', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Alfamart</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                                <div class="sub-option" onclick="selectSubMethod('Minimarket', 'Indomaret', this)">
-                                    <div class="sub-name"><i class="fa-solid fa-store"></i> Indomaret</div>
-                                    <div class="check-circle"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
-                <button id="btn-process-topup" class="action-btn" disabled onclick="processTopUpNew()">Konfirmasi Pembayaran</button>
-            </div>
-        </div>
-
-        <div class="bottom-nav">
-            <a href="#" class="nav-item active" onclick="switchTab('home', this)">
-                <i class="fa-solid fa-house"></i>
-                Home
-            </a>
-            <a href="#" class="nav-item" onclick="switchTab('history', this)">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                Riwayat
-            </a>
-            
-            <div class="nav-fab-wrapper">
-                <div class="nav-fab" onclick="openTopUpPage()">
-                    <i class="fa-solid fa-gamepad"></i>
-                </div>
-            </div>
-
-            <a href="#" class="nav-item" onclick="showToast('Inbox kosong', 'info')">
-                <i class="fa-solid fa-inbox"></i>
-                Inbox
-            </a>
-            <a href="#" class="nav-item" onclick="showToast('Halaman Akun', 'info')">
-                <i class="fa-regular fa-user"></i>
-                Akun
-            </a>
-        </div>
-    </div>
-
-    <script>
-        // --- STATE MANAGEMENT ---
-        let currentBalance = 2450500;
-        let selectedProduct = null;
-        let historyCount = 0;
-        
-        // State for Top Up
-        let topUpAmount = 0;
-        let topUpCategory = null; // e.g., Bank Transfer
-        let topUpProvider = null; // e.g., BCA
-
-        // State Baru untuk Transaksi Pulsa
-        let selectedPulsaMethod = null;   // 'Saldo', 'Bank', 'E-Wallet'
-        let selectedPulsaProvider = null; // 'BCA', 'DANA', dll
-
-        // --- STATE BARU UNTUK GAMES ---
-        let selectedGameId = null;
-        let selectedGameProduct = null;
-        let selectedGamesMethod = null;
-        let selectedGamesProvider = null;
-
-        const gamesCatalog = [
-            {
-                id: 'mlbb',
-                name: 'Mobile Legends',
-                img: 'https://picsum.photos/seed/mlbb/200/200', 
-                items: [
-                    { name: '86 Diamonds', price: 23000 },
-                    { name: '172 Diamonds', price: 46000 },
-                    { name: '257 Diamonds', price: 68000 },
-                    { name: '706 Diamonds', price: 185000 },
-                    { name: 'Weekly Pass', price: 28000 },
-                    { name: 'Twilight Pass', price: 150000 }
-                ]
-            },
-            {
-                id: 'ff',
-                name: 'Free Fire',
-                img: 'https://picsum.photos/seed/ff/200/200',
-                items: [
-                    { name: '70 Diamonds', price: 10000 },
-                    { name: '140 Diamonds', price: 20000 },
-                    { name: '355 Diamonds', price: 50000 },
-                    { name: '720 Diamonds', price: 100000 },
-                    { name: 'Member Mingguan', price: 30000 },
-                    { name: 'Member Bulanan', price: 150000 }
-                ]
-            },
-            {
-                id: 'pubgm',
-                name: 'PUBG Mobile',
-                img: 'https://picsum.photos/seed/pubg/200/200',
-                items: [
-                    { name: '60 UC', price: 15000 },
-                    { name: '325 UC', price: 75000 },
-                    { name: '660 UC', price: 150000 },
-                    { name: '1800 UC', price: 350000 },
-                    { name: 'Royal Pass', price: 160000 },
-                    { name: 'UC Pack', price: 50000 }
-                ]
-            },
-            {
-                id: 'gi',
-                name: 'Genshin Impact',
-                img: 'https://picsum.photos/seed/genshin/200/200',
-                items: [
-                    { name: '60 Genesis', price: 16000 },
-                    { name: '300 Genesis', price: 79000 },
-                    { name: '980 Genesis', price: 249000 },
-                    { name: 'Welkin Moon', price: 79000 },
-                    { name: 'Gnostic Hymn', price: 159000 }
-                ]
-            },
-            {
-                id: 'val',
-                name: 'Valorant',
-                img: 'https://picsum.photos/seed/valorant/200/200',
-                items: [
-                    { name: '125 VP', price: 15000 },
-                    { name: '420 VP', price: 50000 },
-                    { name: '700 VP', price: 80000 },
-                    { name: '1375 VP', price: 150000 },
-                    { name: '2400 VP', price: 250000 }
-                ]
-            },
-            {
-                id: 'hok',
-                name: 'Honor of Kings',
-                img: 'https://picsum.photos/seed/hok/200/200',
-                items: [
-                    { name: '16 Tokens', price: 3000 },
-                    { name: '80 Tokens', price: 15000 },
-                    { name: '240 Tokens', price: 45000 },
-                    { name: '800 Tokens', price: 150000 }
-                ]
-            }
-        ];
-
-        // --- NAVIGATION LOGIC ---
-        function navigateTo(viewId) {
-            document.querySelectorAll('.view-section').forEach(el => {
-                el.classList.remove('active');
-            });
-            const target = document.getElementById(viewId);
-            if(target) {
-                target.classList.add('active');
-            }
-        }
-
-        function goBack() {
-            navigateTo('view-home');
-        }
-
-        function switchTab(tabName, el) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            if(el) el.classList.add('active');
-            
-            if(tabName === 'home') {
-                navigateTo('view-home');
-            } else {
-                showToast('Halaman ' + tabName + ' belum tersedia', 'info');
-            }
-        }
-
-        // --- LOGIKA MENU LAINNYA ---
-        function expandMoreMenu() {
-            document.getElementById('btn-lainnya').style.display = 'none';
-            const hiddenItems = document.querySelectorAll('.menu-item-hidden');
-            hiddenItems.forEach(item => {
-                item.style.display = 'flex';
-                item.style.opacity = '0';
-                setTimeout(() => {
-                    item.style.transition = 'opacity 0.3s';
-                    item.style.opacity = '1';
-                }, 10);
-            });
-            document.getElementById('btn-tutup').style.display = 'flex';
-        }
-
-        function collapseMoreMenu() {
-            document.getElementById('btn-tutup').style.display = 'none';
-            const hiddenItems = document.querySelectorAll('.menu-item-hidden');
-            hiddenItems.forEach(item => {
-                item.style.display = 'none';
-            });
-            document.getElementById('btn-lainnya').style.display = 'flex';
-        }
-
-        // --- GAMES LOGIC ---
-        function openGamesView() {
-            // Reset State Games
-            selectedGameId = null;
-            selectedGameProduct = null;
-            selectedGamesMethod = null;
-            selectedGamesProvider = null;
-
-            document.getElementById('games-list-container').style.display = 'grid';
-            document.getElementById('game-form-container').style.display = 'none';
-            document.getElementById('game-userid').value = '';
-            document.getElementById('game-zoneid').value = '';
-            document.getElementById('game-nickname').innerText = '';
-
-            // Reset UI Accordion
-            document.querySelectorAll('#view-games .accordion-body').forEach(b => b.classList.remove('show'));
-            document.querySelectorAll('#view-games .accordion-header').forEach(h => h.classList.remove('active'));
-            document.querySelectorAll('#view-games .sub-option').forEach(o => o.classList.remove('selected'));
-
-            // Render Games List
-            const container = document.getElementById('games-list-container');
-            container.innerHTML = '';
-            gamesCatalog.forEach(game => {
-                const card = document.createElement('div');
-                card.className = 'game-card';
-                card.onclick = () => selectGame(game.id, card);
-                card.innerHTML = `
-                    <img src="${game.img}" class="game-img" alt="${game.name}">
-                    <div class="game-info">
-                        <div class="game-title">${game.name}</div>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-
-            navigateTo('view-games');
-        }
-
-        function selectGame(gameId, cardEl) {
-            // Visual feedback
-            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
-            cardEl.classList.add('active');
-
-            // Set data
-            selectedGameId = gameId;
-            const gameData = gamesCatalog.find(g => g.id === gameId);
-            
-            // Show form
-            document.getElementById('selected-game-name').innerText = gameData.name;
-            const formContainer = document.getElementById('game-form-container');
-            formContainer.style.display = 'block';
-            
-            // Scroll to form
-            setTimeout(() => {
-                formContainer.scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-
-            // Render Products
-            const productGrid = document.getElementById('games-product-grid');
-            productGrid.innerHTML = '';
-            gameData.items.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'product-card';
-                div.onclick = () => selectGamesProduct(div, item.price);
-                div.innerHTML = `
-                    <span class="p-name">${item.name}</span>
-                    <span class="p-price">Rp <span>${item.price.toLocaleString('id-ID')}</span></span>
-                `;
-                productGrid.appendChild(div);
-            });
-        }
-
-        function selectGamesProduct(el, price) {
-            const parent = el.parentElement;
-            Array.from(parent.children).forEach(child => child.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedGameProduct = price;
-            validateGamesForm();
-        }
-
-        function selectGamesMethod(category, provider, el) {
-            const container = document.querySelector('#view-games');
-            container.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            
-            selectedGamesMethod = category;
-            selectedGamesProvider = provider;
-            
-            validateGamesForm();
-        }
-
-        function validateGamesForm() {
-            const btn = document.getElementById('btn-bayar-game');
-            const userId = document.getElementById('game-userid').value;
-            
-            if (selectedGameProduct && userId.length > 3 && selectedGamesProvider) {
-                btn.disabled = false;
-                btn.innerHTML = `Bayar <b>Rp ${formatRupiah(selectedGameProduct)}</b> via ${selectedGamesProvider}`;
-            } else {
-                btn.disabled = true;
-                btn.innerText = "Pilih Nominal & Metode";
-            }
-        }
-
-        function processGamesTransaction() {
-            const btn = document.getElementById('btn-bayar-game');
-            const userId = document.getElementById('game-userid').value;
-            const gameData = gamesCatalog.find(g => g.id === selectedGameId);
-
-            // 1. Cek Saldo jika pakai Saldo
-            if (selectedGamesProvider === 'Saldo') {
-                if (currentBalance < selectedGameProduct) {
-                    showToast("Saldo akun tidak mencukupi!", "error");
-                    return;
-                }
-            }
-
-            // 2. Loading
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
-
-            // 3. Simulasi Proses
-            setTimeout(() => {
-                if (selectedGamesProvider === 'Saldo') {
-                    updateBalance(selectedGameProduct, 'expense');
-                }
-                
-                addHistory(`${gameData.name} (${userId}) via ${selectedGamesProvider}`, selectedGameProduct, 'expense');
-                showToast("Voucher Game Berhasil Dikirim!", "success");
-
-                setTimeout(() => {
-                    goBack();
-                }, 1000);
-            }, 2000);
-        }
-
-
-        // --- TOP UP LOGIC ---
-        function openTopUpPage() {
-            document.getElementById('topup-amount-input').value = '';
-            document.querySelectorAll('.nominal-chip').forEach(c => c.classList.remove('active'));
-            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
-            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
-            document.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
-            
-            document.getElementById('btn-process-topup').disabled = true;
-            document.getElementById('btn-process-topup').innerText = "Konfirmasi Pembayaran";
-            
-            topUpAmount = 0;
-            topUpCategory = null;
-            topUpProvider = null;
-            
-            navigateTo('view-topup');
-        }
-
-        function handleTopUpInput(val) {
-            topUpAmount = parseInt(val);
-            if(isNaN(topUpAmount)) topUpAmount = 0;
-            document.querySelectorAll('.nominal-chip').forEach(chip => {
-                chip.classList.remove('active');
-                let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
-                if(chipVal === topUpAmount) {
-                    chip.classList.add('active');
-                }
-            });
-            validateTopUp();
-        }
-
-        function selectTopUpAmount(amount) {
-            topUpAmount = amount;
-            document.getElementById('topup-amount-input').value = amount;
-            document.querySelectorAll('.nominal-chip').forEach(chip => {
-                chip.classList.remove('active');
-                let chipVal = parseInt(chip.innerText.replace(/\./g, ''));
-                if(chipVal === amount) chip.classList.add('active');
-            });
-            validateTopUp();
-        }
-
-        function toggleAccordion(contentId, headerEl) {
-            const isClosed = !headerEl.classList.contains('active');
-            const parent = headerEl.closest('.method-accordion');
-            if(parent) {
-                parent.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
-                parent.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
-            }
-            if(isClosed) {
-                document.getElementById(contentId).classList.add('show');
-                headerEl.classList.add('active');
-            }
-        }
-
-        function selectSubMethod(category, provider, el) {
-            const parent = el.closest('.method-accordion');
-            parent.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            topUpCategory = category;
-            topUpProvider = provider;
-            validateTopUp();
-        }
-
-        function validateTopUp() {
-            const btn = document.getElementById('btn-process-topup');
-            if(topUpAmount >= 10000 && topUpProvider) {
-                btn.disabled = false;
-                btn.innerText = "Bayar Rp " + formatRupiah(topUpAmount);
-            } else {
-                btn.disabled = true;
-                btn.innerText = "Konfirmasi Pembayaran";
-            }
-        }
-
-        function processTopUpNew() {
-            const btn = document.getElementById('btn-process-topup');
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
-            
-            setTimeout(() => {
-                updateBalance(topUpAmount, 'income');
-                addHistory('Top Up via ' + topUpProvider, topUpAmount, 'income');
-                showToast('Top Up Berhasil!', 'success');
-                
-                btn.innerHTML = 'Berhasil!';
-                setTimeout(() => {
-                    goBack();
-                }, 1000);
-            }, 1500);
-        }
-
-        // --- SERVICE LOGIC (Pulsa & Data) ---
-        const pulsaOnlyData = [
-            { name: "Pulsa 5.000", price: 6500 }, 
-            { name: "Pulsa 10.000", price: 11500 },
-            { name: "Pulsa 25.000", price: 26500 },
-            { name: "Pulsa 50.000", price: 51500 },
-            { name: "Pulsa 100.000", price: 101500 },
-            { name: "Pulsa 200.000", price: 201500 },
-        ];
-
-        const dataPackageData = [
-            { name: "Data 10GB / 30 Hari", price: 55000 },
-            { name: "Data 20GB / 30 Hari", price: 85000 },
-            { name: "Data Unlimited", price: 120000 },
-        ];
-
-        function openService(serviceType) {
-            selectedProduct = null;
-            selectedPulsaMethod = null;
-            selectedPulsaProvider = null;
-            document.getElementById('btn-bayar-pulsa').disabled = true;
-            document.getElementById('btn-bayar-pulsa').innerText = "Pilih Nominal & Metode";
-            document.getElementById('pulsa-number').value = "";
-            
-            document.querySelectorAll('.sub-option').forEach(el => el.classList.remove('selected'));
-            document.querySelectorAll('.accordion-body').forEach(b => b.classList.remove('show'));
-            document.querySelectorAll('.accordion-header').forEach(h => h.classList.remove('active'));
-
-            if(serviceType === 'pulsa') {
-                renderProductGrid('pulsa-grid', pulsaOnlyData, 'btn-bayar-pulsa');
-                document.querySelector('#view-pulsa .page-title').innerText = 'Isi Pulsa';
-                navigateTo('view-pulsa');
-            } 
-            else if (serviceType === 'data') {
-                renderProductGrid('pulsa-grid', dataPackageData, 'btn-bayar-pulsa');
-                document.querySelector('#view-pulsa .page-title').innerText = 'Paket Data';
-                navigateTo('view-pulsa');
-            } 
-            else if (serviceType === 'pln') {
-                renderProductGrid('pln-grid', [
-                    {name: "Token 20.000", price: 22000},
-                    {name: "Token 50.000", price: 52000},
-                    {name: "Token 100.000", price: 102000}
-                ], 'btn-beli-pln');
-                navigateTo('view-pln');
-            }
-            else if (serviceType === 'game') {
-                openGamesView();
-            }
-            else {
-                document.getElementById('generic-title').innerText = serviceType.toUpperCase();
-                navigateTo('view-generic');
-            }
-        }
-
-        function renderProductGrid(elementId, data, btnId) {
-            const container = document.getElementById(elementId);
-            container.innerHTML = '';
-            data.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'product-card';
-                div.onclick = () => selectProduct(div, item.price, btnId);
-                div.innerHTML = `
-                    <span class="p-name">${item.name}</span>
-                    <span class="p-price">Rp <span>${item.price.toLocaleString('id-ID')}</span></span>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function selectProduct(el, price, btnId) {
-            const parent = el.parentElement;
-            Array.from(parent.children).forEach(child => child.classList.remove('selected'));
-            el.classList.add('selected');
-            selectedProduct = price;
-            
-            if(btnId === 'btn-bayar-pulsa') {
-                validatePulsaForm();
-            } else {
-                const btn = document.getElementById(btnId);
-                btn.disabled = false;
-                btn.innerText = "Bayar Rp " + formatRupiah(price);
-            }
-        }
-
-        function selectPulsaMethod(category, provider, el) {
-            const container = document.querySelector('#view-pulsa');
-            container.querySelectorAll('.sub-option').forEach(o => o.classList.remove('selected'));
-            el.classList.add('selected');
-            
-            selectedPulsaMethod = category;
-            selectedPulsaProvider = provider;
-            
-            validatePulsaForm();
-        }
-
-        function validatePulsaForm() {
-            const btn = document.getElementById('btn-bayar-pulsa');
-            const phone = document.getElementById('pulsa-number').value;
-            
-            if (selectedProduct && phone.length > 9 && selectedPulsaProvider) {
-                btn.disabled = false;
-                btn.innerHTML = `Bayar <b>Rp ${formatRupiah(selectedProduct)}</b> via ${selectedPulsaProvider}`;
-            } else {
-                btn.disabled = true;
-                btn.innerText = "Pilih Nominal & Metode";
-            }
-        }
-
-        function processPulsaTransaction() {
-            const btn = document.getElementById('btn-bayar-pulsa');
-            const phone = document.getElementById('pulsa-number').value;
-            
-            if (selectedPulsaProvider === 'Saldo') {
-                if (currentBalance < selectedProduct) {
-                    showToast("Saldo akun tidak mencukupi!", "error");
-                    return;
-                }
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
-
-            setTimeout(() => {
-                if (selectedPulsaProvider === 'Saldo') {
-                    updateBalance(selectedProduct, 'expense');
-                }
-                addHistory(`Pulsa ${phone} via ${selectedPulsaProvider}`, selectedProduct, 'expense');
-                showToast("Transaksi Berhasil!", "success");
-
-                setTimeout(() => {
-                    goBack();
-                }, 1000);
-            }, 2000);
-        }
-
-        function checkProvider() {
-            const val = document.getElementById('pulsa-number').value;
-            const label = document.getElementById('provider-detected');
-            if(val.length >= 4) {
-                label.innerText = "Mendeteksi Provider...";
-                setTimeout(() => {
-                    if(val.startsWith('0812') || val.startsWith('0813')) label.innerText = "Telkomsel";
-                    else if(val.startsWith('0818') || val.startsWith('0878')) label.innerText = "XL Axiata";
-                    else if(val.startsWith('0857') || val.startsWith('0858')) label.innerText = "Indosat Ooredoo";
-                    else label.innerText = "Provider Lain";
-                }, 500);
-            } else {
-                label.innerText = "";
-            }
-        }
-
-        document.getElementById('pln-id').addEventListener('keyup', function(e) {
-            const val = this.value;
-            const label = document.getElementById('pln-name');
-            const btn = document.getElementById('btn-beli-pln');
-            
-            if(val.length >= 10) {
-                label.innerText = "SUBSCRIBER ID: " + val;
-                btn.disabled = !selectedProduct; 
-            } else {
-                label.innerText = "";
-            }
-        });
-
-        function processTransaction(type) {
-            const btn = event.target;
-            const originalText = btn.innerText;
-            
-            if(!selectedProduct) return;
-
-            if(currentBalance < selectedProduct) {
-                showToast("Saldo tidak mencukupi!", "error");
-                return;
-            }
-
-            btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Memproses...';
-
-            setTimeout(() => {
-                updateBalance(selectedProduct, 'expense');
-                addHistory(type, selectedProduct, 'expense');
-                
-                showToast("Transaksi Berhasil!", "success");
-                
-                btn.innerText = "Berhasil!";
-                btn.style.background = "var(--success)";
-                
-                setTimeout(() => {
-                    goBack();
-                    document.querySelectorAll('.input-field').forEach(i => i.value = "");
-                    document.querySelectorAll('.product-grid').forEach(g => g.innerHTML = "");
-                    selectedProduct = null;
-                    btn.disabled = true;
-                    btn.innerText = originalText;
-                    btn.style.background = "var(--primary)";
-                }, 1000);
-
-            }, 1500);
-        }
-
-        // --- UTILITIES ---
-        function updateBalance(amount, type) {
-            if(type === 'expense') currentBalance -= amount;
-            else currentBalance += amount;
-            
-            const el = document.getElementById('main-balance');
-            el.innerText = "Rp " + currentBalance.toLocaleString('id-ID');
-            
-            el.style.color = type === 'income' ? 'var(--success)' : 'var(--danger)';
-            setTimeout(() => el.style.color = 'white', 500);
-        }
-
-        function addHistory(title, amount, type) {
-            const list = document.getElementById('transaction-list');
-            const isIncome = type === 'income';
-            const colorClass = isIncome ? 'income' : 'expense';
-            const sign = isIncome ? '+' : '-';
-            
-            const html = `
-                <div class="transaction-item" style="animation: slideDown 0.3s ease;">
-                    <div class="trans-icon" style="color: ${isIncome ? 'var(--success)' : 'var(--primary)'};">
-                        <i class="fa-solid ${isIncome ? 'fa-wallet' : 'fa-mobile-screen'}"></i>
-                    </div>
-                    <div class="trans-details">
-                        <h4>${title}</h4>
-                        <p>Baru Saja</p>
-                    </div>
-                    <div class="trans-amount ${colorClass}">${sign} Rp ${amount.toLocaleString('id-ID')}</div>
-                </div>
-            `;
-            
-            list.insertAdjacentHTML('afterbegin', html);
-        }
-
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID').format(angka);
-        }
-
-        function showToast(msg, type = 'success') {
-            const toast = document.getElementById('toast');
-            const toastMsg = document.getElementById('toast-msg');
-            const icon = toast.querySelector('i');
-            
-            toastMsg.innerText = msg;
-            toast.className = `toast show ${type}`;
-            
-            if(type === 'success') icon.className = 'fa-solid fa-circle-check';
-            else if(type === 'error') icon.className = 'fa-solid fa-circle-xmark';
-            else icon.className = 'fa-solid fa-circle-info';
-
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 3000);
-        }
-
-
-        /* --- LOGIC HERO SLIDER --- */
-let currentSlide = 0;
-const slides = document.querySelectorAll('.hero-slide');
-const totalSlides = slides.length;
-const wrapper = document.getElementById('hero-wrapper');
-const dots = document.querySelectorAll('.dot');
-let slideInterval;
-
-// Fungsi pindah slide
-function goToSlide(index) {
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-
-    currentSlide = index;
-    const offset = -currentSlide * 100;
-    wrapper.style.transform = `translateX(${offset}%)`;
-
-    // Update Dots
-    dots.forEach(dot => dot.classList.remove('active'));
-    dots[currentSlide].classList.add('active');
-    
-    // Reset timer agar tidak langsung loncat setelah user klik manual
-    resetSlideTimer();
-}
-
-function nextSlide() {
-    goToSlide(currentSlide + 1);
-}
-
-// Timer Otomatis (Autoplay 4 detik)
-function startSlideTimer() {
-    slideInterval = setInterval(nextSlide, 4000);
-}
-
-function resetSlideTimer() {
-    clearInterval(slideInterval);
-    startSlideTimer();
-}
-
-// --- TOUCH SWIPE SUPPORT (Penting untuk UX Mobile) ---
-let touchStartX = 0;
-let touchEndX = 0;
-
-const sliderContainer = document.querySelector('.hero-slider-container');
-
-sliderContainer.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    clearInterval(slideInterval); // Stop auto slide saat disentuh
-}, {passive: true});
-
-sliderContainer.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    handleSwipe();
-    startSlideTimer(); // Jalan lagi setelah dilepas
-}, {passive: true});
-
-function handleSwipe() {
-    const threshold = 50; // Minimal geser 50px baru pindah
-    if (touchEndX < touchStartX - threshold) {
-        // Swipe Kiri -> Next
-        nextSlide();
-    }
-    if (touchEndX > touchStartX + threshold) {
-        // Swipe Kanan -> Prev
-        goToSlide(currentSlide - 1);
-    }
-}
-
-// Inisialisasi saat load
-document.addEventListener('DOMContentLoaded', () => {
-    startSlideTimer();
-});
-    </script>
 </body>
 </html>
