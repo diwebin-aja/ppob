@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GameSquad Clone</title>
+    <title>Hupaytop</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <style>
         /* --- RESET & VARIABLES --- */
         :root {
             --bg-dark: #02122b; /* Warna latar belakang utama */
-            --bg-card: #0d2752; /* Warna kartu game */
+            --bg-card: #0d2752; /* Warna kartu game */ 
             --primary-blue: #1c468a;
             --accent-red: #b91c32; /* Warna tombol All */
             --text-white: #ffffff;
@@ -63,6 +67,13 @@
             font-weight: 700;
             line-height: 1;
         }
+        .logo i {
+            font-size: 18px; /* Ukuran disesuaikan menggantikan tinggi teks sebelumnya */
+            color: var(--text-white);
+            /* Opsional: Efek glow atau warna aksen jika diinginkan */
+            /* color: var(--accent-red); */ 
+        }
+
         .logo span:first-child { font-size: 18px; letter-spacing: 1px; }
         .logo span:last-child { font-size: 8px; color: var(--text-grey); }
 
@@ -103,11 +114,12 @@
             margin-right: 10px;
         }
 
+        /* UPDATE: Menu Icon menggunakan RemixIcon (Font) */
         .menu-icon {
-            width: 24px;
-            height: 24px;
+            font-size: 24px; /* Menggunakan font-size alih-alih width/height */
+            color: white;    /* Menggunakan color alih-alih fill */
             cursor: pointer;
-            fill: white;
+            line-height: 1;
         }
 
         /* --- QUICK TAGS --- */
@@ -218,7 +230,7 @@
             border-color: var(--accent-red);
         }
 
-        /* --- GAME GRID --- */
+        /* --- GAME GRID & CARD STYLE UPDATE --- */
         .section-title {
             font-family: var(--font-title);
             padding: 0 15px;
@@ -230,42 +242,102 @@
         .game-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            padding: 0 15px;
+            gap: 15px; /*12px*/
+            padding: 0 15px 20px; /*0 15px*/
         }
 
+        /* UPDATED: Card Style */
         .game-card {
             background-color: var(--bg-card);
             border-radius: 12px;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 10px;
+            /* Relative diperlukan agar judul bisa di-absolute */
+            position: relative; 
             cursor: pointer;
             transition: transform 0.2s;
+            /* Membuat card menjadi kotak sempurna */
+            aspect-ratio: 4 / 5; 
+            /* Menghilangkan padding agar gambar full */
+            padding: 0; 
         }
 
         .game-card:active {
             transform: scale(0.98);
         }
 
+        /* UPDATED: Image Style */
         .game-img {
             width: 100%;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            margin-bottom: 8px;
+            height: 100%;
+            padding: 0; /* Hapus padding */
+            border-radius: 0; /* Hapus radius inner */
+            object-fit: cover; /* Pastikan gambar mengisi area tanpa gepeng */
+            margin: 0;
+            display: block;
         }
 
+        /* UPDATED: Title Style */
         .game-title {
-            font-size: 12px;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            font-size: 12px; 
             font-weight: 600;
             text-align: center;
-            padding: 0 5px;
-            white-space: nowrap;
+            padding: 15px 5px 8px;
+            color: var(--text-white);
+            z-index: 5;
+            /* Efek gradasi hitam transparan agar tulisan terbaca di atas gambar apapun */
+            background: linear-gradient(to top, rgba(2, 18, 43, 0.9) 0%, rgba(2, 18, 43, 0) 100%);
+            
             overflow: hidden;
             text-overflow: ellipsis;
-            width: 100%;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+        }
+
+        .game-link {
+           text-decoration: none;
+           color: inherit;
+        }
+
+
+        /* --- HOT BADGE STYLES --- */
+
+        .hot-badge {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: linear-gradient(135deg, #ff9f43 0%, #ee5253 100%); /* Warna Gradasi Api */
+            color: white;
+            font-size: 10px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-bottom-left-radius: 12px; /* Melengkung di sudut dalam */
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            box-shadow: 0 2px 8px rgba(238, 82, 83, 0.4);
+        }
+
+        /* Animasi untuk Ikon Api */
+        .hot-badge i {
+            animation: burn 0.8s ease-in-out infinite alternate;
+        }
+
+        /* Keyframes Animasi Membara */
+        @keyframes burn {
+            0% {
+                transform: scale(1);
+                filter: drop-shadow(0 0 0 rgba(255, 255, 0, 0));
+                color: #fff;
+            }
+            100% {
+                transform: scale(1.2);
+                filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.8)); /* Efek cahaya kuning */
+                color: #fffbe6;
+            }
         }
 
         /* --- FLOATING BUTTON --- */
@@ -283,13 +355,99 @@
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             cursor: pointer;
             z-index: 200;
+            text-decoration: none; /* remove underline if anchor */
         }
         
-        .fab svg {
-            width: 30px;
-            height: 30px;
-            fill: white;
+        /* UPDATE: Styling untuk FontAwesome Icon di dalam FAB */
+        .fab i {
+            font-size: 30px;
+            color: white;
         }
+
+        /* --- 1. SECTION WRAPPER (PENGGANTI BODY DI KODE LAMA) --- */
+        .game-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 25px;
+        }
+
+        .slider-track {
+            width: 100%;
+            max-width: 900px;
+            
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            place-items: center; 
+            height: auto;
+            perspective: 1000px;
+        }
+
+        /* --- 3. ITEM SLIDE --- */
+        .slide {
+            /* Menumpuk semua slide di koordinat grid 1 baris / 1 kolom */
+            grid-area: 1 / 1;
+            
+            width: 80%; /* Lebar relatif terhadap track */
+            height: 160px;
+            max-height: 400px; /* Batasan tinggi agar tidak terlalu besar di desktop */
+            
+            border-radius: 20px;
+            background-size: cover;
+            background-position: center;
+            /* Transisi Halus */
+            transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+            opacity: 0.6;
+            z-index: 1;
+            transform: scale(0.8); /* Posisi default diam */
+            border: 2px solid rgba(255,255,255,0.8);
+            
+            pointer-events: none; 
+            cursor: pointer;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .slide {
+                width: 90%;
+            }
+        }
+
+        /* --- STATE LOGIC (Active, Prev, Next) --- */
+        .slide.active {
+            opacity: 1;
+            z-index: 10;
+            transform: scale(1) translateX(0);
+            border: 2px solid #fff;
+            pointer-events: auto;
+        }
+
+        .slide.prev {
+            transform: scale(0.85) translateX(-60%); /* Jarak sedikit dirapatkan */
+            z-index: 5;
+            opacity: 0.5;
+            filter: brightness(0.4);
+        }
+
+        .slide.next {
+            transform: scale(0.85) translateX(60%);
+            z-index: 5;
+            opacity: 0.5;
+            filter: brightness(0.4);
+        }
+
+        .slide.hide {
+            transform: scale(0.5);
+            opacity: 0;
+            z-index: 0;
+            visibility: hidden; 
+        }
+
 
     </style>
 </head>
@@ -297,57 +455,61 @@
 
     <header>
         <div class="logo">
-            <span>GS</span>
-            <span>GAMESQUAD</span>
+            <i class="fa-solid fa-gamepad"></i>
+            <span>HUPAYTOP</span>
         </div>
         <div class="search-container">
-            <input type="text" placeholder="Free fire">
+            <input type="text" placeholder="Cari Produk">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
         </div>
-        <button class="btn-masuk">Masuk</button>
-        <svg class="menu-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white">
-            <path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
-        </svg>
-    </header>
+        <button class="btn-masuk">Login</button>
+        
+        <i class="ri-menu-line menu-icon"></i>
+    </header> 
 
     <nav class="quick-tags">
-        <a href="#" class="tag">Free Fire</a>
-        <a href="#" class="tag">Mobile Legends</a>
-        <a href="#" class="tag">PUBG</a>
+        <a href="#" class="tag">Proses Cepat</a>
+        <a href="#" class="tag">Transaksi Aman</a>
+        <a href="#" class="tag">Semua Nyaman</a>
     </nav>
 
-    <section class="hero-section">
-        <div class="hero-card">
-            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Banner" class="hero-bg">
-            <div class="hero-content">
-                <h3>PUSH RANK, PAKAI SKIN KEREN</h3>
-                <p>TOP UP MLBB LEBIH LENGKAP</p>
-            </div>
+    <section class="game-section">
+
+        <div class="slider-track" id="track">
+            <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="slide next" style="background-image: url('https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="slide hide" style="background-image: url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=1000&auto=format&fit=crop');"></div>
+            <div class="slide hide" style="background-image: url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1000&auto=format&fit=crop');"></div>
+             <div class="slide prev" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000&auto=format&fit=crop');"></div>
         </div>
-        <div class="dots">
-            <div class="dot active"></div>
-            <div class="dot"></div>
-            <div class="dot"></div>
-        </div>
+
     </section>
 
-    <div class="filters">
-        <button class="filter-btn active">All</button>
-        <button class="filter-btn">Top Up</button>
-        <button class="filter-btn">Voucher</button>
-        <button class="filter-btn">Pembayaran</button>
-    </div>
+
+   <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="games">Games</button>
+    <button class="filter-btn" data-filter="pulsa">Pulsa</button>
+    <button class="filter-btn" data-filter="data">Paket Data</button>
+    <button class="filter-btn" data-filter="ewallet">E-Wallet</button>
+    <button class="filter-btn" data-filter="pln">PLN</button>
+    <button class="filter-btn" data-filter="internet">Internet</button>
+   </div>
 
     <main>
+    <div class="category-section" data-category="games">
         <h2 class="section-title">Top up game</h2>
         
-        <div class="game-grid">
-            <article class="game-card">
-                <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="MLBB" class="game-img">
-                <span class="game-title">Mobile Legends</span>
-            </article>
+       <div class="game-grid">
+        <article class="game-card">
+        <div class="hot-badge">
+        <i class="fa-solid fa-fire"></i> HOT
+       </div>
+          <img src="https://images.unsplash.com/photo-1535295972055-1c762f4483e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="MLBB" class="game-img">
+          <span class="game-title">Mobile Legends</span>
+       </article>
 
             <article class="game-card">
                 <img src="https://images.unsplash.com/photo-1599961103738-c67d71701314?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="PUBG" class="game-img">
@@ -389,13 +551,258 @@
                 <span class="game-title">Marvel Super War</span>
             </article>
         </div>
-    </main>
+    </div>
+
+    <div class="category-section" data-category="pulsa">
+        <h2 class="section-title" style="margin-top: 25px;">Pulsa</h2>
+        
+        <div class="game-grid">
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1614680376573-df3480f0c6ff?auto=format&fit=crop&w=400&q=80" alt="Telkomsel" class="game-img">
+                <span class="game-title">Telkomsel</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1620288627223-537a98b0f30c?auto=format&fit=crop&w=400&q=80" alt="Indosat" class="game-img">
+                <span class="game-title">Indosat Ooredoo</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80" alt="XL" class="game-img">
+                <span class="game-title">XL Axiata</span>
+            </article>
+
+            <a href="axis.html" class="game-link">
+              <article class="game-card">
+              <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=400&q=80" alt="Axis" class="game-img">
+              <span class="game-title">Axis</span>
+              </article>
+            </a>
+
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?auto=format&fit=crop&w=400&q=80" alt="Tri" class="game-img">
+                <span class="game-title">Tri (3)</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1533422902779-aff35862e462?auto=format&fit=crop&w=400&q=80" alt="Smartfren" class="game-img">
+                <span class="game-title">Smartfren</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1512428559087-560fa5ce7d02?auto=format&fit=crop&w=400&q=80" alt="by.U" class="game-img">
+                <span class="game-title">by.U</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80" alt="Orbit" class="game-img">
+                <span class="game-title">Telkomsel Orbit</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1562831821-2690d7943d0e?auto=format&fit=crop&w=400&q=80" alt="Lainnya" class="game-img">
+                <span class="game-title">Lainnya</span>
+            </article>
+        </div>
+    </div>
+
+    <div class="category-section" data-category="data">
+        <h2 class="section-title" style="margin-top: 25px;">Paket Data</h2>
+        
+        <div class="game-grid">
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=400&q=80" alt="Telkomsel Data" class="game-img">
+                <span class="game-title">Telkomsel Data</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=400&q=80" alt="Indosat Data" class="game-img">
+                <span class="game-title">Indosat Data</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=400&q=80" alt="XL Data" class="game-img">
+                <span class="game-title">XL Data</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=400&q=80" alt="Axis Data" class="game-img">
+                <span class="game-title">Axis Data</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80" alt="Tri Data" class="game-img">
+                <span class="game-title">Tri Data</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=400&q=80" alt="Smartfren Data" class="game-img">
+                <span class="game-title">Smartfren Data</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1614680376408-81e91ffe3db7?auto=format&fit=crop&w=400&q=80" alt="Voucher Tsel" class="game-img">
+                <span class="game-title">Voucher Tsel</span>
+            </article>
+            
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1620288627223-537a98b0f30c?auto=format&fit=crop&w=400&q=80" alt="Voucher Isat" class="game-img">
+                <span class="game-title">Voucher Isat</span>
+            </article>
+            
+             <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1517292987719-0369a794ec0f?auto=format&fit=crop&w=400&q=80" alt="Voucher Tri" class="game-img">
+                <span class="game-title">Voucher Tri</span>
+            </article>
+        </div>
+    </div>
+
+    <div class="category-section" data-category="ewallet">
+        <h2 class="section-title" style="margin-top: 25px;">E-Wallet</h2>
+        
+        <div class="game-grid">
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f7a07d?auto=format&fit=crop&w=400&q=80" alt="DANA" class="game-img">
+                <span class="game-title">DANA</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1572883454114-1cf0031a029e?auto=format&fit=crop&w=400&q=80" alt="GoPay" class="game-img">
+                <span class="game-title">GoPay</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=400&q=80" alt="OVO" class="game-img">
+                <span class="game-title">OVO</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1556742044-3c52d6e88c62?auto=format&fit=crop&w=400&q=80" alt="ShopeePay" class="game-img">
+                <span class="game-title">ShopeePay</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1565514020176-dbf2277f0789?auto=format&fit=crop&w=400&q=80" alt="LinkAja" class="game-img">
+                <span class="game-title">LinkAja</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1617788138017-80ad40651399?auto=format&fit=crop&w=400&q=80" alt="Maxim" class="game-img">
+                <span class="game-title">Maxim</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1623126908029-58cb08a2b272?auto=format&fit=crop&w=400&q=80" alt="Gojek Driver" class="game-img">
+                <span class="game-title">Gojek Driver</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1549439602-43ebca2327af?auto=format&fit=crop&w=400&q=80" alt="Grab Driver" class="game-img">
+                <span class="game-title">Grab Driver</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=400&q=80" alt="Maxim Driver" class="game-img">
+                <span class="game-title">Maxim Driver</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1623298317883-6b70254edf31?auto=format&fit=crop&w=400&q=80" alt="Shopee Driver" class="game-img">
+                <span class="game-title">Shopee Driver</span>
+            </article>
+
+            <article class="game-card">
+                <img src="https://images.unsplash.com/photo-1599341643444-2458e0a2947c?auto=format&fit=crop&w=400&q=80" alt="E-Toll BRI" class="game-img">
+                <span class="game-title">E-Toll BRI</span>
+            </article>
+        </div>
+    </div>
+</main>
 
     <a href="#" class="fab">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.654-.698c.99.54 1.743.838 2.808.838 3.182 0 5.768-2.587 5.769-5.767.001-3.181-2.585-5.768-5.767-5.768zm0-2c4.28 0 7.769 3.488 7.769 7.768 0 4.28-3.488 7.768-7.769 7.768-1.35 0-2.616-.34-3.714-.933l-4.137 1.087 1.107-4.03C4.743 16.712 4.263 15.39 4.263 13.94c0-4.28 3.488-7.768 7.768-7.768zm3.92 9.58c-.16-.08-1.42-.7-1.64-.78-.22-.08-.38-.12-.54.12-.16.24-.62.78-.76.94-.14.16-.28.18-.52.06-.24-.12-1.02-.38-1.94-1.2-.72-.64-1.2-1.44-1.34-1.68-.14-.24-.02-.36.1-.48.1-.1.24-.26.36-.4.12-.14.16-.24.24-.4.08-.16.04-.3-.02-.42-.06-.12-.54-1.3-.74-1.78-.2-.46-.4-.4-.54-.4h-.46c-.16 0-.42.06-.64.3-.22.24-.86.84-.86 2.04 0 1.2.88 2.36 1 2.52.14.16 3.42 5.3 8.3 7.06.46.16 1.48.56 2.3.4.82-.16 1.94-.8 2.22-1.56.26-.78.26-1.44.18-1.56-.08-.12-.3-.2-.54-.32z"/>
-        </svg>
+        <i class="fa-brands fa-whatsapp"></i>
     </a>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const sections = document.querySelectorAll('.category-section');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // 1. Hapus class 'active' dari semua tombol, lalu tambah ke tombol yg diklik
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // 2. Ambil nilai kategori dari tombol yang diklik
+                const filterValue = button.getAttribute('data-filter');
+
+                // 3. Loop semua section untuk cek apakah harus ditampilkan atau disembunyikan
+                sections.forEach(section => {
+                    const category = section.getAttribute('data-category');
+
+                    if (filterValue === 'all' || filterValue === category) {
+                        section.style.display = 'block';
+                        
+                        // Opsional: Tambahkan animasi fade-in sederhana
+                        section.style.opacity = '0';
+                        setTimeout(() => section.style.opacity = '1', 50);
+                        section.style.transition = 'opacity 0.3s ease';
+                        
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<script>
+    const track = document.getElementById('track');
+    const slides = Array.from(track.children);
+    let currentIndex = 0;
+    let autoSlideInterval;
+
+    function updateClasses() {
+        slides.forEach((slide, index) => {
+            slide.className = 'slide';
+            let diff = index - currentIndex;
+            if (diff > slides.length / 2) diff -= slides.length;
+            if (diff < -slides.length / 2) diff += slides.length;
+
+            if (diff === 0) slide.classList.add('active');
+            else if (diff === 1) slide.classList.add('next');
+            else if (diff === -1) slide.classList.add('prev');
+            else slide.classList.add('hide');
+        });
+    }
+
+    function moveSlide(direction) {
+        currentIndex += direction;
+        if (currentIndex >= slides.length) currentIndex = 0;
+        else if (currentIndex < 0) currentIndex = slides.length - 1;
+
+        updateClasses();
+        resetTimer();
+    }
+
+    function startAutoSlide() {
+        autoSlideInterval = setInterval(() => {
+            moveSlide(1);
+        }, 3000);
+    }
+
+    function resetTimer() {
+        clearInterval(autoSlideInterval);
+        startAutoSlide();
+    }
+
+    updateClasses();
+    startAutoSlide();
+</script>
+
 
 </body>
 </html>
