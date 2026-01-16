@@ -579,6 +579,42 @@
     overflow: hidden;
 }
 
+.item-card::before {
+    content: "";
+    position: absolute;
+    z-index: 1; /* Pastikan di atas background tapi di bawah teks (jika teks di set z-index > 1) */
+    
+    /* JARAK 2PX DARI TEPI */
+    left: 2px;
+    bottom: 2px;
+    top: 0px;   /* Tarik ke atas (minus 2px gap atas) */
+    right: 0px; /* Tarik ke kanan (minus 2px gap kanan) */
+
+    /* SETUP GARIS: Hanya Kiri dan Bawah */
+    border-left: 2px solid var(--accent-orange); /* Ganti warna sesuai selera */
+    border-bottom: 2px solid var(--accent-orange);
+
+    /* MENGATUR SUDUT */
+    /* Rumus: Radius Induk (8px) - Jarak (2px) = 6px */
+    border-bottom-left-radius: 6px; 
+    
+    /* MENGHILANGKAN GARIS DI SUDUT LAIN (Opsional, karena border-top/right 0) */
+    border-top-right-radius: 0; 
+    
+    /* PENTING: Agar tidak menghalangi klik tombol */
+    pointer-events: none;
+    
+    /* KOSMETIK: Transisi halus */
+    opacity: 0.5; /* Agak transparan agar tidak terlalu keras */
+    transition: all 0.3s ease;
+}
+
+/* OPSI TAMBAHAN: Efek saat Hover */
+.item-card:hover::before {
+    opacity: 1; /* Menyala terang saat hover */
+    border-color: var(--accent-blue); /* Bisa ganti warna saat hover */
+}
+
         .item-card:hover { border-color: var(--accent-blue); background-color: #051b3b; }
 
         .item-card.active {
@@ -620,31 +656,29 @@
             color: var(--text-white);         
         }
 
-        .item-price { 
-    /* --- Font Style --- */
+ .item-price {
+    /* --- Font Style (Tetap) --- */
     font-size: 12px; 
     font-weight: 600;
 
-    /* --- Warna --- */
+    /* --- Warna (Tetap) --- */
     background: linear-gradient(to bottom, #f59e0b, #d97706);
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    color: #051b3b; /* Text putih agar kontras */
+    color: #051b3b;
 
-    /* --- Posisi Mentok Kiri --- */
+    /* --- Posisi Mentok Kiri (TETAP SEPERTI ASLINYA) --- */
     position: absolute;
-    left: 0;       /* Menempel total ke sisi kiri (mengabaikan padding kartu) */
-    bottom: 0px;  /* Jarak dari bawah kartu */
+    left: 0;
+    bottom: 0px;
     
-    /* --- Dimensi & Spasi --- */
-    width: auto;       /* Lebar menyesuaikan isi teks */
-    padding: 4px 12px; /* Memberi nafas pada teks di dalam kotak merah */
-    
-    /* --- Pemanis (Opsional) --- */
-    /* Membuat ujung kanan melengkung, ujung kiri tetap siku menempel dinding */
+    /* --- Dimensi & Radius (TETAP) --- */
+    width: auto;
+    padding: 4px 12px;
     border-top-right-radius: 11px; 
     border-bottom-right-radius: 0px;
     
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* Sedikit bayangan */
+    /* --- TAMBAHAN WAJIB --- */
+    z-index: 10; /* Angka ini harus lebih besar dari z-index milik ::before */
 }
 
 
