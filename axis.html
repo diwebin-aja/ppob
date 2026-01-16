@@ -582,37 +582,34 @@
 .item-card::before {
     content: "";
     position: absolute;
-    z-index: 1; /* Pastikan di atas background tapi di bawah teks (jika teks di set z-index > 1) */
-    
-    /* JARAK 2PX DARI TEPI */
-    left: 2px;
+    z-index: 1; 
+
+    /* POSISI */
+    left: 0px;
     bottom: 0px;
-    top: 30px;   /* Tarik ke atas (minus 2px gap atas) */
-    right: 35px; /* Tarik ke kanan (minus 2px gap kanan) */
+    top: 30px;
+    right: 35px; /* Sesuaikan ini biar pas di ujung teks harga */
 
-    /* SETUP GARIS: Hanya Kiri dan Bawah */
-    border-left: 2px solid var(--accent-orange); /* Ganti warna sesuai selera */
-    border-bottom: 2px solid var(--accent-orange);
+    /* --- BAGIAN PENTING (LIPATAN) --- */
+    
+    /* 1. Border Bawah (Warna Garis) */
+    border-bottom: 2px solid var(--accent-orange); /* Gue tebalin dikit biar kelihatan lipatannya */
+    
+    /* 2. Border Kiri (Garis Vertikal) */
+    border-left: 2px solid var(--accent-orange);
+    
+    /* 3. INI KUNCINYA: Border Kanan Transparan */
+    /* Ini yang bikin efek "potongan miring" ke bawah (\) */
+    border-right: 4px solid transparent; 
 
-    /* MENGATUR SUDUT */
-    /* Rumus: Radius Induk (8px) - Jarak (2px) = 6px */
-    border-bottom-left-radius: 6px; 
-    
-    /* MENGHILANGKAN GARIS DI SUDUT LAIN (Opsional, karena border-top/right 0) */
-    border-top-right-radius: 0; 
-    
-    /* PENTING: Agar tidak menghalangi klik tombol */
-    pointer-events: none;
-    
-    /* KOSMETIK: Transisi halus */
-    opacity: 0.5; /* Agak transparan agar tidak terlalu keras */
+    /* 4. ATUR SUDUT */
+    border-bottom-left-radius: 6px; /* Melengkung ngikutin kartu */
+    border-bottom-right-radius: 0px; /* WAJIB 0 BIAR GAK MELENGKUNG KE ATAS */
+    border-top-right-radius: 0;
+
+    pointer-events: none; 
+    opacity: 1; /* Gue naikin dikit biar jelas */
     transition: all 0.3s ease;
-}
-
-/* OPSI TAMBAHAN: Efek saat Hover */
-.item-card:hover::before {
-    opacity: 1; /* Menyala terang saat hover */
-    border-color: var(--accent-blue); /* Bisa ganti warna saat hover */
 }
 
         .item-card:hover { border-color: var(--accent-blue); background-color: #051b3b; }
