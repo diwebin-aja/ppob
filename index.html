@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
@@ -25,7 +26,7 @@
             --whatsapp-green: #25D366;
             
             --font-title: 'Outfit', sans-serif;
-            --font-body: 'Plus Jakarta Sans', sans-serif;
+            --font-body: 'oxanium', sans-serif;
         }
 
         * {
@@ -67,11 +68,10 @@
             font-weight: 700;
             line-height: 1;
         }
+
         .logo i {
             font-size: 18px; /* Ukuran disesuaikan menggantikan tinggi teks sebelumnya */
             color: var(--text-white);
-            /* Opsional: Efek glow atau warna aksen jika diinginkan */
-            /* color: var(--accent-red); */ 
         }
 
         .logo span:first-child { font-size: 18px; letter-spacing: 1px; }
@@ -134,7 +134,7 @@
             background-color: #e2e8f0;
             color: #333;
             padding: 4px 12px;
-            border-radius: 12px;
+            border-radius: 7px;
             font-size: 11px;
             font-weight: 600;
             text-decoration: none;
@@ -194,13 +194,17 @@
             gap: 6px;
             margin-top: 10px;
         }
+
         .dot {
             width: 8px;
             height: 8px;
             border-radius: 50%;
             background-color: #4a5568;
         }
-        .dot.active { background-color: white; }
+
+        .dot.active { 
+            background-color: white; 
+        }
 
         /* --- FILTERS --- */
         .filters {
@@ -211,7 +215,10 @@
             overflow-x: auto;
             scrollbar-width: none; /* Hide scrollbar Firefox */
         }
-        .filters::-webkit-scrollbar { display: none; } /* Hide scrollbar Chrome */
+
+        .filters::-webkit-scrollbar { 
+            display: none; /* Hide scrollbar Chrome */
+        }
 
         .filter-btn {
             background: transparent;
@@ -246,19 +253,27 @@
             padding: 0 15px 20px; /*0 15px*/
         }
 
-        /* UPDATED: Card Style */
         .game-card {
-            background-color: var(--bg-card);
-            border-radius: 12px;
+            background: linear-gradient(160deg, #0d2752 0%, #051329 100%); /* Gradasi lebih dalam */
+            border-radius: 16px; /* Sudut lebih membulat modern */
             overflow: hidden;
-            /* Relative diperlukan agar judul bisa di-absolute */
-            position: relative; 
+            position: relative;
             cursor: pointer;
-            transition: transform 0.2s;
-            /* Membuat card menjadi kotak sempurna */
-            aspect-ratio: 4 / 5; 
-            /* Menghilangkan padding agar gambar full */
-            padding: 0; 
+            aspect-ratio: 4 / 5;
+            
+            /* Border tipis transparan (Futuristic vibe) */
+            border: 1px solid rgba(88, 166, 255, 0.1); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            
+            /* Transisi untuk efek hover */
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        /* Efek Hover: Card Melayang & Bersinar */
+        .game-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(88, 166, 255, 0.5); /* Border jadi biru terang */
+            box-shadow: 0 10px 20px rgba(28, 70, 138, 0.4); /* Glow biru */
         }
 
         .game-card:active {
@@ -269,30 +284,42 @@
         .game-img {
             width: 100%;
             height: 100%;
-            padding: 0; /* Hapus padding */
-            border-radius: 0; /* Hapus radius inner */
-            object-fit: cover; /* Pastikan gambar mengisi area tanpa gepeng */
-            margin: 0;
+            object-fit: cover;
             display: block;
+            transition: transform 0.5s ease; /* Transisi zoom lebih lambat/halus */
+        }
+
+        /* Efek Zoom pada Gambar saat Hover */
+        .game-card:hover .game-img {
+            transform: scale(1.1);
         }
 
         /* UPDATED: Title Style */
         .game-title {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            font-size: 12px; 
+            bottom: 6px;
+            left: 6px;
+            right: 6px; /* Floating title (mengambang, tidak full width) */
+            
+            padding: 10px 4px;
+            
+            /* Efek Kaca (Glassmorphism) */
+            background: rgba(2, 18, 43, 0.2);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            
+            color: var(--text-white);
+            font-size: 11px;
             font-weight: 600;
             text-align: center;
-            padding: 15px 5px 8px;
-            color: var(--text-white);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             z-index: 5;
-            /* Efek gradasi hitam transparan agar tulisan terbaca di atas gambar apapun */
-            background: linear-gradient(to top, rgba(2, 18, 43, 0.9) 0%, rgba(2, 18, 43, 0) 100%);
             
-            overflow: hidden;
-            text-overflow: ellipsis;
+            /* Shadow teks tipis agar terbaca jelas */
             text-shadow: 0 1px 2px rgba(0,0,0,0.8);
         }
 
@@ -397,15 +424,15 @@
             height: 160px;
             max-height: 400px; /* Batasan tinggi agar tidak terlalu besar di desktop */
             
-            border-radius: 20px;
+            border-radius: 12px;
             background-size: cover;
             background-position: center;
             /* Transisi Halus */
             transition: all 0.7s cubic-bezier(0.25, 1, 0.5, 1);
             opacity: 0.6;
             z-index: 1;
-            transform: scale(0.8); /* Posisi default diam */
-            border: 2px solid rgba(255,255,255,0.8);
+            transform: scale(0.8); /* Posisi default diam
+            border: 2px solid rgba(255,255,255,0.8);*/
             
             pointer-events: none; 
             cursor: pointer;
