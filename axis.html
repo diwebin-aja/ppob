@@ -72,6 +72,45 @@
 
         }
 
+        /* --- PERBAIKAN VERTICAL ALIGNMENT FONT OXANIUM --- */
+
+        /* 1. Global fix: Tambah line-height agar tidak terlalu rapat ke atas */
+        body, p, span, div {
+            line-height: 1.5;
+        }
+
+        /* 2. Fix Input Form: Tambah padding atas, kurangi bawah */
+        /* Sebelumnya: padding: 12px ... -> Total vertikal 24px */
+        .form-input {
+            padding-top: 14px;    /* Ditambah 2px agar teks turun */
+            padding-bottom: 10px; /* Dikurangi 2px agar tinggi input tetap sama */
+        }
+
+        /* 3. Fix Tombol & Badge: Gunakan flex alignment yang kuat */
+        .tag, 
+        .h-status, 
+        .badge-hot-line,
+        .item-price {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 4px !important; /* Paksa turun sedikit secara visual */
+            padding-bottom: 2px !important; /* Kompensasi */
+            line-height: normal; /* Reset line-height untuk elemen kecil */
+        }
+
+        .item-name,  
+        .game-info h2,
+        .step-title,
+        .checkout-total {
+            padding-top: 2px;
+        }
+
+        .pay-name{
+            padding-top: 3px;
+            padding-bottom: 0px;
+        }
+
 
 
         body {
@@ -203,6 +242,8 @@
 
 
         .btn-masuk {
+
+            font-family: var(--font-body);
 
             background-color: #2b4c80;
 
@@ -534,7 +575,7 @@
     flex-direction: column;
     justify-content: center; /* Tetap center agar Nama ada di tengah */
     min-height: 80px;
-    position: relative; /* WAJIB ADA: Agar item-price tidak lari keluar kartu */
+    position: relative; /* WAJIB ADA: Agar itemprice tidak lari keluar kartu */
     overflow: hidden;
 }
 
@@ -569,7 +610,6 @@
             padding: 2px 6px;
 
             border-bottom-left-radius: 8px;
-
         }
 
         .item-name { 
@@ -584,12 +624,12 @@
     /* --- Font Style --- */
     font-size: 12px; 
     font-weight: 600;
-    
+
     /* --- Warna --- */
     background: linear-gradient(to bottom, #f59e0b, #d97706);
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     color: #051b3b; /* Text putih agar kontras */
-    
+
     /* --- Posisi Mentok Kiri --- */
     position: absolute;
     left: 0;       /* Menempel total ke sisi kiri (mengabaikan padding kartu) */
@@ -601,7 +641,7 @@
     
     /* --- Pemanis (Opsional) --- */
     /* Membuat ujung kanan melengkung, ujung kiri tetap siku menempel dinding */
-    border-top-right-radius: 10px; 
+    border-top-right-radius: 11px; 
     border-bottom-right-radius: 0px;
     
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2); /* Sedikit bayangan */
@@ -789,6 +829,7 @@
         
 
         .btn-checkout {
+            font-family: var(--font-body);
 
             background: linear-gradient(to bottom, #f59e0b, #d97706);
 
@@ -2132,7 +2173,7 @@
             // Simpan ke LocalStorage jika ini adalah transaksi baru (bukan dari history)
             // Kita cek jika data tidak punya properti 'alreadySaved' (dummy logic)
             // Atau lebih baik simpan di sini setiap kali success view dipanggil dari processOrder
-            
+
             // Cek apakah data sudah lengkap (untuk membedakan panggilan dari history vs baru)
             if(data && !data.viewedFromHistory) {
                 saveToLocalStorage(data);
