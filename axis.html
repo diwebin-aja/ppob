@@ -53,7 +53,7 @@
 
             --font-title: 'Outfit', sans-serif;
 
-            --font-body: 'oxanium', sans-serif;
+            --font-body: 'plus jakarta sans', sans-serif;
 
         }
 
@@ -71,45 +71,6 @@
 
             -webkit-tap-highlight-color: transparent;
 
-        }
-
-        /* --- PERBAIKAN VERTICAL ALIGNMENT FONT OXANIUM --- */
-
-        /* 1. Global fix: Tambah line-height agar tidak terlalu rapat ke atas */
-        body, p, span, div {
-            line-height: 1.5;
-        }
-
-        /* 2. Fix Input Form: Tambah padding atas, kurangi bawah */
-        /* Sebelumnya: padding: 12px ... -> Total vertikal 24px */
-        .form-input {
-            padding-top: 14px;    /* Ditambah 2px agar teks turun */
-            padding-bottom: 10px; /* Dikurangi 2px agar tinggi input tetap sama */
-        }
-
-        /* 3. Fix Tombol & Badge: Gunakan flex alignment yang kuat */
-        .tag, 
-        .h-status, 
-        .badge-hot-line,
-        .item-price {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding-top: 4px !important; /* Paksa turun sedikit secara visual */
-            padding-bottom: 2px !important; /* Kompensasi */
-            line-height: normal; /* Reset line-height untuk elemen kecil */
-        }
-
-        .item-name,  
-        .game-info h2,
-        .step-title,
-        .checkout-total {
-            padding-top: 2px;
-        }
-
-        .pay-name{
-            padding-top: 3px;
-            padding-bottom: 0px;
         }
 
 
@@ -182,6 +143,11 @@
 
         }
 
+        .logo i {
+            font-size: 18px; /* Ukuran disesuaikan menggantikan tinggi teks sebelumnya */
+            color: var(--text-white);
+        }
+
 
 
         .logo-link { text-decoration: none; color: inherit; }
@@ -241,29 +207,16 @@
         }
 
 
-
         .btn-masuk {
-
-            font-family: var(--font-body);
-
             background-color: #2b4c80;
-
             color: white;
-
             border: 1px solid #4a6fa5;
-
             padding: 6px 15px;
-
             border-radius: 6px;
-
             font-size: 14px;
-
             font-weight: 600;
-
             cursor: pointer;
-
             margin-right: 10px;
-
         }
 
 
@@ -302,7 +255,7 @@
 
             padding: 4px 12px;
 
-            border-radius: 12px;
+            border-radius: 7px;
 
             font-size: 11px;
 
@@ -566,10 +519,10 @@
             gap: 12px; 
         }
 
-        .item-card {
+    .item-card {
     background-color: var(--bg-dark);
     border: 1px solid #2d3748;
-    border-radius: 8px;
+    border-radius: 12px;
     padding: 12px;
     transition: all 0.2s;
     display: flex;
@@ -583,7 +536,7 @@
 .item-card::before {
     content: "";
     position: absolute;
-    z-index: 1; 
+    z-index: 1;
 
     /* POSISI */
     left: 0px;
@@ -651,16 +604,18 @@
             font-weight: 700; 
             text-transform: uppercase; 
             margin-bottom: 4px; 
-            color: var(--text-white);         
+            color: var(--text-white);  
+            font-family: 'oxanium';       
         }
 
  .item-price {
     /* --- Font Style (Tetap) --- */
     font-size: 12px; 
     font-weight: 600;
+    font-family: 'oxanium';
 
     /* --- Warna (Tetap) --- */
-    background: linear-gradient(to bottom, #f59e0b, #d97706);
+    background: linear-gradient(to bottom, var(--accent-blue), #d97706);
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     color: #051b3b;
 
@@ -678,6 +633,15 @@
     /* --- TAMBAHAN WAJIB --- */
     z-index: 10; /* Angka ini harus lebih besar dari z-index milik ::before */
 }
+
+       .item-price {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 5px !important; /* Paksa turun sedikit secara visual */
+            padding-bottom: 2px !important; /* Kompensasi */
+            line-height: normal; /* Reset line-height untuk elemen kecil */
+        }
 
 
 
@@ -840,16 +804,24 @@
 
             border-top: 1px dashed #2d3748;
 
-            padding-top: 10px;
+            padding-top: 13px;
 
             margin-top: 10px;
-
-            margin-bottom: 0;
+            margin-bottom: -5px;
 
         }
 
-        .summary-val { color: white; font-weight: 600; }
-        .summary-val.highlight { color: var(--accent-orange); font-weight: 700; font-size: 16px; }
+        .summary-val { 
+            color: white; 
+            font-weight: 600; 
+            font-family: 'oxanium';
+        }
+
+        .summary-val.highlight { 
+            color: var(--accent-orange); 
+            font-weight: 700; 
+            font-size: 16px; 
+        }
 
 
 
@@ -862,6 +834,8 @@
             background-color: #1c2e4a;
 
             padding: 15px 20px;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
 
             border-top: 1px solid #2d3748;
 
@@ -884,13 +858,19 @@
 
             background: linear-gradient(to bottom, #f59e0b, #d97706);
 
-            color: var(--card-bg);
+            color: var(--bg-dark); /*var(--card-bg);*/
 
-            font-weight: 700; border: none;
+            font-weight: 700; 
+            border: none;
 
-            padding: 12px 24px; border-radius: 8px; font-size: 14px;
+            padding: 9px 20px; 
+            border-radius: 50px; 
+            font-size: 14px;
 
-            cursor: pointer; display: flex; align-items: center; gap: 5px;
+            cursor: pointer; 
+            display: flex; 
+            align-items: center; 
+            gap: 5px;
 
         }
 
