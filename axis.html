@@ -68,11 +68,12 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 15px;
+        padding: 13px;
         background-color: var(--bg-dark);
         position: sticky;
         top: 0;
         z-index: 100;
+        border-bottom: 2px solid var(--card-bg);
     }
 
     .logo {
@@ -285,13 +286,23 @@
     }
 
     .blue-card {
-        background-color: var(--card-bg);
-        border-radius: 0px;
-        padding: 15px;
-        margin-bottom: 20px;
-        transition: all 0.3s ease;
-        border: 2px solid transparent;
-    }
+    background-color: var(--card-bg);
+    border-radius: 0px;
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    
+    /* --- UPDATE: SHADOW SEMUA SISI --- */
+    /* 0 0 = Posisi tengah */
+    /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
+    /* rgba = Warna hitam dengan transparansi 50% */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 1);
+    
+    /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
+    position: relative;
+    z-index: 1;
+}
 
     /* --- CARD HISTORY STYLE BARU --- */
     .card-history {
