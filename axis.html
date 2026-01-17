@@ -387,10 +387,14 @@
     .step-num {
             background-color: var(--accent-blue);
             color: white;
-            width: 24px; height: 24px;
+            width: 24px; 
+            height: 24px;
             border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 12px; font-weight: bold;
+            display: flex; 
+            align-items: center; 
+            justify-content: center;
+            font-size: 12px; 
+            font-weight: bold;
             margin-right: 10px;
         }
 
@@ -488,7 +492,7 @@
         right: 0px;
 
         /* LIPATAN */
-        border-bottom: 15px solid var(--accent-blue);
+        border-bottom: 15px solid rgba(255, 255, 255, 0.08);
         border-left: 0px solid var(--accent-orange);
 
         /* SUDUT */
@@ -538,9 +542,9 @@
         font-family: 'oxanium';
 
         /* --- Warna --- */
-        background: linear-gradient(to bottom, #f59e0b, #d97706);
+        background: linear-gradient(to left, rgba(255, 255, 255, 0.05), var(--accent-blue));
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        color: #051b3b;
+        color: #fff; /*051b3b;*/
 
         /* --- Posisi Mentok Kiri (Sudah dirapikan) --- */
         position: absolute;
@@ -613,7 +617,7 @@
 
     .badge-hot-line {
         position: absolute;
-        top: -10px;
+        top: -11px; /*10px*/
         right: 15px;
         background: linear-gradient(to bottom, #f59e0b, #d97706);
         color: #fff;
@@ -621,7 +625,7 @@
         font-weight: 700;
         text-transform: uppercase;
         padding: 3px 10px;
-        border-radius: 4px;
+        border-radius: 10px; /*4px*/
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         z-index: 10;
         letter-spacing: 0.5px;
@@ -697,9 +701,9 @@
 
     .pay-name {
         font-size: 13px;
-        font-weight: 600;
+        font-weight: 700;
         color: #333;
-        font-family: 'orbitron';
+        font-family: 'plus jakarta sans';
     }
 
     .pay-price {
@@ -707,6 +711,8 @@
         font-weight: 700;
         color: #333;
         text-align: right;
+        font-family: 'oxanium';
+        padding-top: 2px;
     }
 
     /* --- SUMMARY SECTION --- */
