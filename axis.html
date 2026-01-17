@@ -27,8 +27,8 @@
     <style>
     /* --- RESET & VARIABLES --- */
     :root {
-        --bg-dark: #197921;
-        --card-bg: #1c4a24;
+        --bg-dark: #4618AC;
+        --card-bg: #4217a0;
         --item-bg: #101935;
         --text-white: #ffffff;
         --text-grey: #a0aec0;
@@ -297,7 +297,7 @@
     /* 0 0 = Posisi tengah */
     /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
     /* rgba = Warna hitam dengan transparansi 50% */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 7px rgba(0, 0, 0, 1);
     
     /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
     position: relative;
@@ -438,12 +438,13 @@
     .form-input {
         width: 100%;
         padding: 12px 12px 12px 45px;
-        background-color: var(--bg-dark);
+        background-color: white;
         border: 2px solid transparent;
         border-radius: 0px;
         font-family: var(--font-body);
-        font-size: 12px;
-        font-weight: 400;
+        font-size: 14px;
+        font-weight: 600;
+        color: #333;
         transition: all 0.3s ease;
     }
 
@@ -452,7 +453,7 @@
         left: 14px;
         top: 50%;
         transform: translateY(-50%);
-        color: #fff;
+        color: #666;
         font-size: 18px;
     }
 
@@ -731,7 +732,7 @@
         justify-content: space-between;
         margin-bottom: 8px;
         font-size: 13px;
-        color: white;
+        color: var(--text-grey);
     }
 
     .summary-row.total {
