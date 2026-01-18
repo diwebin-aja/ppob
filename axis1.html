@@ -33,7 +33,7 @@
         --text-white: #ffffff;
         --text-grey: #a0aec0;
         --accent-blue: #3b82f6;
-        --accent-orange: #f59e0b; /*#fad318*/
+        --accent-orange: #fad318; /*#fad318*/
         --danger-red: #ff4757;
         --success-green: #10b981;
 
@@ -288,6 +288,25 @@
 
     .blue-card {
     background-color: var(--card-bg);
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border: 0px solid transparent;
+    
+    /* --- UPDATE: SHADOW SEMUA SISI --- */
+    /* 0 0 = Posisi tengah */
+    /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
+    /* rgba = Warna hitam dengan transparansi 50% */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+    
+    /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
+    position: relative;
+    z-index: 1;
+}
+
+.blue-card-co {
+    background-color: #5825cc;
     border-radius: 4px;
     padding: 15px;
     margin-bottom: 20px;
@@ -794,7 +813,7 @@
 
     .btn-checkout {
     font-family: var(--font-body);
-    background: linear-gradient(to bottom, #fad318, #d97706);
+    background: linear-gradient(to bottom, #fad318, #fad318);
     color: var(--bg-dark); /* Teks warna gelap agar kontras */
     font-weight: 800;
     border: none;
@@ -1516,7 +1535,7 @@
 
 
         <!-- SUMMARY FORM -->
-        <div class="blue-card">
+        <div class="blue-card-co">
             <div class="step-header">
                 <div class="step-title">Ringkasan Pesanan</div>
             </div>
