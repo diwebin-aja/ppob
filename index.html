@@ -23,7 +23,6 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-
     <style>
     /* --- RESET & VARIABLES --- */
     :root {
@@ -37,9 +36,131 @@
         --danger-red: #ff4757;
         --success-green: #10b981;
 
-        --font-title: 'Outfit', sans-serif;
-        --font-body: 'plus jakarta sans', sans-serif;
+        --font-title: 'metropolis', sans-serif;
+        --font-body: 'metropolis', sans-serif
     }
+ 
+    /* --- METROPOLIS FONT FACE --- */
+
+/* 1. Thin (100) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-Thin.otf') format('opentype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+/* 2. ExtraLight (200) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-ExtraLight.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-ExtraLightItalic.otf') format('opentype');
+    font-weight: 200;
+    font-style: italic;
+}
+
+/* 3. Light (300) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-Light.otf') format('opentype');
+    font-weight: 300;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-LightItalic.otf') format('opentype');
+    font-weight: 300;
+    font-style: italic;
+}
+
+/* 4. Regular (400) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-Regular.otf') format('opentype');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-RegularItalic.otf') format('opentype');
+    font-weight: 400;
+    font-style: italic;
+}
+
+/* 5. Medium (500) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-MediumItalic.otf') format('opentype');
+    font-weight: 500;
+    font-style: italic;
+}
+
+/* 6. SemiBold (600) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-SemiBold.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-SemiBoldItalic.otf') format('opentype');
+    font-weight: 600;
+    font-style: italic;
+}
+
+/* 7. Bold (700) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-BoldItalic.otf') format('opentype');
+    font-weight: 700;
+    font-style: italic;
+}
+
+/* 8. ExtraBold (800) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-ExtraBold.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-ExtraBoldItalic.otf') format('opentype');
+    font-weight: 800;
+    font-style: italic;
+}
+
+/* 9. Black (900) */
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-Black.otf') format('opentype');
+    font-weight: 900;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Metropolis';
+    src: url('Metropolis-BlackItalic.otf') format('opentype');
+    font-weight: 900;
+    font-style: italic;
+}
 
     * {
         margin: 0;
@@ -52,13 +173,13 @@
     body {
         background-color: var(--bg-dark);
         color: var(--text-white);
-        font-family: var(--font-body);
+        font-family: 'metropolis';
         max-width: 480px;
         margin: 0 auto;
         border-left: 1px solid #1c2e4a;
         border-right: 1px solid #1c2e4a;
         min-height: 100vh;
-        padding-bottom: 40px; /* Space for sticky footer */
+        padding-bottom: 3rem; /* Space for sticky footer */
         position: relative;
         scroll-behavior: smooth;
     }
@@ -168,13 +289,15 @@
 
     .tag {
         background-color: #e2e8f0;
-        color: #333;
+        color: #444;
         padding: 4px 12px;
+        padding-top: 5px;
         border-radius: 3px;
-        font-size: 11px;
+        font-size: 13px;
         font-weight: 600;
         text-decoration: none;
         white-space: nowrap;
+        margin-bottom: 10px;
     }
 
     /* --- HERO BANNER --- */
@@ -186,7 +309,7 @@
 
     .hero-card {
         background: linear-gradient(90deg, #5e1194 0%, #a419b0 100%);
-        border-radius: 12px;
+        border-radius: 7px;
         overflow: hidden;
         position: relative;
         height: 140px;
@@ -227,6 +350,40 @@
         color: #f1f1f1;
     }
 
+    /* --- BREADCRUMB --- */
+    .breadcrumb-container {
+        padding: 15px 15px 5px 15px; /* Jarak agar rapi */
+        font-size: 12px;
+        color: var(--text-grey);
+        font-family: var(--font-body);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .breadcrumb-link {
+        text-decoration: none;
+        color: var(--text-grey);
+        font-weight: 500;
+        transition: color 0.2s;
+
+    }
+
+    .breadcrumb-link:hover {
+        color: var(--accent-orange);
+        text-decoration: underline;
+    }
+
+    .breadcrumb-separator {
+        font-size: 10px;
+        color: #4a5568; /* Warna divider agak gelap */
+    }
+
+    .breadcrumb-active {
+        color: var(--text-white);
+        font-weight: 600; /* Bold untuk menandakan halaman aktif */
+    }
+
     /* --- GENERAL CARD STYLES --- */
     .order-container {
         padding: 0 15px;
@@ -251,14 +408,14 @@
     }
 
     .game-info h2 {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 700;
         line-height: 1.2;
         margin-bottom: 3px;
     }
 
     .game-info span {
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-grey);
     }
 
@@ -266,7 +423,7 @@
         display: flex;
         align-items: center;
         gap: 5px;
-        font-size: 12px;
+        font-size: 13px;
         color: var(--text-grey);
     }
 
@@ -305,9 +462,9 @@
     z-index: 1;
 }
 
-.blue-card-co {
-    background-color: #5825cc;
-    border-radius: 0px;
+.blue-card-pulsa {
+    background-color: var(--card-bg);
+    border-radius: 4px;
     padding: 15px;
     margin-bottom: 20px;
     transition: all 0.3s ease;
@@ -317,7 +474,26 @@
     /* 0 0 = Posisi tengah */
     /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
     /* rgba = Warna hitam dengan transparansi 50% */
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.7);
+    box-shadow: 0 0 15px rgba(204, 189, 189, 0.3);
+    
+    /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
+    position: relative;
+    z-index: 1;
+}
+
+.blue-card-co {
+    background-color: #5825cc;
+    border-radius: 0px;
+    padding: 15px; 
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    border: 0px solid transparent;
+    
+    /* --- UPDATE: SHADOW SEMUA SISI --- */
+    /* 0 0 = Posisi tengah */
+    /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
+    /* rgba = Warna hitam dengan transparansi 50% */
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     
     /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
     position: relative;
@@ -326,11 +502,24 @@
 
     /* --- CARD HISTORY STYLE BARU --- */
     .card-history {
-        background-color: #101935;
-        border-radius: 12px;
+        background-color: #0c0d1933;
+        border-radius: 0px;
         padding: 15px;
         margin-bottom: 20px;
-        border: 1px dashed #2d3748;
+        margin-top: 4rem;
+        border: 1px dashed #93a9c5;
+    }
+
+    .empty-history {
+        text-align: center;
+        font-size: 12px;
+        color: var(--text-grey);
+        padding: 10px;
+        /*font-style: italic;*/
+        background: var(--bg-dark);
+        padding: 20px;
+        border-radius: 5px;
+        
     }
 
     .card-history .step-header {
@@ -344,8 +533,8 @@
     }
 
     .history-item {
-        background: rgba(255, 255, 255, 0.05);
-        border: 1px solid #2d3748;
+        background: var(--bg-dark);
+        border: 0px solid #2d3748;
         border-radius: 8px;
         padding: 10px;
         cursor: pointer;
@@ -398,17 +587,6 @@
         color: var(--accent-orange);
     }
 
-    .empty-history {
-        text-align: center;
-        font-size: 12px;
-        color: var(--text-grey);
-        padding: 10px;
-        /*font-style: italic;*/
-        background: rgba(255, 255, 255, 0.05);
-        padding: 20px;
-        border-radius: 12px;
-    }
-
     .step-header {
         display: flex;
         align-items: center;
@@ -420,13 +598,14 @@
             color: white;
             width: 24px; 
             height: 24px;
-            border-radius: 0;
+            border-radius: 3px;
             display: flex; 
             align-items: center; 
             justify-content: center;
             font-size: 12px; 
             font-weight: bold;
-            margin-right: 10px;
+            margin-right: 10px; 
+            
         }
 
     .icon-riwayat {
@@ -468,7 +647,6 @@
         transition: all 0.3s ease;
         transition: border-color 150ms ease-in-out, background-color 150ms ease-in-out, outline 150ms ease-in-out;
         box-shadow: inset 0 1px 3px #1f0a4d;
-
     }
 
     .input-icon {
@@ -577,7 +755,7 @@
         font-family: 'oxanium';
 
         /* --- Warna --- */
-        background: linear-gradient(to right, #4618AC, grey);
+        background: linear-gradient(to right, #4618AC, #4618AC);
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         color: #fff; /*051b3b;*/
 
@@ -614,6 +792,7 @@
         margin-bottom: 8px;
         letter-spacing: 0.5px;
         font-weight: 700;
+        
     }
 
     .payment-item {
@@ -632,11 +811,35 @@
         transition: all 0.2s;
     }
 
+    .payment-item-qris {
+        position: relative;
+        overflow: visible !important;
+        margin-top: 15px !important;
+        background-color: #e2e8f0;
+        border-radius: 0px;
+        padding: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+    }
+
     .payment-item:hover {
+        transform: translateY(-2px);
+    }
+    .payment-item-qris:hover {
         transform: translateY(-2px);
     }
 
     .payment-item.active {
+        border-color: var(--accent-orange);
+        background-color: #fff9ed;
+    }
+
+    .payment-item-qris.active {
         border-color: var(--accent-orange);
         background-color: #fff9ed;
     }
@@ -660,13 +863,14 @@
         font-weight: 700;
         text-transform: uppercase;
         padding: 3px 10px;
-        border-radius: 0px; /*4px*/
+        border-radius: 5px; /*4px*/
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         z-index: 10;
         letter-spacing: 0.5px;
         display: flex;
         align-items: center;
         gap: 4px;
+       
     }
 
     .badge-hot-line i {
@@ -738,7 +942,7 @@
         font-size: 13px;
         font-weight: 700;
         color: #333;
-        font-family: 'plus jakarta sans';
+       
     }
 
     .pay-price {
@@ -1201,6 +1405,12 @@
 
     </header>
 
+    <div class="breadcrumb-container">
+        <a href="index.html" class="breadcrumb-link">Beranda</a>
+        <i class="fa-solid fa-chevron-right breadcrumb-separator" style="font-size: 9px; color: white;"></i>
+        <span class="breadcrumb-active">Pulsa Axis</span>
+    </div>
+
     <section class="hero-section">
 
         <div class="hero-card">
@@ -1269,13 +1479,13 @@
 
 
 
-        <div class="blue-card" id="form-identity-card">
+        <div class="blue-card-pulsa" id="form-identity-card">
 
             <div class="step-header">
 
                 <div class="step-num">1</div>
 
-                <div class="step-title">Masukkan Nomor Handphone</div>
+                <div class="step-title">Masukkan Nomor Axis</div>
 
             </div>
 
@@ -1409,7 +1619,7 @@
 
                 
 
-                <div class="payment-item" onclick="selectPayment(this, 'QRIS (Semua E-Wallet)', 750, 'qris')">
+                <div class="payment-item-qris" onclick="selectPayment(this, 'QRIS (Semua E-Wallet)', 750, 'qris')">
 
                     <div class="badge-hot-line"><i class="fa-solid fa-fire"></i> REKOMENDASI</div>
 
