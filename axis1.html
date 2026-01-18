@@ -186,7 +186,7 @@
 
     .hero-card {
         background: linear-gradient(90deg, #5e1194 0%, #a419b0 100%);
-        border-radius: 12px;
+        border-radius: 7px;
         overflow: hidden;
         position: relative;
         height: 140px;
@@ -308,7 +308,7 @@
 .blue-card-co {
     background-color: #5825cc;
     border-radius: 0px;
-    padding: 15px;
+    padding: 15px; 
     margin-bottom: 20px;
     transition: all 0.3s ease;
     border: 0px solid transparent;
@@ -317,7 +317,7 @@
     /* 0 0 = Posisi tengah */
     /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
     /* rgba = Warna hitam dengan transparansi 50% */
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
     
     /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
     position: relative;
@@ -326,11 +326,11 @@
 
     /* --- CARD HISTORY STYLE BARU --- */
     .card-history {
-        background-color: #101935;
-        border-radius: 12px;
+        background-color: #0c0d1933;
+        border-radius: 0px;
         padding: 15px;
         margin-bottom: 20px;
-        border: 1px dashed #2d3748;
+        border: 1px dashed #93a9c5;
     }
 
     .card-history .step-header {
@@ -406,7 +406,7 @@
         /*font-style: italic;*/
         background: rgba(255, 255, 255, 0.05);
         padding: 20px;
-        border-radius: 12px;
+        border-radius: 5px;
     }
 
     .step-header {
@@ -632,11 +632,35 @@
         transition: all 0.2s;
     }
 
+    .payment-item-qris {
+        position: relative;
+        overflow: visible !important;
+        margin-top: 15px !important;
+        background-color: #e2e8f0;
+        border-radius: 0px;
+        padding: 9px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 8px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+    }
+
     .payment-item:hover {
+        transform: translateY(-2px);
+    }
+    .payment-item-qris:hover {
         transform: translateY(-2px);
     }
 
     .payment-item.active {
+        border-color: var(--accent-orange);
+        background-color: #fff9ed;
+    }
+
+    .payment-item-qris.active {
         border-color: var(--accent-orange);
         background-color: #fff9ed;
     }
@@ -660,7 +684,7 @@
         font-weight: 700;
         text-transform: uppercase;
         padding: 3px 10px;
-        border-radius: 0px; /*4px*/
+        border-radius: 5px; /*4px*/
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         z-index: 10;
         letter-spacing: 0.5px;
@@ -1409,7 +1433,7 @@
 
                 
 
-                <div class="payment-item" onclick="selectPayment(this, 'QRIS (Semua E-Wallet)', 750, 'qris')">
+                <div class="payment-item-qris" onclick="selectPayment(this, 'QRIS (Semua E-Wallet)', 750, 'qris')">
 
                     <div class="badge-hot-line"><i class="fa-solid fa-fire"></i> REKOMENDASI</div>
 
