@@ -682,8 +682,8 @@
 .sheet-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0, 0, 0, 0.2);
-    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.4);
+    /*backdrop-filter: blur(3px);*/
     z-index: 2000;
     opacity: 0;
     visibility: hidden;
@@ -807,6 +807,80 @@
         border-color: #6222cc;
     }
     /*akhir*/
+
+    /* --- TIMELINE STYLE --- */
+.timeline-container {
+    position: relative;
+    padding-left: 0px;
+    margin-bottom: 20px;
+}
+
+/* Garis Vertikal Utama */
+.timeline-container::before {
+    content: '';
+    position: absolute;
+    top: 5px;
+    left: 14px; /* Posisi garis di tengah marker */
+    height: 90%; /* Tidak sampai full bawah agar rapi */
+    width: 2px;
+    background: rgba(255, 255, 255, 0.1); /* Garis samar */
+    z-index: 0;
+}
+
+.timeline-item {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+    z-index: 1; /* Agar marker di atas garis */
+}
+
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Bulatan Angka (Marker) */
+.timeline-marker {
+    width: 30px;
+    height: 30px;
+    min-width: 30px; /* Mencegah penyetetan */
+    background: var(--bg-dark);
+    border: 2px solid var(--accent-blue);
+    color: var(--accent-blue);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 800;
+    box-shadow: 0 0 0 4px var(--bg-dark); /* Memberi jarak visual dari garis */
+}
+
+/* Marker Khusus Step Terakhir (Sukses) */
+.timeline-marker.success {
+    background: var(--success-green);
+    border-color: var(--success-green);
+    color: #fff;
+    font-size: 1rem;
+}
+
+.timeline-content {
+    padding-top: 2px;
+}
+
+.timeline-content h5 {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.timeline-content p {
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.4;
+    margin: 0;
+}
 
     .wa-disclaimer {
         font-size: 10px;
@@ -1576,7 +1650,8 @@
             <div class="game-sub-info">
                 <span id="dynamic-subtitle">Axis Indonesia</span>
                 <span class="divider">/</span>
-                <a href="#" class="link-tutorial">Cara Pembelian <i class="ri-question-line"></i></a>
+
+<a href="javascript:void(0)" class="link-tutorial" onclick="openTutorial()">Cara Pembelian <i class="ri-question-line"></i></a>
             </div>
         </div>
     </div>
@@ -1944,6 +2019,53 @@
     </ul>
 
     <button class="btn-sheet-close" onclick="closeGuide()">Saya Mengerti</button>
+</div>
+
+<div class="bottom-sheet" id="tutorialSheet">
+    <div class="sheet-handle-bar"></div>
+    
+    <div class="sheet-header-title">
+        <i class="ri-question-line" style="color: var(--accent-orange);"></i>
+        <h3>Cara Pembelian</h3>
+    </div>
+
+    <div class="timeline-container">
+        
+        <div class="timeline-item">
+            <div class="timeline-marker">1</div>
+            <div class="timeline-content">
+                <h5>Masukkan Data Akun</h5>
+                <p>Ketik nomor HP atau ID Game kamu dengan benar pada kolom yang tersedia.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker">2</div>
+            <div class="timeline-content">
+                <h5>Pilih Nominal</h5>
+                <p>Pilih jumlah pulsa atau item game yang ingin kamu beli dari daftar produk.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker">3</div>
+            <div class="timeline-content">
+                <h5>Metode Pembayaran</h5>
+                <p>Pilih metode pembayaran yang diinginkan (E-Wallet, QRIS, atau Transfer Bank).</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-marker success"><i class="ri-check-line"></i></div>
+            <div class="timeline-content">
+                <h5>Konfirmasi & Bayar</h5>
+                <p>Klik tombol konfirmasi, lakukan pembayaran, dan item akan masuk otomatis dalam hitungan detik!</p>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="btn-sheet-close" onclick="closeTutorial()">Tutup Panduan</button>
 </div>
 
 
@@ -2378,6 +2500,19 @@
         document.getElementById('sheetOverlay').classList.remove('active');
         document.getElementById('guideSheet').classList.remove('active');
     }
+
+// tutorial cara beli
+// --- FUNGSI MODAL TUTORIAL (TIMELINE) ---
+function openTutorial() {
+    // Pakai overlay yang sama dengan guide sebelumnya
+    document.getElementById('sheetOverlay').classList.add('active'); 
+    document.getElementById('tutorialSheet').classList.add('active');
+}
+
+function closeTutorial() {
+    document.getElementById('sheetOverlay').classList.remove('active');
+    document.getElementById('tutorialSheet').classList.remove('active');
+}
 </script>
 
 
