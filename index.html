@@ -1763,49 +1763,49 @@
 
 
 
-   <script>
+<script>
     // --- 1. DATA MASTER PROVIDER ---
     const providerConfig = {
         'axis': {
-            name: 'AXIS',       // Untuk Judul Besar
-            label: 'Axis',      // Untuk Label Pendek (Breadcrumb/Tag)
+            name: 'AXIS',
+            label: 'Axis',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Axis_logo_2015.svg',
-            color: '#6222cc',   // Ungu
+            color: '#6222cc',
             placeholder: '0838 xxxx'
         },
         'telkomsel': {
             name: 'TELKOMSEL',
             label: 'Telkomsel',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/Telkomsel_2021_icon.svg/1200px-Telkomsel_2021_icon.svg.png',
-            color: '#ec1c24',   // Merah
+            color: '#ec1c24',
             placeholder: '0812 xxxx'
         },
         'indosat': {
             name: 'INDOSAT',
             label: 'Indosat',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/a/ac/Indosat_Ooredoo_Hutchison.svg',
-            color: '#ffc107',   // Kuning
+            color: '#ffc107',
             placeholder: '0858 xxxx'
         },
         'xl': {
             name: 'XL AXIATA',
             label: 'XL',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/5/55/XL_Axiata_2016_logo.svg',
-            color: '#002dbb',   // Biru
+            color: '#002dbb',
             placeholder: '0878 xxxx'
         },
         'tri': {
             name: 'TRI (3)',
             label: 'Tri',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Tri_2016_logo.svg/267px-Tri_2016_logo.svg.png',
-            color: '#000000',   // Hitam
+            color: '#000000',
             placeholder: '0896 xxxx'
         },
         'smartfren': {
             name: 'SMARTFREN',
             label: 'Smartfren',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/0/02/Smartfren_2019_logo.svg',
-            color: '#ff4ea3',   // Pink
+            color: '#ff4ea3',
             placeholder: '0888 xxxx'
         }
     };
@@ -1881,10 +1881,10 @@
         document.getElementById('dynamic-title').innerText = `Pulsa ${config.name} Reguler`;
         document.getElementById('dynamic-subtitle').innerText = `${config.name} Indonesia`;
 
-        // 3. Update Breadcrumb & Input Label (BAGIAN BARU)
-        document.getElementById('dynamic-breadcrumb').innerText = `Pulsa ${config.label}`; // "Pulsa Indosat"
-        document.getElementById('input-step-title').innerText = `Masukkan Nomor ${config.label}`; // "Masukkan Nomor Indosat"
-        document.getElementById('input-phone').placeholder = config.placeholder; // Placeholder sesuai provider
+        // 3. Update Breadcrumb & Input Label
+        document.getElementById('dynamic-breadcrumb').innerText = `Pulsa ${config.label}`; 
+        document.getElementById('input-step-title').innerText = `Masukkan Nomor ${config.label}`; 
+        document.getElementById('input-phone').placeholder = config.placeholder; 
 
         // 4. Render Tags Navigasi
         const tagsContainer = document.getElementById('provider-tags');
@@ -1900,7 +1900,7 @@
             // Highlight Tag Aktif
             if (key === currentKey) {
                 a.style.background = config.color;
-                a.style.color = (key === 'indosat') ? '#000' : '#fff'; // Indosat teks hitam biar terbaca
+                a.style.color = (key === 'indosat') ? '#000' : '#fff'; 
                 a.style.fontWeight = 'bold';
             }
             tagsContainer.appendChild(a);
@@ -1922,14 +1922,14 @@
         });
     }
 
-    // --- LOGIC TRANSAKSI (Sama seperti sebelumnya) ---
+    // --- LOGIC TRANSAKSI ---
 
     // 1. Pilih Produk
     function selectProduct(element, price, name) {
         const phoneInput = document.getElementById('input-phone');
         const formCard = document.getElementById('form-identity-card');
 
-        // Validasi Nomor HP Minimal 10 digit
+        // Validasi Nomor HP Minimal 9 digit
         if (phoneInput.value.length < 9) {
             formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
             formCard.classList.add('card-danger');
@@ -1988,26 +1988,11 @@
             document.getElementById('summary-price').innerText = formatRupiah(currentProductPrice);
             document.getElementById('summary-fee').innerText = formatRupiah(currentFee);
             document.getElementById('summary-total').innerText = formatRupiah(grandTotal);
+            document.getElementById('total-display').innerText = formatRupiah(grandTotal); // Update Sticky Footer juga
         }
     }
 
-    // 5. Input Listener (Hapus merah error saat ngetik)
-    document.getElementById('input-phone').addEventListener('input', function() {
-        this.classList.remove('input-danger');
-        document.getElementById('form-identity-card').classList.remove('card-danger');
-    });
-
-    // 6. Jalankan Script Saat Load
-    document.addEventListener('DOMContentLoaded', () => {
-        initDynamicPage();
-        loadHistory(); // Jika ada fungsi history
-    });
-
-    // --- (Paste fungsi Modal, History, dan Download Invoice Anda disini) ---
-    // Pastikan fungsi: processOrder(), loadHistory(), showInvoiceView(), dll tetap ada.
-    
-    // CONTOH SHORTCUT PROCESS ORDER (AGAR TOMBOL JALAN)
-// --- LOGIC TOMBOL KONFIRMASI PEMBAYARAN ---
+    // --- LOGIC PROSES ORDER & SIMULASI ---
     function processOrder() {
         // 1. Validasi Input
         const phoneInput = document.getElementById('input-phone');
@@ -2018,13 +2003,11 @@
         }
         if (currentProductPrice === 0) {
             alert("Silakan pilih produk terlebih dahulu!");
-            // Scroll ke produk
             document.getElementById('products-container').scrollIntoView({behavior: 'smooth'});
             return;
         }
         if (currentPaymentMethod === "") {
             alert("Silakan pilih metode pembayaran!");
-            // Scroll ke payment
             document.getElementById('payment-section').scrollIntoView({behavior: 'smooth'});
             return;
         }
@@ -2034,65 +2017,55 @@
         const randomTrx = Math.floor(100000 + Math.random() * 900000); // ID Acak
         const randomVA = "8800 " + Math.floor(1000000000 + Math.random() * 9000000000); // VA Acak
         const now = new Date();
-        const timeString = now.getHours() + ":" + String(now.getMinutes()).padStart(2, '0');
+        const timeString = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
         const dateStr = now.getDate() + '/' + (now.getMonth()+1) + '/' + now.getFullYear();
 
-        // 3. Simpan Data Transaksi (Untuk Invoice Nanti)
+        // 3. Simpan Data Transaksi (Object Lengkap)
         const transactionData = {
             id: randomTrx,
-            date: dateStr + ' ' + timeString,
+            dateFull: dateStr + ' ' + timeString, // Simpan tanggal lengkap
+            time: timeString, // Simpan jam saja untuk invoice
             phone: phoneInput.value,
             product: currentProductName,
             method: currentPaymentMethod,
-            total: grandTotal
+            total: grandTotal,
+            logo: currentPaymentLogoSrc
         };
 
         // --- UPDATE TAMPILAN MODAL SIMULASI ---
-        
-        // A. Reset View
         document.getElementById('invoice-view').style.display = 'none';
         document.getElementById('sim-view').style.display = 'block';
 
-        // B. Isi Data ke Modal
+        // Isi Data ke Modal Simulasi
         document.getElementById('sim-bank-logo').src = currentPaymentLogoSrc;
         document.getElementById('sim-payment-name').innerText = currentPaymentMethod;
         document.getElementById('sim-total').innerText = formatRupiah(grandTotal);
 
-        // C. Logika Tampilan (QRIS vs Virtual Account)
+        // Logika Tampilan (QRIS vs VA)
         const qrContainer = document.getElementById('sim-qr-container');
         const vaContainer = document.getElementById('sim-va-container');
         
         if (currentPaymentType === 'qris') {
-            // Tampilkan QR
             qrContainer.classList.add('active');
-            vaContainer.classList.add('hidden'); // Sembunyikan VA
-            
+            vaContainer.classList.add('hidden');
             // Generate QR Dummy
             const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HUPAY-${randomTrx}`;
             document.getElementById('sim-qr-image').src = qrApiUrl;
         } else {
-            // Tampilkan Nomor VA
-            qrContainer.classList.remove('active'); // Sembunyikan QR
+            qrContainer.classList.remove('active');
             vaContainer.classList.remove('hidden');
-            
             document.getElementById('sim-va-number').innerText = randomVA;
             document.getElementById('sim-bank-name').innerText = currentPaymentMethod;
         }
 
-        // 4. Siapkan Data Invoice Sukses (Hidden dulu)
-        document.getElementById('inv-trx-id').innerText = transactionData.id;
-        document.getElementById('inv-phone').innerText = transactionData.phone;
-        document.getElementById('inv-product').innerText = transactionData.product;
-        document.getElementById('inv-method').innerText = transactionData.method;
-        document.getElementById('inv-total').innerText = formatRupiah(transactionData.total);
-        document.getElementById('inv-time').innerText = timeString;
-
-        // 5. Buka Modal
+        // 4. Buka Modal
         document.getElementById('modal-overlay').classList.add('active');
 
-        // 6. Timer Otomatis ke Sukses (3 Detik)
+        // 5. Simpan ke LocalStorage SEKARANG (Agar langsung muncul di history sebagai pending/sukses)
+        // Disini kita anggap langsung sukses setelah 3 detik
         setTimeout(() => {
             showSuccessInvoice(transactionData);
+            saveToLocalStorage(transactionData); // Simpan setelah sukses
         }, 3000);
     }
 
@@ -2101,17 +2074,111 @@
         document.getElementById('sim-view').style.display = 'none';
         document.getElementById('invoice-view').style.display = 'flex';
         
-        // Simpan ke History (LocalStorage)
-        saveToLocalStorage(data);
+        // Populate Data Invoice
+        document.getElementById('inv-trx-id').innerText = data.id;
+        document.getElementById('inv-phone').innerText = data.phone;
+        document.getElementById('inv-product').innerText = data.product;
+        document.getElementById('inv-method').innerText = data.method;
+        document.getElementById('inv-total').innerText = formatRupiah(data.total);
+        document.getElementById('inv-time').innerText = data.time;
     }
 
+    // --- MANAJEMEN RIWAYAT TRANSAKSI (UPDATED) ---
+
+    // 1. Simpan Data ke LocalStorage
     function saveToLocalStorage(trxData) {
-        const history = JSON.parse(localStorage.getItem('topupHistory')) || [];
-        history.unshift(trxData);
-        localStorage.setItem('topupHistory', JSON.stringify(history));
-        // Refresh list history di halaman bawah
-        if(typeof loadHistory === "function") loadHistory(); 
+        const history = JSON.parse(localStorage.getItem('topupHistoryFull')) || [];
+        history.unshift(trxData); // Tambah ke atas
+        localStorage.setItem('topupHistoryFull', JSON.stringify(history));
+        loadHistory(); // Refresh tampilan list
     }
+
+    // 2. Tampilkan List History (UPDATED: Tambah onclick)
+    function loadHistory() {
+        const history = JSON.parse(localStorage.getItem('topupHistoryFull')) || [];
+        const container = document.getElementById('history-list-container');
+        
+        if (history.length === 0) {
+            container.innerHTML = '<div class="empty-history">Belum ada transaksi.</div>';
+            return;
+        }
+
+        container.innerHTML = '';
+        history.forEach(trx => {
+            // Kita tambahkan onclick="openHistoryDetail(...)"
+            container.innerHTML += `
+            <div class="history-item" onclick="openHistoryDetail(${trx.id})">
+                <div class="h-left">
+                    <span class="h-date">${trx.dateFull}</span>
+                    <span class="h-product">${trx.product}</span>
+                    <span style="font-size:10px; color:#a0aec0;">${trx.phone}</span>
+                </div>
+                <div class="h-right">
+                    <div class="h-status">Sukses</div>
+                    <div class="h-price">${formatRupiah(trx.total)}</div>
+                </div>
+            </div>`;
+        });
+    }
+
+    // 3. FUNGSI BARU: Buka Detail Invoice dari History
+    function openHistoryDetail(trxId) {
+        const history = JSON.parse(localStorage.getItem('topupHistoryFull')) || [];
+        // Cari data transaksi berdasarkan ID
+        const trx = history.find(item => item.id == trxId);
+
+        if (trx) {
+            // Tampilkan Invoice View langsung (Bypass simulasi)
+            document.getElementById('sim-view').style.display = 'none';
+            document.getElementById('invoice-view').style.display = 'flex';
+            
+            // Isi Data
+            document.getElementById('inv-trx-id').innerText = trx.id;
+            document.getElementById('inv-phone').innerText = trx.phone;
+            document.getElementById('inv-product').innerText = trx.product;
+            document.getElementById('inv-method').innerText = trx.method;
+            document.getElementById('inv-total').innerText = formatRupiah(trx.total);
+            document.getElementById('inv-time').innerText = trx.time;
+
+            // Buka Modal
+            document.getElementById('modal-overlay').classList.add('active');
+        } else {
+            alert("Data transaksi tidak ditemukan.");
+        }
+    }
+
+    // --- UTILS LAINNYA ---
+
+    // Fungsi Tutup Modal
+    function closeModal() {
+        document.getElementById('modal-overlay').classList.remove('active');
+        // Reset state
+        document.querySelectorAll('.item-card, .payment-item, .payment-item-qris').forEach(e => e.classList.remove('active'));
+        currentProductPrice = 0;
+        updateSummary();
+    }
+
+    // Fungsi Tombol Cek Pembayaran (Dummy)
+    function checkPaymentSim() {
+        alert("Pembayaran sedang dicek...");
+    }
+
+    // Fungsi Download Invoice (Print)
+    function downloadInvoice() {
+        window.print();
+    }
+
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        initDynamicPage();
+        loadHistory();
+        
+        // Hapus border error saat mengetik
+        document.getElementById('input-phone').addEventListener('input', function() {
+            this.classList.remove('input-danger');
+            document.getElementById('form-identity-card').classList.remove('card-danger');
+        });
+    });
 
 </script>
 
