@@ -899,9 +899,9 @@
     }
 
     .item-card {
-        background: rgba(255, 255, 255, 0.05);
+        background: var(--bg-dark);/*rgba(255, 255, 255, 0.05);*/
         border: 0px solid #2d3748;
-        border-radius: 0px;
+        border-radius: 8px;
         padding: 12px;
         transition: all 0.2s;
         display: flex;
@@ -910,7 +910,7 @@
         min-height: 80px;
         position: relative;
         overflow: hidden;
-        box-shadow: 0 15px 24px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
     }
 
     .item-card::before {
@@ -986,9 +986,9 @@
 
         /* --- Dimensi & Radius --- */
         width: auto;
-        padding: 4px 12px;
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
+        padding: 4px 12px; 
+        border-top-right-radius: 20px;
+        border-bottom-right-radius: 20px;
 
         /* --- TAMBAHAN WAJIB --- */
         z-index: 10;
@@ -1020,7 +1020,7 @@
         overflow: visible !important;
         margin-top: 15px !important;
         background-color: #e2e8f0;
-        border-radius: 0px;
+        border-radius: 8px;
         padding: 12px;
         display: flex;
         align-items: center;
@@ -1036,7 +1036,7 @@
         overflow: visible !important;
         margin-top: 15px !important;
         background-color: #e2e8f0;
-        border-radius: 0px;
+        border-radius: 8px;
         padding: 12px;
         display: flex;
         align-items: center;
