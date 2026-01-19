@@ -167,19 +167,24 @@ body {
         }
 
         /* --- FORMS --- */
-        .form-box {
-            display: none; /* Hidden by default */
-        }
-        
-        .form-box.active {
-            display: block;
-            animation: slideIn 0.3s ease-out;
-        }
+/* --- Hapus keyframes slideIn yang lama, ganti dengan ini --- */
+@keyframes smoothFade {
+    from { opacity: 1; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(10px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+/* --- Update class form-box --- */
+.form-box {
+    display: none;
+    opacity: 0;
+    /* Tambahan agar margin elemen terakhir (social icon) terbaca sempurna */
+    padding-bottom: 5px; 
+}
+
+.form-box.active {
+    display: block;
+    animation: smoothFade 0.4s ease-out forwards; /* Animasi lebih kalem */
+}
 
         .input-group {
             margin-bottom: 16px;
@@ -429,7 +434,7 @@ body {
         </div>
     </div>
 
-    <script>
+    <!--<script>
         function switchTab(tabName) {
             // Ambil semua tombol dan form
             const buttons = document.querySelectorAll('.tab-btn');
@@ -448,7 +453,82 @@ body {
                 document.getElementById('register-form').classList.add('active');
             }
         }
-    </script>
+    </script> JS awal dipakai tidak akan ada masalah-->
+    
 
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    // Set tinggi awal saat loading agar tidak kaget
+    const activeForm = document.querySelector('.form-box.active') || document.getElementById('login-form');
+    // Pastikan form terlihat dulu sebentar untuk diukur, lalu set active
+    if(activeForm) {
+       activeForm.style.display = 'block';
+       requestAnimationFrame(() => updateHeight(activeForm.id));
+    }
+});
+
+function switchTab(tabName) {
+    const container = document.querySelector('.auth-container');
+    const buttons = document.querySelectorAll('.tab-btn');
+    const forms = document.querySelectorAll('.form-box');
+
+    // 1. KUNCI TINGGI SAAT INI (Penting agar tidak berkedip/naik turun kaget)
+    // Kita paksa container diam di tinggi yang sekarang dulu
+    container.style.height = container.offsetHeight + 'px';
+
+    // 2. Reset tombol & Form
+    buttons.forEach(btn => btn.classList.remove('active'));
+    forms.forEach(form => {
+        form.classList.remove('active');
+        form.style.display = 'none'; // Sembunyikan form lama instan
+    });
+
+    // 3. Tentukan target baru
+    let targetId = (tabName === 'login') ? 'login-form' : 'register-form';
+    let targetIndex = (tabName === 'login') ? 0 : 1;
+    
+    // Aktifkan tombol
+    buttons[targetIndex].classList.add('active');
+
+    // 4. Munculkan form baru
+    const nextForm = document.getElementById(targetId);
+    nextForm.style.display = 'block'; // Tampilkan di DOM (masih opacity 0 dari CSS)
+
+    // Beri jeda super singkat agar browser sempat merender display:block
+    // sebelum kita jalankan animasi class 'active' & hitung tinggi
+    requestAnimationFrame(() => {
+        nextForm.classList.add('active'); // Memicu animasi fade CSS
+        updateHeight(targetId); // Memicu transisi tinggi container
+    });
+}
+
+function updateHeight(targetId) {
+    const container = document.querySelector('.auth-container');
+    const header = document.querySelector('.auth-header');
+    const tabs = document.querySelector('.auth-tabs');
+    const targetForm = document.getElementById(targetId);
+
+    // 1. Ambil Margin Bawah Header & Tabs dari CSS (agar tidak perlu menebak angka)
+    const headerStyle = window.getComputedStyle(header);
+    const tabsStyle = window.getComputedStyle(tabs);
+    
+    const headerMargin = parseFloat(headerStyle.marginBottom); // Harusnya 25px
+    const tabsMargin = parseFloat(tabsStyle.marginBottom);     // Harusnya 25px
+
+    // 2. Ambil Padding Atas & Bawah Container
+    const containerStyle = window.getComputedStyle(container);
+    const containerPadding = parseFloat(containerStyle.paddingTop) + parseFloat(containerStyle.paddingBottom); // Total 60px
+
+    // 3. Hitung Tinggi Total
+    // Tinggi elemen + margin antar elemen + tinggi form + padding container
+    const totalHeight = header.offsetHeight + headerMargin + 
+                        tabs.offsetHeight + tabsMargin + 
+                        targetForm.scrollHeight + 
+                        containerPadding;
+
+    // Terapkan tinggi baru
+    container.style.height = totalHeight + 'px';
+}
+    </script>
 </body>
 </html>
