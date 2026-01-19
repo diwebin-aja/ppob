@@ -27,7 +27,7 @@
     /* --- RESET & VARIABLES --- */
     :root {
         --bg-dark: #4618AC;
-        --card-bg: rgba(122, 89, 255, .08); /*#4217a0, #6135c0, eneba card pay #5825cc*/
+        --card-bg: rgba(122, 89, 255, .15); /*#4217a0, #6135c0, eneba card pay #5825cc*/
         --item-bg: #101935;
         --text-white: #ffffff;
         --text-grey: #a0aec0;
@@ -450,7 +450,7 @@
     margin-bottom: 20px;
     transition: all 0.3s ease;
     border: 0px solid transparent;
-    
+    border: 1px solid rgba(255, 255, 255, 0.1);
     /* --- UPDATE: SHADOW SEMUA SISI --- */
     /* 0 0 = Posisi tengah */
     /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
@@ -469,7 +469,7 @@
     margin-bottom: 20px;
     transition: all 0.3s ease;
     border: 0px solid transparent;
-    
+    border: 1px solid rgba(255, 255, 255, 0.1);
     /* --- UPDATE: SHADOW SEMUA SISI --- */
     /* 0 0 = Posisi tengah */
     /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
@@ -899,7 +899,7 @@
     }
 
     .item-card {
-        background: var(--bg-dark);/*rgba(255, 255, 255, 0.05);*/
+        background: rgba(0, 0, 0, 0.2);/*rgba(255, 255, 255, 0.05);*/
         border: 0px solid #2d3748;
         border-radius: 8px;
         padding: 12px;
@@ -911,6 +911,7 @@
         position: relative;
         overflow: hidden;
         box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2);
+        
     }
 
     .item-card::before {
@@ -925,7 +926,7 @@
         right: 0px;
 
         /* LIPATAN */
-        border-bottom: 15px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 22px solid rgba(255, 255, 255, 0.08);
         border-left: 0px solid var(--accent-orange);
 
         /* SUDUT */
