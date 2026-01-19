@@ -49,33 +49,64 @@
             text-decoration: none;
         }
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--bg-dark);
-            color: var(--text-white);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-            /* Background pattern halus opsional */
-            background-image: radial-gradient(circle at 10% 20%, rgba(90, 30, 200, 0.4) 0%, transparent 20%),
-                              radial-gradient(circle at 90% 80%, rgba(250, 211, 24, 0.1) 0%, transparent 20%);
-        }
+body {
+    font-family: var(--font-main);
+    background-color: var(--bg-dark);
+    color: var(--text-white);
+    display: flex;
+    justify-content: center;
+    
+    /* --- UBAH BAGIAN INI --- */
+    align-items: flex-start; /* Jangan center, tapi mulai dari atas */
+    padding-top: 10vh; /* Turunkan container 10% dari tinggi layar agar tidak nempel atas */
+    /* ----------------------- */
+    
+    min-height: 100vh;
+    padding-left: 20px; /* Tetap pakai padding samping jika perlu */
+    padding-right: 20px;
+    
+    /* Background pattern tetap sama */
+    background-image: radial-gradient(circle at 10% 20%, rgba(90, 30, 200, 0.4) 0%, transparent 20%),
+                      radial-gradient(circle at 90% 80%, rgba(250, 211, 24, 0.1) 0%, transparent 20%);
+}
 
         /* --- AUTH CARD CONTAINER --- */
-        .auth-container {
-            width: 100%;
-            max-width: 400px; /* Compact width */
-            background: var(--card-bg);
-            backdrop-filter: blur(12px); /* Efek blur kaca */
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 24px;
-            padding: 30px 25px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
-            animation: fadeIn 0.5s ease-out;
-        }
+ .auth-container {
+    width: 100%;
+    max-width: 400px;
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    padding: 30px 25px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 0.5s ease-out;
+
+    /* --- TAMBAHAN BARU --- */
+    min-height: 620px; /* Sesuaikan angka ini agar pas dengan form tertinggi */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Atau 'center' jika ingin konten selalu di tengah */
+    position: relative;
+    transition: min-height 0.3s ease; /* Transisi halus jika terpaksa berubah */
+    overflow: hidden; /* Penting agar transisi rapi */
+    transition: height 0.4s ease; /* Animasi perubahan tinggi */
+ }
+
+ /* Tambahkan ini agar jika ada ruang kosong, tombol atau footer terdorong ke bawah dengan rapi */
+.auth-container form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Menyebar konten */
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        min-height: auto; /* Di HP biarkan auto agar tidak ada space kosong berlebih */
+    }
+}
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -126,7 +157,7 @@
             font-size: 14px;
             border-radius: 8px;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0s ease;
         }
 
         .tab-btn.active {
@@ -236,7 +267,7 @@
         /* --- BUTTONS --- */
         .btn-submit {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             border: none;
             border-radius: 12px;
             background: var(--accent-orange);
@@ -247,7 +278,6 @@
             cursor: pointer;
             transition: transform 0.2s, box-shadow 0.2s;
             margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(250, 211, 24, 0.3);
         }
 
         .btn-submit:active {
