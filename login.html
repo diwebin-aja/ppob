@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GameSquad - Masuk / Daftar</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* --- COPY PASTE DARI KODE KAMU (FONT FACES) --- */
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-Thin.otf') format('opentype'); font-weight: 100; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-ExtraLight.otf') format('opentype'); font-weight: 200; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-Light.otf') format('opentype'); font-weight: 300; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-Regular.otf') format('opentype'); font-weight: 400; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-Medium.otf') format('opentype'); font-weight: 500; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-SemiBold.otf') format('opentype'); font-weight: 600; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-Bold.otf') format('opentype'); font-weight: 700; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-ExtraBold.otf') format('opentype'); font-weight: 800; font-style: normal; }
+        @font-face { font-family: 'Metropolis'; src: url('Metropolis-Black.otf') format('opentype'); font-weight: 900; font-style: normal; }
+
+        /* --- VARIABLES --- */
+        :root {
+            --bg-dark: #4618AC;
+            --card-bg: rgba(122, 89, 255, .15); /* Sedikit lebih terang transparansinya */
+            --input-bg: rgba(16, 25, 53, 0.6);
+            --text-white: #ffffff;
+            --text-grey: #a0aec0;
+            --accent-blue: #3b82f6;
+            --accent-orange: #fad318;
+            --danger-red: #ff4757;
+            --success-green: #10b981;
+            
+            --font-main: 'Metropolis', sans-serif;
+        }
+
+        /* --- RESET & GLOBAL STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            -webkit-tap-highlight-color: transparent;
+            text-decoration: none;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            /* Background pattern halus opsional */
+            background-image: radial-gradient(circle at 10% 20%, rgba(90, 30, 200, 0.4) 0%, transparent 20%),
+                              radial-gradient(circle at 90% 80%, rgba(250, 211, 24, 0.1) 0%, transparent 20%);
+        }
+
+        /* --- AUTH CARD CONTAINER --- */
+        .auth-container {
+            width: 100%;
+            max-width: 400px; /* Compact width */
+            background: var(--card-bg);
+            backdrop-filter: blur(12px); /* Efek blur kaca */
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 30px 25px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- HEADER & LOGO --- */
+        .auth-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .auth-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 5px;
+            color: var(--text-white);
+        }
+        
+        .auth-header span {
+            color: var(--accent-orange);
+        }
+
+        .auth-header p {
+            font-size: 14px;
+            color: var(--text-grey);
+            font-weight: 400;
+        }
+
+        /* --- TABS (LOGIN / REGISTER) --- */
+        .auth-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 5px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            background: transparent;
+            color: var(--text-grey);
+            font-family: var(--font-main);
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: var(--text-white);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        /* --- FORMS --- */
+        .form-box {
+            display: none; /* Hidden by default */
+        }
+        
+        .form-box.active {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--text-grey);
+            margin-bottom: 6px;
+            margin-left: 4px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-grey);
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .form-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 14px 14px 14px 45px; /* Padding left for icon */
+            border-radius: 12px;
+            color: var(--text-white);
+            font-family: var(--font-main);
+            font-size: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-input::placeholder {
+            color: rgba(160, 174, 192, 0.5);
+        }
+
+        .form-input:focus {
+            border-color: var(--accent-blue);
+            background: rgba(16, 25, 53, 0.9);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-input:focus + i {
+            color: var(--accent-blue);
+        }
+
+        /* --- UTILS (Remember Me / Forgot PW) --- */
+        .form-utils {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            color: var(--text-grey);
+            cursor: pointer;
+        }
+
+        .checkbox-container input {
+            margin-right: 8px;
+            accent-color: var(--accent-orange);
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+
+        .forgot-link {
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        /* --- BUTTONS --- */
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            background: var(--accent-orange);
+            color: #000; /* Contrast text on yellow/orange */
+            font-family: var(--font-main);
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(250, 211, 24, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: scale(0.98);
+        }
+
+        /* --- SOCIAL LOGIN --- */
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            color: var(--text-grey);
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .divider::before { margin-right: 10px; }
+        .divider::after { margin-left: 10px; }
+
+        .social-login {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--text-white);
+            font-size: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .social-btn.google:hover { color: #DB4437; }
+        .social-btn.facebook:hover { color: #4267B2; }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1>HuPay<span>TOP</span></h1>
+            <p>Tempat Top Up Terpercaya</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button class="tab-btn active" onclick="switchTab('login')">Masuk</button>
+            <button class="tab-btn" onclick="switchTab('register')">Daftar</button>
+        </div>
+
+        <div id="login-form" class="form-box active">
+            <form action="#">
+                <div class="input-group">
+                    <label>Email atau Username</label>
+                    <div class="input-wrapper">
+                        <i class="ri-user-3-line"></i>
+                        <input type="text" class="form-input" placeholder="gamesquad@mail.com">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="ri-lock-2-line"></i>
+                        <input type="password" class="form-input" placeholder="••••••••">
+                    </div>
+                </div>
+
+                <div class="form-utils">
+                    <label class="checkbox-container">
+                        <input type="checkbox"> Ingat Saya
+                    </label>
+                    <a href="#" class="forgot-link">Lupa Password?</a>
+                </div>
+
+                <button type="button" class="btn-submit">MASUK SEKARANG</button>
+
+                <div class="divider">Atau masuk dengan</div>
+
+                <div class="social-login">
+                    <a href="#" class="social-btn google"><i class="ri-google-fill"></i></a>
+                    <a href="#" class="social-btn facebook"><i class="ri-facebook-fill"></i></a>
+                </div>
+            </form>
+        </div>
+
+        <div id="register-form" class="form-box">
+            <form action="#">
+                <div class="input-group">
+                    <label>Nama Lengkap</label>
+                    <div class="input-wrapper">
+                        <i class="ri-id-card-line"></i>
+                        <input type="text" class="form-input" placeholder="Nama Kamu">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Nomor WhatsApp</label>
+                    <div class="input-wrapper">
+                        <i class="ri-whatsapp-line"></i>
+                        <input type="tel" class="form-input" placeholder="0812...">
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="input-wrapper">
+                        <i class="ri-lock-2-line"></i>
+                        <input type="password" class="form-input" placeholder="Buat password kuat">
+                    </div>
+                </div>
+                
+                <div class="input-group">
+                    <label>Konfirmasi Password</label>
+                    <div class="input-wrapper">
+                        <i class="ri-lock-check-line"></i>
+                        <input type="password" class="form-input" placeholder="Ulangi password">
+                    </div>
+                </div>
+
+                <div class="form-utils" style="justify-content: flex-start;">
+                    <label class="checkbox-container">
+                        <input type="checkbox"> Saya setuju dengan S&K
+                    </label>
+                </div>
+
+                <button type="button" class="btn-submit">DAFTAR AKUN</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tabName) {
+            // Ambil semua tombol dan form
+            const buttons = document.querySelectorAll('.tab-btn');
+            const forms = document.querySelectorAll('.form-box');
+
+            // Reset state active
+            buttons.forEach(btn => btn.classList.remove('active'));
+            forms.forEach(form => form.classList.remove('active'));
+
+            // Aktifkan tab yang dipilih
+            if (tabName === 'login') {
+                buttons[0].classList.add('active');
+                document.getElementById('login-form').classList.add('active');
+            } else {
+                buttons[1].classList.add('active');
+                document.getElementById('register-form').classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
