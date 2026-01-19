@@ -658,9 +658,155 @@
         font-size: 18px;
     }
 
+/* --- UPDATE: ICON AGAR BISA DIKLIK --- */
+.input-icon-kanan {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-grey);
+    font-size: 18px;
+    
+    /* UBAH INI: Agar bisa menerima klik */
+    cursor: pointer;
+    pointer-events: auto !important; 
+    z-index: 10;
+    transition: transform 0.2s;
+}
+
+.input-icon-kanan:active {
+    transform: translateY(-50%) scale(0.9);
+}
+
+/* --- BOTTOM SHEET MODAL STYLE (NATIVE LOOK) --- */
+.sheet-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(3px);
+    z-index: 2000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.sheet-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-dark);/*#1a202c; Warna background gelap elegan */
+    border-top-left-radius: 24px;
+    border-top-right-radius: 24px;
+    padding: 10px 20px 30px 20px;
+    z-index: 2001;
+    transform: translateY(100%);
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1); /* Efek membal halus */
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.3);
+    border-top: 1px solid rgba(255,255,255,0.1);
+    max-width: 480px; /* Agar sesuai layout HP */
+    margin: 0 auto;
+}
+
+.bottom-sheet.active {
+    transform: translateY(0);
+}
+
+/* Handle garis di atas modal (Visual Only) */
+.sheet-handle-bar {
+    width: 40px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 10px;
+    margin: 8px auto 20px auto;
+}
+
+.sheet-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px dashed #2d3748;
+}
+
+.sheet-header-title i {
+    font-size: 20px;
+    color: var(--accent-orange);
+}
+
+.sheet-header-title h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+}
+
+/* List Panduan */
+.guide-list {
+    list-style: none;
+    padding: 0;
+}
+
+.guide-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: flex-start;
+}
+
+.guide-icon {
+    min-width: 24px;
+    height: 24px;
+    background: #fad41844;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-orange);
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 2px;
+}
+
+.guide-text h4 {
+    font-size: 13px;
+    color: #f1f5f9;
+    margin-bottom: 3px;
+    font-weight: 600;
+}
+
+.guide-text p {
+    font-size: 11px;
+    color: #94a3b8;
+    line-height: 1.4;
+}
+
+.btn-sheet-close {
+    width: 100%;
+    background: var(--accent-orange);
+    color: var(--bg-dark);
+    border: none;
+    padding: 12px;
+    border-radius: 0px;
+    font-weight: 600;
+    margin-top: 10px;
+    cursor: pointer;
+    font-family: var(--font-body);
+}
+
+.btn-sheet-close:active {
+    transform: scale(0.98);
+}
+
     .form-input:focus {
         border-color: #6222cc;
     }
+    /*akhir*/
 
     .wa-disclaimer {
         font-size: 10px;
@@ -817,7 +963,7 @@
         margin-top: 15px !important;
         background-color: #e2e8f0;
         border-radius: 0px;
-        padding: 9px;
+        padding: 12px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -1442,11 +1588,13 @@
             <div class="step-num">1</div>
             <div class="step-title" id="input-step-title">Masukkan Nomor Axis</div>
         </div>
-        <div class="form-input-group">
-            <i class="ri-phone-fill input-icon"></i>
-            <input type="tel" id="input-phone" class="form-input" placeholder="083x xxxx xxxx">
-        </div>
-        <p style="font-size: 10px; color: #a0aec0; margin-top: 8px; margin-left: 5px;">*Pastikan nomor sesuai provider.</p>
+
+<div class="form-input-group">
+    <input type="tel" id="input-phone" class="form-input" placeholder="083x xxxx xxxx">
+    <i class="fa-solid fa-circle-exclamation input-icon-kanan" onclick="openGuide()"></i>
+</div>
+
+        <p style="font-size: 10px; color: var(--text-grey); margin-top: 8px; margin-left: 5px;">*Pastikan nomor sesuai provider.</p>
     </div>
 
     <div class="blue-card">
@@ -1761,6 +1909,43 @@
 
     </div>
 
+    <div class="sheet-overlay" id="sheetOverlay" onclick="closeGuide()"></div>
+
+<div class="bottom-sheet" id="guideSheet">
+    <div class="sheet-handle-bar"></div>
+    
+    <div class="sheet-header-title">
+        <i class="fa-solid fa-book-open"></i>
+        <h3>Panduan Pengisian Nomor</h3>
+    </div>
+
+    <ul class="guide-list">
+        <li class="guide-item">
+            <div class="guide-icon">1</div>
+            <div class="guide-text">
+                <h4>Cek Operator</h4>
+                <p>Pastikan nomor yang anda masukkan sesuai dengan operator yang dipilih (Contoh: Axis 0831/0838).</p>
+            </div>
+        </li>
+        <li class="guide-item">
+            <div class="guide-icon">2</div>
+            <div class="guide-text">
+                <h4>Masa Aktif Kartu</h4>
+                <p>Nomor tidak boleh dalam masa tenggang. Pastikan kartu dalam keadaan aktif.</p>
+            </div>
+        </li>
+        <li class="guide-item">
+            <div class="guide-icon">3</div>
+            <div class="guide-text">
+                <h4>Kesalahan Input</h4>
+                <p>Kesalahan memasukkan nomor tujuan sepenuhnya tanggung jawab pembeli dan tidak dapat di-refund.</p>
+            </div>
+        </li>
+    </ul>
+
+    <button class="btn-sheet-close" onclick="closeGuide()">Saya Mengerti</button>
+</div>
+
 
 
 <script>
@@ -1771,7 +1956,7 @@
             label: 'Axis',
             logo: 'https://upload.wikimedia.org/wikipedia/commons/8/83/Axis_logo_2015.svg',
             color: '#6222cc',
-            placeholder: '0838 xxxx'
+            placeholder: ''
         },
         'telkomsel': {
             name: 'TELKOMSEL',
@@ -2180,6 +2365,19 @@
         });
     });
 
+</script>
+
+<script>
+// --- FUNGSI BOTTOM SHEET MODAL ---
+    function openGuide() {
+        document.getElementById('sheetOverlay').classList.add('active');
+        document.getElementById('guideSheet').classList.add('active');
+    }
+
+    function closeGuide() {
+        document.getElementById('sheetOverlay').classList.remove('active');
+        document.getElementById('guideSheet').classList.remove('active');
+    }
 </script>
 
 
