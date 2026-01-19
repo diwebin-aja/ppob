@@ -67,7 +67,7 @@ body {
     
     /* Background pattern tetap sama */
     background-image: radial-gradient(circle at 10% 20%, rgba(90, 30, 200, 0.4) 0%, transparent 20%),
-                      radial-gradient(circle at 90% 80%, rgba(250, 211, 24, 0.1) 0%, transparent 20%);
+    radial-gradient(circle at 90% 80%, rgba(250, 211, 24, 0.1) 0%, transparent 20%);
 }
 
         /* --- AUTH CARD CONTAINER --- */
@@ -75,8 +75,8 @@ body {
     width: 100%;
     max-width: 400px;
     background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /*backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);*/
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 24px;
     padding: 30px 25px;
@@ -109,7 +109,7 @@ body {
 }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 1; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -345,7 +345,7 @@ body {
     <div class="auth-container">
         <div class="auth-header">
             <h1>HuPay<span>TOP</span></h1>
-            <p>Tempat Top Up Terpercaya</p>
+            <p>Lebih hemat dengan Login</p>
         </div>
 
         <div class="auth-tabs">
@@ -418,7 +418,7 @@ body {
                 <div class="input-group">
                     <label>Konfirmasi Password</label>
                     <div class="input-wrapper">
-                        <i class="ri-lock-check-line"></i>
+                        <i class="ri-lock-2-line"></i>
                         <input type="password" class="form-input" placeholder="Ulangi password">
                     </div>
                 </div>
