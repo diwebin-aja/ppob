@@ -194,7 +194,7 @@
         position: sticky;
         top: 0;
         z-index: 100;
-        border-bottom: 2px solid var(--card-bg);
+        border-bottom: 0px solid var(--card-bg);
     }
 
     .logo {
@@ -288,9 +288,9 @@
     }
 
     .tag {
-        background-color: transparent; /*#e2e8f0;*/
+        background: rgba(0, 0, 0, 0.2);; /*#e2e8f0;*/
         color: #fff;
-        border: 1px solid var(--text-grey);
+        border: 1px solid rgba(0, 0, 0, 0.1);;
         padding: 4px 12px;
         padding-top: 5px;
         border-radius: 10px;
@@ -445,8 +445,8 @@
     }
 
     .blue-card {
-    background-color: var(--card-bg);
-    border-radius: 20px;
+    background-color: var(--bg-dark);
+    border-radius: 15px;
     padding: 15px;
     margin-bottom: 20px; 
     transition: all 0.3s ease;
@@ -464,8 +464,8 @@
 }
 
 .blue-card-pulsa {
-    background-color: var(--card-bg);
-    border-radius: 20px;
+    background-color: var(--bg-dark);
+    border-radius: 15px;
     padding: 15px;
     margin-bottom: 20px;
     transition: all 0.3s ease;
@@ -485,7 +485,7 @@
 
 .blue-card-co {
     background-color: var(--bg-dark);
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 15px; 
     margin-bottom: 20px;
     transition: all 0.3s ease;
@@ -505,11 +505,11 @@
     /* --- CARD HISTORY STYLE BARU --- */
     .card-history {
         background-color: #0c0d1933;
-        border-radius: 0px;
+        border-radius: 15px;
         padding: 15px;
         margin-bottom: 20px;
         margin-top: 4rem;
-        border: 1px dashed #93a9c5;
+        border: 1px dashed #78818d;
     }
 
     .empty-history {
@@ -641,7 +641,7 @@
         padding: 12px 12px 12px 45px;
         background-color: rgba(0, 0, 0, .2);
         border: 0px solid transparent;
-        border-radius: 0px;
+        border-radius: 13px;
         font-family: var(--font-body);
         font-size: 14px;
         font-weight: 600;
@@ -1165,7 +1165,7 @@
 
     .pay-name {
         font-size: 13px;
-        font-weight: 700;
+        font-weight: 600;
         color: #333;
        
     }
@@ -1175,7 +1175,6 @@
         font-weight: 700;
         color: #333;
         text-align: right;
-        font-family: 'oxanium';
         padding-top: 2px;
     }
 
@@ -1185,11 +1184,11 @@
         justify-content: space-between;
         margin-bottom: 8px;
         font-size: 13px;
-        color: var(--text-grey);
+        color: var(--text-white--);
     }
 
     .summary-row.total {
-        border-top: 1px dashed #2d3748;
+        border-top: 1px dashed var(--text-grey);
         padding-top: 13px;
         margin-top: 10px;
         margin-bottom: -5px;
@@ -1198,7 +1197,6 @@
     .summary-val {
         color: white;
         font-weight: 600;
-        font-family: 'oxanium';
     }
 
     .summary-val.highlight {
@@ -1246,12 +1244,12 @@
     .btn-checkout {
     font-family: var(--font-body);
     background: linear-gradient(to bottom, #fad318, #fad318);
-    color: var(--bg-dark); /* Teks warna gelap agar kontras */
-    font-weight: 800;
+    color: #222; /* Teks warna gelap agar kontras */
+    font-weight: 700;
     border: none;
     padding: 10px 20px; /* Lebih tebal */
-    border-radius: 0px; /* Radius menyesuaikan card */
-    font-size: 16px;
+    border-radius: 13px; /* Radius menyesuaikan card */
+    font-size: 15px;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -1759,6 +1757,7 @@
 
     <div class="blue-card-co">
         <div class="step-header">
+            <div class="step-num">3</div>
             <div class="step-title">Ringkasan Pesanan</div>
         </div>
         <div class="summary-row">
