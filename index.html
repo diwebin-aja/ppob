@@ -294,7 +294,7 @@
         padding: 4px 12px;
         padding-top: 5px;
         border-radius: 10px;
-        font-size: 11px;
+        font-size: 13px; /*11px*/
         font-weight: 400;
         text-decoration: none;
         white-space: nowrap;
@@ -367,7 +367,7 @@
         color: var(--text-grey);
         font-weight: 500;
         transition: color 0.2s;
-
+        font-size: 13px;
     }
 
     .breadcrumb-link:hover {
@@ -383,6 +383,7 @@
     .breadcrumb-active {
         color: var(--text-white);
         font-weight: 600; /* Bold untuk menandakan halaman aktif */
+        font-size: 13px;
     }
 
     /* --- GENERAL CARD STYLES --- */
@@ -399,6 +400,7 @@
     .game-icon {
         width: 50px;
         height: 50px;
+        margin-top: 0px;
         border-radius: 3px;
         margin-right: 12px;
         object-fit: contain;
@@ -967,13 +969,13 @@
         font-size: 13px;
         font-weight: 700;
         text-transform: uppercase;
-        margin-bottom: 15px;
+        margin-bottom: 19px; /*15px*/
         color: var(--text-white);
     }
 
     .item-price {
         /* --- Font Style --- */
-        font-size: 12px;
+        font-size: 13px;
         font-weight: 600;
         /*font-family: 'oxanium';*/
 
@@ -1043,7 +1045,7 @@
         margin-top: 15px !important;
         background-color: #e2e8f0;
         border-radius: 13px;
-        padding: 12px;
+        padding: 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -1242,6 +1244,26 @@
     }
 
     .btn-checkout {
+    font-family: var(--font-body);
+    background: linear-gradient(to bottom, #fad318, #fad318);
+    color: #222; /* Teks warna gelap agar kontras */
+    font-weight: 700;
+    border: none;
+    padding: 10px 20px; /* Lebih tebal */
+    border-radius: 13px; /* Radius menyesuaikan card */
+    font-size: 15px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Teks di tengah */
+    gap: 8px;
+    width: 100%; /* Lebar penuh */
+    margin-top: 20px; /* Jarak dari Total Bayar
+    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);*/
+    transition: transform 0.2s;
+}
+
+.btn-checkout-sheet {
     font-family: var(--font-body);
     background: linear-gradient(to bottom, #fad318, #fad318);
     color: #222; /* Teks warna gelap agar kontras */
@@ -2274,8 +2296,8 @@
         <span class="val-detail" style="color: var(--accent-orange); font-size: 15px;" id="conf-total">Rp 0</span>
     </div>
 
-    <button class="btn-checkout" onclick="continueToPayment()">
-        Bayar Sekarang <i class="ri-arrow-right-line"></i>
+    <button class="btn-checkout-sheet" onclick="continueToPayment()">
+        <i class="ri-shield-check-fill"></i> Konfirmasi Pembayaran
     </button>
 </div>
 
@@ -2639,7 +2661,7 @@
         // 5. Trigger Sukses Otomatis (Dummy Logic)
         setTimeout(() => {
             showSuccessInvoice(data);
-            saveToLocalStorage(data); 
+            saveToLocalStorage(data);
         }, 3000);
     }
 
