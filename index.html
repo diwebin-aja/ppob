@@ -890,7 +890,8 @@
         margin-top: -5px;
         margin-bottom: 10px;
         margin-left: 5px;
-        font-style: italic;
+        /*font-style: italic;*/
+        font-weight: 400;
     }
 
     /* --- PRODUCT GRID --- */
@@ -1025,7 +1026,7 @@
         overflow: visible !important;
         margin-top: 15px !important;
         background-color: #e2e8f0;
-        border-radius: 8px;
+        border-radius: 13px;
         padding: 12px;
         display: flex;
         align-items: center;
@@ -1041,7 +1042,7 @@
         overflow: visible !important;
         margin-top: 15px !important;
         background-color: #e2e8f0;
-        border-radius: 8px;
+        border-radius: 13px;
         padding: 12px;
         display: flex;
         align-items: center;
@@ -1159,15 +1160,14 @@
         height: 25px;
         object-fit: contain;
         background: #f0f0f0;
-        border-radius: 0px;
+        border-radius: 5px;
         padding: 2px;
     }
 
     .pay-name {
-        font-size: 13px;
+        font-size: 14px; /*13px*/
         font-weight: 600;
         color: #333;
-       
     }
 
     .pay-price {
@@ -1182,7 +1182,7 @@
     .summary-row {
         display: flex;
         justify-content: space-between;
-        margin-bottom: 8px;
+        margin-bottom: 9px;
         font-size: 13px;
         color: var(--text-white--);
     }
@@ -1755,19 +1755,28 @@
     </div>
 </div>
 
-    <div class="blue-card-co">
+<div class="blue-card-co">
         <div class="step-header">
             <div class="step-num">3</div>
             <div class="step-title">Ringkasan Pesanan</div>
         </div>
+        
         <div class="summary-row">
             <span>Produk</span>
             <span class="summary-val" id="summary-product">-</span>
         </div>
+
+        <div class="summary-row">
+            <span id="summary-phone-label">Nomor Handphone</span> 
+            
+            <span class="summary-val" id="summary-phone-val">-</span>
+        </div>
+
         <div class="summary-row">
             <span>Harga Produk</span>
             <span class="summary-val" id="summary-price">Rp 0</span>
         </div>
+
         <div class="summary-row">
             <span>Biaya Admin</span>
             <span class="summary-val" id="summary-fee">Rp 0</span>
@@ -2197,6 +2206,17 @@
         document.getElementById('input-step-title').innerText = `Masukkan Nomor ${config.label}`; 
         document.getElementById('input-phone').placeholder = config.placeholder; 
 
+        document.getElementById('dynamic-breadcrumb').innerText = `Pulsa ${config.label}`; 
+        document.getElementById('input-step-title').innerText = `Masukkan Nomor ${config.label}`; 
+        document.getElementById('input-phone').placeholder = config.placeholder;
+
+        // --- TAMBAHKAN BARIS INI ---
+        // Ubah label di ringkasan pesanan (Contoh: Nomor Axis, Nomor Telkomsel)
+        document.getElementById('summary-phone-label').innerText = `Nomor ${config.label}`;
+        // ---------------------------
+
+        // ... kode selanjutnya (render tags, grid produk) ...
+
         // 4. Render Tags Navigasi
         const tagsContainer = document.getElementById('provider-tags');
         tagsContainer.innerHTML = ''; 
@@ -2292,14 +2312,20 @@
     }
 
     // 4. Update Summary Bawah
-    function updateSummary() {
+   function updateSummary() {
         if (currentProductPrice > 0) {
             const grandTotal = currentProductPrice + currentFee;
+            
+            // --- TAMBAHKAN LOGIKA INI ---
+            const inputNo = document.getElementById('input-phone').value;
+            document.getElementById('summary-phone-val').innerText = inputNo ? inputNo : "-";
+            // ----------------------------
+
             document.getElementById('summary-product').innerText = currentProductName || "-";
             document.getElementById('summary-price').innerText = formatRupiah(currentProductPrice);
             document.getElementById('summary-fee').innerText = formatRupiah(currentFee);
             document.getElementById('summary-total').innerText = formatRupiah(grandTotal);
-            document.getElementById('total-display').innerText = formatRupiah(grandTotal); // Update Sticky Footer juga
+            document.getElementById('total-display').innerText = formatRupiah(grandTotal);
         }
     }
 
@@ -2480,14 +2506,19 @@
     }
 
     // --- INIT ---
+    // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
         initDynamicPage();
         loadHistory();
         
-        // Hapus border error saat mengetik
+        // Hapus border error saat mengetik & UPDATE SUMMARY REALTIME
         document.getElementById('input-phone').addEventListener('input', function() {
             this.classList.remove('input-danger');
             document.getElementById('form-identity-card').classList.remove('card-danger');
+            
+            // --- TAMBAHKAN PEMANGGILAN INI ---
+            updateSummary();
+            // ---------------------------------
         });
     });
 
