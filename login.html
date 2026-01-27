@@ -625,31 +625,74 @@
         transform: translateY(-50%) scale(0.9);
     }
 
-    /* --- ADDED FOR GAME ID LAYOUT (Minimal additions) --- */
-    .input-row-game {
-        display: flex;
-        gap: 10px;
-        width: 100%;
-    }
+    /* Container Utama (Cangkang Luar) */
+.merged-input-box {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .2); /* Warna background kotak */
+    border-radius: 13px;
+    padding: 0 12px;
+    box-shadow: inset 0 1px 3px #1f0a4d;
+    border: 1px solid transparent; /* Border transparan default */
+    transition: all 0.3s ease;
+    height: 48px;
+    margin-bottom: 10px;
+}
 
-    .input-col-game {
-        display: flex;
-        flex-direction: column;
-    }
+/* Efek Fokus (Saat diketik) */
+.merged-input-box:focus-within {
+    border-color: #6222cc; /* Warna border saat aktif */
+    background-color: rgba(0, 0, 0, .3);
+}
 
-    .input-col-game.userid {
-        flex: 2;
-    }
+/* Ikon User di paling kiri */
+.merged-icon-left {
+    color: #666;
+    font-size: 16px;
+    margin-right: 10px;
+}
 
-    .input-col-game.zoneid {
-        flex: 1;
-    }
+/* Input User ID (Mengisi sisa ruang) */
+#input-userid {
+    flex: 1; /* Otomatis melebar */
+    background-color: rgba(0, 0, 0, .2);
+    border: none;
+    color: #333;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    height: 100%;
+    outline: none;
+}
 
-    .input-col-game.hidden {
-        display: none;
-    }
+/* Wrapper Zone ID (Garis pemisah + Input Zone) */
+.zone-merged-wrapper {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid rgba(0,0,0,0.1); /* Garis pemisah tipis */
+    padding-left: 10px;
+    margin-left: 5px;
+}
 
-    .input-label-game {
+/* Input Zone ID (Lebar tetap/kecil) */
+#input-zoneid {
+    width: 100%;
+    background-color: rgba(0, 0, 0, .2);
+    border: none;
+    color: #333;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 14px;
+    outline: none;
+}
+
+/* Class helper untuk menyembunyikan Zone ID (Untuk game selain MLBB) */
+.hidden {
+    display: none !important;
+}
+
+.input-label-game {
         font-size: 11px;
         color: var(--text-grey);
         margin-bottom: 6px;
