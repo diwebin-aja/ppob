@@ -1,2422 +1,536 @@
 <!DOCTYPE html>
-
 <html lang="id">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>GameSquad - Top Up Axis</title>
-
+    <title>NeonZone - Topup & PPOB</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&family=Sora:wght@100..800&display=swap" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
-    /* --- RESET & VARIABLES --- */
-    :root {
-        --bg-dark: #4618AC;
-        --card-bg: rgba(122, 89, 255, .08); /*#4217a0, #6135c0, eneba card pay #5825cc*/
-        --item-bg: #101935;
-        --text-white: #ffffff;
-        --text-grey: #a0aec0;
-        --accent-blue: #3b82f6;
-        --accent-orange: #fad318; /*#fad318*/
-        --danger-red: #ff4757;
-        --success-green: #10b981;
-
-        --font-title: 'metropolis', sans-serif;
-        --font-body: 'metropolis', sans-serif
-    }
- 
-    /* --- METROPOLIS FONT FACE --- */
-
-/* 1. Thin (100) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-Thin.otf') format('opentype');
-    font-weight: 100;
-    font-style: normal;
-}
-
-/* 2. ExtraLight (200) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-ExtraLight.otf') format('opentype');
-    font-weight: 200;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-ExtraLightItalic.otf') format('opentype');
-    font-weight: 200;
-    font-style: italic;
-}
-
-/* 3. Light (300) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-Light.otf') format('opentype');
-    font-weight: 300;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-LightItalic.otf') format('opentype');
-    font-weight: 300;
-    font-style: italic;
-}
-
-/* 4. Regular (400) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-Regular.otf') format('opentype');
-    font-weight: 400;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-RegularItalic.otf') format('opentype');
-    font-weight: 400;
-    font-style: italic;
-}
-
-/* 5. Medium (500) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-Medium.otf') format('opentype');
-    font-weight: 500;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-MediumItalic.otf') format('opentype');
-    font-weight: 500;
-    font-style: italic;
-}
-
-/* 6. SemiBold (600) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-SemiBold.otf') format('opentype');
-    font-weight: 600;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-SemiBoldItalic.otf') format('opentype');
-    font-weight: 600;
-    font-style: italic;
-}
-
-/* 7. Bold (700) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-Bold.otf') format('opentype');
-    font-weight: 700;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-BoldItalic.otf') format('opentype');
-    font-weight: 700;
-    font-style: italic;
-}
-
-/* 8. ExtraBold (800) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-ExtraBold.otf') format('opentype');
-    font-weight: 800;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-ExtraBoldItalic.otf') format('opentype');
-    font-weight: 800;
-    font-style: italic;
-}
-
-/* 9. Black (900) */
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-Black.otf') format('opentype');
-    font-weight: 900;
-    font-style: normal;
-}
-@font-face {
-    font-family: 'Metropolis';
-    src: url('Metropolis-BlackItalic.otf') format('opentype');
-    font-weight: 900;
-    font-style: italic;
-}
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        outline: none;
-        -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-        background-color: var(--bg-dark);
-        color: var(--text-white);
-        font-family: 'metropolis';
-        max-width: 480px;
-        margin: 0 auto;
-        border-left: 1px solid #1c2e4a;
-        border-right: 1px solid #1c2e4a;
-        min-height: 100vh;
-        padding-bottom: 3rem; /* Space for sticky footer */
-        position: relative;
-        scroll-behavior: smooth;
-    }
-
-    /* --- HEADER / NAVBAR --- */
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 13px;
-        background-color: var(--bg-dark);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-        border-bottom: 2px solid var(--card-bg);
-    }
-
-    .logo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        font-family: var(--font-title);
-        font-weight: 700;
-        line-height: 1;
-    }
-
-    .logo i {
-        font-size: 18px;
-        color: var(--text-white);
-    }
-
-    .logo-link {
-        text-decoration: none;
-        color: inherit;
-    }
-
-    .logo span:first-child {
-        font-size: 18px;
-        letter-spacing: 1px;
-    }
-
-    .logo span:last-child {
-        font-size: 8px;
-        color: var(--text-grey);
-    }
-
-    .search-container {
-        flex-grow: 1;
-        margin: 0 10px;
-        position: relative;
-    }
-
-    .search-container input {
-        width: 100%;
-        padding: 8px 35px 8px 15px;
-        border-radius: 6px;
-        border: none;
-        background-color: white;
-        font-family: var(--font-body);
-    }
-
-    .search-icon {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 16px;
-        height: 16px;
-        color: #666;
-    }
-
-    .btn-masuk {
-        background-color: #2b4c80;
-        color: white;
-        border: 1px solid #4a6fa5;
-        padding: 6px 15px;
-        border-radius: 6px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        margin-right: 10px;
-    }
-
-    .menu-icon {
-        font-size: 24px;
-        color: white;
-        cursor: pointer;
-        line-height: 1;
-    }
-
-    /* --- QUICK TAGS --- */
-    .quick-tags {
-        display: flex;
-        gap: 8px;
-        padding: 0px;
-        margin-bottom: 20px;
-        padding-top: 10px;
-        justify-content: flex-start;
-        overflow-x: auto;
-        margin-top: -15px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .quick-tags::-webkit-scrollbar {
-        display: none;
-    }
-
-    .tag {
-        background-color: #e2e8f0;
-        color: #333;
-        padding: 4px 12px;
-        padding-top: 4px;
-        border-radius: 3px;
-        font-size: 11px;
-        font-weight: 400;
-        text-decoration: none;
-        white-space: nowrap;
-        margin-bottom: 10px;
-    }
-
-    /* --- HERO BANNER --- */
-    .hero-section {
-        padding: 0 15px;
-        padding-top: 12px;
-        margin-bottom: 25px;
-    }
-
-    .hero-card {
-        background: linear-gradient(90deg, #5e1194 0%, #a419b0 100%);
-        border-radius: 7px;
-        overflow: hidden;
-        position: relative;
-        height: 140px;
-        display: flex;
-        align-items: center;
-    }
-
-    .hero-bg {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        opacity: 0.3;
-        mix-blend-mode: overlay;
-    }
-
-    .hero-content {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
-        z-index: 2;
-        max-width: 80%;
-    }
-
-    .hero-content h3 {
-        font-family: var(--font-title);
-        font-size: 20px;
-        font-weight: 800;
-        text-transform: uppercase;
-        margin-bottom: 5px;
-        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .hero-content p {
-        font-size: 11px;
-        margin-bottom: 10px;
-        font-weight: 600;
-        color: #f1f1f1;
-    }
-
-    /* --- BREADCRUMB --- */
-    .breadcrumb-container {
-        padding: 15px 15px 5px 15px; /* Jarak agar rapi */
-        font-size: 12px;
-        color: var(--text-grey);
-        font-family: var(--font-body);
-        display: flex;
-        align-items: center;
-        gap: 6px;
-    }
-
-    .breadcrumb-link {
-        text-decoration: none;
-        color: var(--text-grey);
-        font-weight: 500;
-        transition: color 0.2s;
-
-    }
-
-    .breadcrumb-link:hover {
-        color: var(--accent-orange);
-        text-decoration: underline;
-    }
-
-    .breadcrumb-separator {
-        font-size: 10px;
-        color: #4a5568; /* Warna divider agak gelap */
-    }
-
-    .breadcrumb-active {
-        color: var(--text-white);
-        font-weight: 600; /* Bold untuk menandakan halaman aktif */
-    }
-
-    /* --- GENERAL CARD STYLES --- */
-    .order-container {
-        padding: 0 15px;
-    }
-
-    .game-title-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .game-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 3px;
-        margin-right: 12px;
-        object-fit: contain;
-        background: white;
-        padding: 5px;
-        border: 2px solid transparent;
-        box-shadow: 0 0 7px rgba(0, 0, 0, 0.5);
-    }
-
-    .game-info h2 {
-        font-size: 18px;
-        font-weight: 700;
-        line-height: 1.2;
-        margin-bottom: 3px;
-    }
-
-    .game-info span {
-        font-size: 13px;
-        color: var(--text-grey);
-    }
-
-    .game-sub-info {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-        font-size: 13px;
-        color: var(--text-grey);
-    }
-
-    .link-tutorial {
-        color: var(--text-grey);
-        text-decoration: none;
-        transition: color 0.2s;
-        cursor: pointer;
-    }
-
-    .link-tutorial:hover {
-        color: var(--accent-orange);
-        text-decoration: underline;
-    }
-
-    .divider {
-        color: #4a5568;
-    }
-
-    .blue-card {
-    background-color: var(--card-bg);
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    border: 0px solid transparent;
-    
-    /* --- UPDATE: SHADOW SEMUA SISI --- */
-    /* 0 0 = Posisi tengah */
-    /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
-    /* rgba = Warna hitam dengan transparansi 50% */
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0);
-    
-    /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
-    position: relative;
-    z-index: 1;
-}
-
-.blue-card-pulsa {
-    background-color: var(--card-bg);
-    border-radius: 4px;
-    padding: 15px;
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    border: 0px solid transparent;
-    
-    /* --- UPDATE: SHADOW SEMUA SISI --- */
-    /* 0 0 = Posisi tengah */
-    /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
-    /* rgba = Warna hitam dengan transparansi 50% */
-    box-shadow: 0 0 15px rgba(204, 189, 189, 0.3);
-    
-    /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
-    position: relative;
-    z-index: 1;
-}
-
-.blue-card-co {
-    background-color: #5825cc;
-    border-radius: 0px;
-    padding: 15px; 
-    margin-bottom: 20px;
-    transition: all 0.3s ease;
-    border: 0px solid transparent;
-    
-    /* --- UPDATE: SHADOW SEMUA SISI --- */
-    /* 0 0 = Posisi tengah */
-    /* 25px = Sebaran blur (semakin besar semakin 'tinggi' melayangnya) */
-    /* rgba = Warna hitam dengan transparansi 50% */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-    
-    /* Opsional: Agar tumpukan layer terlihat benar-benar di atas */
-    position: relative;
-    z-index: 1;
-}
-
-    /* --- CARD HISTORY STYLE BARU --- */
-    .card-history {
-        background-color: #0c0d1933;
-        border-radius: 0px;
-        padding: 15px;
-        margin-bottom: 20px;
-        margin-top: 4rem;
-        border: 1px dashed #93a9c5;
-    }
-
-    .empty-history {
-        text-align: center;
-        font-size: 12px;
-        color: var(--text-grey);
-        padding: 10px;
-        /*font-style: italic;*/
-        background: var(--bg-dark);
-        padding: 20px;
-        border-radius: 5px;
-        
-    }
-
-    .card-history .step-header {
-        margin-bottom: 10px;
-    }
-
-    .history-list {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .history-item {
-        background: var(--bg-dark);
-        border: 0px solid #2d3748;
-        border-radius: 8px;
-        padding: 10px;
-        cursor: pointer;
-        transition: all 0.2s;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .history-item:hover {
-        background: rgba(255, 255, 255, 0.1);
-        border-color: var(--accent-orange);
-    }
-
-    .h-left {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .h-date {
-        font-size: 10px;
-        color: var(--text-grey);
-        margin-bottom: 2px;
-    }
-
-    .h-product {
-        font-size: 13px;
-        font-weight: 600;
-        color: white;
-    }
-
-    .h-right {
-        text-align: right;
-    }
-
-    .h-status {
-        font-size: 10px;
-        background: var(--success-green);
-        color: #000;
-        padding: 2px 6px;
-        border-radius: 4px;
-        font-weight: 700;
-        margin-bottom: 2px;
-        display: inline-block;
-    }
-
-    .h-price {
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--accent-orange);
-    }
-
-    .step-header {
-        display: flex;
-        align-items: center;
-        margin-bottom: 15px;
-    }
-
-    .step-num {
-            background-color: var(--accent-blue);
-            color: white;
-            width: 24px; 
-            height: 24px;
-            border-radius: 3px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 12px; 
-            font-weight: bold;
-            margin-right: 10px; 
-            
+        :root {
+            --bg-dark: #09090b;
+            --bg-card-start: #18181b;
+            --bg-card-end: #09090b;
+            --border-card: rgba(255, 255, 255, 0.08);
+            --neon-primary: #00f0ff; 
+            --neon-secondary: #bd00ff; 
+            --text-main: #ffffff;
+            --text-muted: #a1a1aa;
+            --font-title: 'Outfit', sans-serif;
+            --font-desc: 'Plus Jakarta Sans', sans-serif;
         }
 
-    .icon-riwayat {
-        background-color: var(--accent-blue);
-        color: white;
-        width: 24px; 
-        height: 24px;
-        color: white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 17px;
-        font-weight: 600;
-        margin-left: 10px;
-    }
-
-    .step-title {
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    /* --- FORM STYLES --- */
-    .form-input-group {
-        position: relative;
-        margin-bottom: 10px;
-    }
-
-    .form-input {
-        width: 100%;
-        padding: 12px 12px 12px 45px;
-        background-color: rgba(0, 0, 0, .2);
-        border: 0px solid transparent;
-        border-radius: 0px;
-        font-family: var(--font-body);
-        font-size: 14px;
-        font-weight: 600;
-        color: #333;
-        transition: all 0.3s ease;
-        transition: border-color 150ms ease-in-out, background-color 150ms ease-in-out, outline 150ms ease-in-out;
-        box-shadow: inset 0 1px 3px #1f0a4d;
-    }
-
-    .input-icon {
-        position: absolute;
-        left: 14px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #666;
-        font-size: 18px;
-    }
-
-    .form-input:focus {
-        border-color: #6222cc;
-    }
-
-    .wa-disclaimer {
-        font-size: 10px;
-        color: var(--text-grey);
-        margin-top: -5px;
-        margin-bottom: 10px;
-        margin-left: 5px;
-        font-style: italic;
-    }
-
-    /* --- PRODUCT GRID --- */
-    .items-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
-
-    .item-card {
-        background: rgba(255, 255, 255, 0.05);
-        border: 0px solid #2d3748;
-        border-radius: 0px;
-        padding: 12px;
-        transition: all 0.2s;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        min-height: 80px;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 15px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    .item-card::before {
-        content: "";
-        position: absolute;
-        z-index: 1;
-
-        /* POSISI (Sudah dirapikan satu baris satu properti) */
-        left: 0px;
-        bottom: 0px;
-        top: 30px;
-        right: 0px;
-
-        /* LIPATAN */
-        border-bottom: 15px solid rgba(255, 255, 255, 0.08);
-        border-left: 0px solid var(--accent-orange);
-
-        /* SUDUT */
-        border-bottom-left-radius: 6px;
-        pointer-events: none;
-        opacity: 1;
-        transition: all 0.3s ease;
-    }
-
-    .item-card:hover {
-        border-color: var(--accent-blue);
-        background-color: #051b3b;
-    }
-
-    .item-card.active {
-        border-color: var(--accent-orange);
-        background-color: #1a2740;
-        box-shadow: inset 0 0 0 1px var(--accent-orange);
-    }
-
-    .item-card.active::after {
-        content: "\eb7b";
-        font-family: remixicon;
-        position: absolute;
-        top: 0;
-        right: 0;
-        background: var(--accent-orange);
-        color: #000;
-        font-size: 12px;
-        padding: 2px 6px;
-        border-bottom-left-radius: 8px;
-    }
-
-    .item-name {
-        font-size: 13px;
-        font-weight: 700;
-        text-transform: uppercase;
-        margin-bottom: 4px;
-        color: var(--text-white);
-        font-family: 'oxanium';
-    }
-
-    .item-price {
-        /* --- Font Style --- */
-        font-size: 12px;
-        font-weight: 600;
-        font-family: 'oxanium';
-
-        /* --- Warna --- */
-        background: linear-gradient(to right, #4618AC, grey);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        color: #fff; /*051b3b;*/
-
-        /* --- Posisi Mentok Kiri (Sudah dirapikan) --- */
-        position: absolute;
-        left: 0;
-        bottom: 0px;
-
-        /* --- Dimensi & Radius --- */
-        width: auto;
-        padding: 4px 12px;
-        border-top-right-radius: 0px;
-        border-bottom-right-radius: 0px;
-
-        /* --- TAMBAHAN WAJIB --- */
-        z-index: 10;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding-top: 5px !important;
-        padding-bottom: 2px !important;
-        line-height: normal;
-    }
-
-    /* --- PAYMENT SECTION --- */
-    .payment-category {
-        margin-bottom: 15px;
-    }
-
-    .payment-cat-title {
-        font-size: 11px;
-        text-transform: uppercase;
-        color: var(--text-grey);
-        margin-bottom: 8px;
-        letter-spacing: 0.5px;
-        font-weight: 700;
-        
-    }
-
-    .payment-item {
-        position: relative;
-        overflow: visible !important;
-        margin-top: 15px !important;
-        background-color: #e2e8f0;
-        border-radius: 0px;
-        padding: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        cursor: pointer;
-        border: 2px solid transparent;
-        transition: all 0.2s;
-    }
-
-    .payment-item-qris {
-        position: relative;
-        overflow: visible !important;
-        margin-top: 15px !important;
-        background-color: #e2e8f0;
-        border-radius: 0px;
-        padding: 9px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        cursor: pointer;
-        border: 2px solid transparent;
-        transition: all 0.2s;
-    }
-
-    .payment-item:hover {
-        transform: translateY(-2px);
-    }
-    .payment-item-qris:hover {
-        transform: translateY(-2px);
-    }
-
-    .payment-item.active {
-        border-color: var(--accent-orange);
-        background-color: #fff9ed;
-    }
-
-    .payment-item-qris.active {
-        border-color: var(--accent-orange);
-        background-color: #fff9ed;
-    }
-
-    /* Style Khusus Recommended */
-    .payment-item.recommended {
-        background-color: #fffbf2;
-        border: 1.5px solid var(--accent-orange);
-        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.15);
-        position: relative;
-        z-index: 5;
-    }
-
-    .badge-hot-line {
-        position: absolute;
-        top: -11px; /*10px*/
-        right: 15px;
-        background: linear-gradient(to bottom, #f59e0b, #d97706);
-        color: #fff;
-        font-size: 10px;
-        font-weight: 700;
-        text-transform: uppercase;
-        padding: 3px 10px;
-        border-radius: 5px; /*4px*/
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        z-index: 10;
-        letter-spacing: 0.5px;
-        display: flex;
-        align-items: center;
-        gap: 4px;
-       
-    }
-
-    .badge-hot-line i {
-        font-size: 13px;
-        display: inline-block;
-        background-color: #ffffff;
-        background-image:
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath fill='%23ff4757' d='M0,100 C50,150 100,50 150,100 C200,150 250,50 300,100 V200 H0 Z' /%3E%3C/svg%3E"),
-            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' preserveAspectRatio='none'%3E%3Cpath fill='%23ffca28' d='M0,100 C50,150 100,50 150,100 C200,150 250,50 300,100 V200 H0 Z' /%3E%3C/svg%3E");
-        background-position-x: 0%, -50%;
-        background-repeat: repeat-x;
-        background-size: 200% 200%;
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-        animation: liquid-fill-dual 3s infinite linear, wave-flow-dual 2s infinite linear, pulse-smooth 1s infinite ease-in-out alternate;
-    }
-
-    @keyframes liquid-fill-dual {
-        0% {
-            background-position-y: 200%, 205%;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        60% {
-            background-position-y: 30%, 35%;
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            font-family: var(--font-desc);
+            overflow-x: hidden;
         }
 
-        100% {
-            background-position-y: 30%, 35%;
-        }
-    }
-
-    @keyframes wave-flow-dual {
-        0% {
-            background-position-x: 0%, -50%;
+        h1, h2, h3, .logo-text, .tag-btn, .card-badge {
+            font-family: var(--font-title);
         }
 
-        100% {
-            background-position-x: -200%, -250%;
-        }
-    }
-
-    @keyframes pulse-smooth {
-        0% {
-            transform: scale(1);
-        }
-
-        100% {
-            transform: scale(1.2);
-        }
-    }
-
-    .pay-left {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .pay-logo {
-        width: 50px;
-        height: 25px;
-        object-fit: contain;
-        background: #f0f0f0;
-        border-radius: 0px;
-        padding: 2px;
-    }
-
-    .pay-name {
-        font-size: 13px;
-        font-weight: 700;
-        color: #333;
-       
-    }
-
-    .pay-price {
-        font-size: 13px;
-        font-weight: 700;
-        color: #333;
-        text-align: right;
-        font-family: 'oxanium';
-        padding-top: 2px;
-    }
-
-    /* --- SUMMARY SECTION --- */
-    .summary-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        font-size: 13px;
-        color: var(--text-grey);
-    }
-
-    .summary-row.total {
-        border-top: 1px dashed #2d3748;
-        padding-top: 13px;
-        margin-top: 10px;
-        margin-bottom: -5px;
-    }
-
-    .summary-val {
-        color: white;
-        font-weight: 600;
-        font-family: 'oxanium';
-    }
-
-    .summary-val.highlight {
-        color: var(--accent-orange);
-        font-weight: 700;
-        font-size: 16px;
-    }
-
-    /* --- BOTTOM STICKY CHECKOUT --- */
-    .sticky-checkout {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background-color: #1c2e4a;
-        padding: 15px 20px;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        border-top: 1px solid #2d3748;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        z-index: 90;
-        max-width: 480px;
-        margin: 0 auto;
-        display: none !important;
-    }
-
-    .checkout-price-info {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .checkout-label {
-        font-size: 10px;
-        color: var(--text-grey);
-    }
-
-    .checkout-total {
-        font-size: 18px;
-        font-weight: 800;
-        color: var(--accent-orange);
-    }
-
-    .btn-checkout {
-    font-family: var(--font-body);
-    background: linear-gradient(to bottom, #fad318, #fad318);
-    color: var(--bg-dark); /* Teks warna gelap agar kontras */
-    font-weight: 800;
-    border: none;
-    padding: 10px 20px; /* Lebih tebal */
-    border-radius: 0px; /* Radius menyesuaikan card */
-    font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center; /* Teks di tengah */
-    gap: 8px;
-    width: 100%; /* Lebar penuh */
-    margin-top: 20px; /* Jarak dari Total Bayar */
-    box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
-    transition: transform 0.2s;
-}
-
-.btn-checkout:active {
-    transform: scale(0.98);
-}
-
-    .btn-checkout i {
-        font-size: 18px;
-    }
-
-    /* --- ERROR STATES --- */
-    @keyframes shake {
-
-        0%,
-        100% {
-            transform: translateX(0);
+        h2.section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 20px 15px 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 4px solid var(--neon-primary);
+            padding-left: 10px;
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
         }
 
-        10%,
-        30%,
-        50%,
-        70%,
-        90% {
-            transform: translateX(-5px);
-        }
-
-        20%,
-        40%,
-        60%,
-        80% {
-            transform: translateX(5px);
-        }
-    }
-
-    .card-danger {
-        border-color: var(--danger-red) !important;
-        box-shadow: 0 0 15px rgba(255, 71, 87, 0.3);
-        animation: shake 0.5s cubic-bezier(.36, .07, .19, .97) both;
-    }
-
-    .input-danger {
-        border-color: var(--danger-red) !important;
-        background-color: #fff0f0;
-    }
-
-    /* --- MODAL / POPUP SIMULATION --- */
-    .modal-overlay {
-        display: none;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: rgba(0, 0, 0, 0.85);
-        backdrop-filter: blur(5px);
-        z-index: 1000;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .modal-overlay.active {
-        display: flex;
-        opacity: 1;
-    }
-
-    .modal-content {
-        background: #fff;
-        width: 100%;
-        max-width: 400px;
-        border-radius: 16px;
-        overflow: hidden;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        position: relative;
-        transform: translateY(20px);
-        transition: transform 0.3s ease;
-    }
-
-    .modal-overlay.active .modal-content {
-        transform: translateY(0);
-    }
-
-    /* Simulation View */
-    .sim-header {
-        background: var(--bg-dark);
-        padding: 15px;
-        text-align: center;
-        color: white;
-    }
-
-    .sim-body {
-        padding: 20px;
-        text-align: center;
-        color: #333;
-    }
-
-    .bank-logo {
-        width: 80px;
-        margin: 0 auto 10px;
-        object-fit: contain;
-    }
-
-    /* QRIS Styles */
-    .qr-container {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        margin: 20px 0;
-        background: white;
-        padding: 15px;
-        border-radius: 8px;
-        border: 2px dashed var(--accent-blue);
-    }
-
-    .qr-container.active {
-        display: flex;
-    }
-
-    .qr-image {
-        width: 200px;
-        height: 200px;
-        object-fit: contain;
-    }
-
-    .va-number-container {
-        display: block;
-    }
-
-    .va-number-container.hidden {
-        display: none;
-    }
-
-    .va-number {
-        font-family: monospace;
-        font-size: 24px;
-        font-weight: 700;
-        color: var(--accent-blue);
-        background: #f0f9ff;
-        padding: 10px;
-        border-radius: 8px;
-        margin: 10px 0;
-        letter-spacing: 2px;
-        border: 1px dashed var(--accent-blue);
-    }
-
-    .sim-instruction {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 20px;
-        background: #f9fafb;
-        padding: 10px;
-        border-radius: 8px;
-        text-align: left;
-    }
-
-    .sim-instruction li {
-        margin-bottom: 5px;
-        margin-left: 20px;
-    }
-
-    /* Success Invoice View */
-    .invoice-view {
-        display: none;
-        flex-direction: column;
-        align-items: center;
-        padding: 30px 20px;
-        text-align: center;
-        animation: fadeIn 0.5s ease;
-        background: white;
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-
-        to {
-            opacity: 1;
-            transform: scale(1);
-        }
-    }
-
-    .success-icon-circle {
-        width: 80px;
-        height: 80px;
-        background: #d1fae5;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 20px;
-    }
-
-    .success-icon-circle i {
-        font-size: 40px;
-        color: var(--success-green);
-    }
-
-    .inv-title {
-        font-size: 20px;
-        font-weight: 700;
-        color: var(--bg-dark);
-        margin-bottom: 5px;
-    }
-
-    .inv-subtitle {
-        font-size: 13px;
-        color: #666;
-        margin-bottom: 25px;
-    }
-
-    .inv-details {
-        width: 100%;
-        background: #f8fafc;
-        border-radius: 10px;
-        padding: 15px;
-        text-align: left;
-        font-size: 14px;
-        margin-bottom: 25px;
-    }
-
-    .inv-row {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-        border-bottom: 1px dashed #e2e8f0;
-        padding-bottom: 8px;
-    }
-
-    .inv-row:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
-    }
-
-    .inv-label {
-        color: #64748b;
-    }
-
-    .inv-val {
-        font-weight: 600;
-        color: #334155;
-    }
-
-    .btn-close-modal {
-        background: var(--bg-dark);
-        color: white;
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        border: none;
-        font-weight: 600;
-        cursor: pointer;
-        margin-bottom: 10px;
-    }
-
-    .btn-download {
-        background: white;
-        color: var(--bg-dark);
-        border: 2px solid var(--bg-dark);
-        width: 100%;
-        padding: 12px;
-        border-radius: 8px;
-        font-weight: 600;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .floating-wa {
-        position: fixed;
-        bottom: 90px;
-        right: 20px;
-        background-color: #25d366;
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-        text-decoration: none;
-        z-index: 99;
-        display: none;
-    }
-
-    .floating-wa i {
-        font-size: 28px;
-        color: white;
-    }
-
-    /* --- PRINT STYLE (For Download PDF) --- */
-    @media print {
-        body * {
-            visibility: hidden;
-        }
-
-        .modal-overlay,
-        .modal-content,
-        .invoice-view,
-        .invoice-view * {
-            visibility: visible;
-        }
-
-        .modal-overlay {
-            position: absolute;
-            left: 0;
+        /* Header */
+        header {
+            height: 55px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            background: rgba(9, 9, 11, 0.85);
+            backdrop-filter: blur(10px);
+            position: sticky;
             top: 0;
-            background: white;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.15);
+            box-shadow: 0 4px 20px rgba(0, 240, 255, 0.05);
         }
 
-        .modal-content {
-            box-shadow: none;
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .logo-text span {
+            color: var(--neon-primary);
+            text-shadow: 0 0 15px var(--neon-primary);
+        }
+
+        /* Burger Menu */
+        .burger {
+            width: 25px; height: 18px;
+            display: flex; flex-direction: column;
+            justify-content: space-between;
+            cursor: pointer; z-index: 102;
+        }
+        .burger span {
+            display: block; height: 2px; width: 100%;
+            background-color: var(--neon-primary);
+            transition: 0.3s ease;
+            box-shadow: 0 0 5px var(--neon-primary);
+        }
+
+        /* Nav Slide */
+        .nav-slide {
+            position: fixed; top: 0; right: -100%;
+            width: 75vw; max-width: 300px; height: 100vh;
+            background: #0d0d12; z-index: 101;
+            padding: 70px 20px 20px;
+            transition: right 0.4s cubic-bezier(0.77, 0.2, 0.05, 1);
+            border-left: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.5);
+        }
+        .nav-slide.active { right: 0; }
+        .nav-slide ul { list-style: none; }
+        .nav-slide ul li { margin-bottom: 20px; }
+        .nav-slide ul li a {
+            color: var(--text-main); text-decoration: none;
+            font-family: var(--font-title); font-size: 1.2rem;
+            font-weight: 600; transition: color 0.3s;
+        }
+        .nav-slide ul li a:hover {
+            color: var(--neon-primary); text-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(3px);
+            z-index: 100; opacity: 0; visibility: hidden;
+            transition: 0.3s ease;
+        }
+        .overlay.active { opacity: 1; visibility: visible; }
+
+        /* Banner Slider */
+        .banner-container { width: 100%; padding: 15px; position: relative; }
+        .slider {
+            display: flex; overflow-x: auto;
+            scroll-snap-type: x mandatory; scroll-behavior: smooth;
+            border-radius: 6px; border: 1px solid var(--border-card);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.6);
+        }
+        .slider::-webkit-scrollbar { display: none; }
+        .slide {
+            min-width: 100%; aspect-ratio: 16 / 9;
+            scroll-snap-align: start; position: relative;
+        }
+        .slide img { width: 100%; height: 100%; object-fit: cover; opacity: 0.85; }
+
+        /* Dots */
+        .dots { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+        .dot {
+            width: 15px; height: 4px; background-color: #3f3f46;
+            border-radius: 2px; transition: 0.3s ease;
+        }
+        .dot.active {
+            background-color: var(--neon-primary);
+            box-shadow: 0 0 8px var(--neon-primary); width: 30px;
+        }
+
+        /* Filter Tags */
+        .filter-tags {
+            display: flex; gap: 10px; padding: 10px 15px; overflow-x: auto;
+        }
+        .filter-tags::-webkit-scrollbar { display: none; }
+        .tag-btn {
+            padding: 8px 18px; background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-card); color: var(--text-muted);
+            border-radius: 4px; font-size: 0.85rem; font-weight: 600;
+            white-space: nowrap; cursor: pointer; transition: 0.3s ease;
+        }
+        .tag-btn.active {
+            background: rgba(0, 240, 255, 0.1); border-color: var(--neon-primary);
+            color: var(--neon-primary); box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+
+        /* ==========================================
+           MODERN CARD ITEM (UPDATED)
+           ========================================== */
+        .product-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            padding: 0 15px 30px;
+        }
+
+        .card {
+            background: linear-gradient(145deg, var(--bg-card-start) 0%, var(--bg-card-end) 100%);
+            border: 1px solid var(--border-card);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        /* Efek Sweep Animasi saat Hover */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 240, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+            z-index: 1;
+            pointer-events: none;
+            /*transform: skewX(-20deg);*/
+        }
+
+        .card:hover::before {
+            left: 150%;
+        }
+
+        .card:hover {
+            border-color: var(--neon-primary);
+            box-shadow: 0 8px 25px rgba(0, 240, 255, 0.15), inset 0 0 10px rgba(0, 240, 255, 0.05);
+            transform: translateY(-0px);
+        }
+
+        .card-img {
             width: 100%;
-            max-width: 100%;
-            border: 1px solid #ddd;
+            aspect-ratio: 1 / 1;
+            background: #121215;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-close-modal,
-        .btn-download {
-            display: none;
+        /* Vignette Gradient di bawah gambar */
+        .card-img::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 60%;
+            background: linear-gradient(to top, var(--bg-card-end), transparent);
+            pointer-events: none;
         }
-    }
-</style>
+
+        .card-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover .card-img img {
+            transform: scale(1.08);
+        }
+
+        /* Label Promo / Hot */
+        .card-badge {
+            position: absolute;
+            top: 8px; right: 8px;
+            background: var(--neon-secondary);
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 4px;
+            z-index: 2;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 10px var(--neon-secondary);
+        }
+
+        /* Varian Badge untuk PPOB */
+        .badge-cyan {
+            background: var(--neon-primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 10px var(--neon-primary);
+        }
+
+        .card-info {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-family: var(--font-title);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 6px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-price-wrapper {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 8px;
+            margin-top: auto;
+        }
+
+        .card-desc {
+            font-size: 0.75rem;
+            color: var(--neon-primary);
+            font-weight: 700;
+        }
+        
+        /* Sub-teks untuk PPOB */
+        .card-sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        /* Ikon panah (Action) */
+        .card-action {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            background: rgba(0, 240, 255, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: 0.3s ease;
+        }
+
+        .card:hover .card-action {
+            background: var(--neon-primary);
+            color: var(--bg-dark);
+            box-shadow: 0 0 8px var(--neon-primary);
+            transform: translateX(2px);
+        }
+
+        /* Penyesuaian gambar PPOB */
+        .pulsa-img {
+            padding: 25px;
+            object-fit: contain !important;
+            filter: drop-shadow(0 0 8px rgba(255,255,255,0.15));
+        }
+    </style>
 </head>
-
 <body>
 
-
-
     <header>
-
-        <a href="index.html" class="logo-link">
-
-         <div class="logo">
-
-            <i class="fa-solid fa-gamepad"></i>
-
-            <span>HUPAYTOP</span>
-
-         </div>
-
-        </a>
-
-
-
-        <div class="search-container">
-
-            <input type="text" placeholder="Cari Produk...">
-
-            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-
-            </svg>
-
+        <div class="logo-text">NEON<span>ZONE</span></div>
+        <div class="burger" id="burgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
         </div>
-
-        <button class="btn-masuk">Login</button>
-
-        <i class="ri-menu-line menu-icon"></i>
-
     </header>
 
-    <div class="breadcrumb-container">
-        <a href="index.html" class="breadcrumb-link">Beranda</a>
-        <i class="fa-solid fa-chevron-right breadcrumb-separator" style="font-size: 9px; color: white;"></i>
-        <span class="breadcrumb-active">Pulsa Axis</span>
-    </div>
-
-    <section class="hero-section">
-
-        <div class="hero-card">
-
-            <img src="https://images.unsplash.com/photo-1512428559087-560fa5ce7d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Banner" class="hero-bg">
-
-            <div class="hero-content">
-
-                <h3>ISI PULSA DAN KUOTA</h3>
-
-                <p>Harga Termurah, Proses Detik!</p>
-
-            </div>
-
-        </div>
-
-    </section>
-
-
-
-    <div class="order-container">
-
-        
-
-        <div class="game-title-header">
-
-            <img src="https://upload.wikimedia.org/wikipedia/commons/8/83/Axis_logo_2015.svg" alt="AXIS" class="game-icon">
-
-            <div class="game-info">
-
-                <h2>Pulsa Axis Reguler</h2>
-
-                <div class="game-sub-info">
-
-                    <span>Axis Indonesia</span>
-
-                    <span class="divider">/</span>
-
-                    <a href="#" class="link-tutorial" onclick="alert('Pop-up Cara Pembayaran bisa dipasang di sini!')">
-
-                        Cara Pembelian <i class="ri-question-line"></i> 
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        <nav class="quick-tags">
-
-        <a href="#" class="tag">Telkomsel</a>
-
-        <a href="#" class="tag" style="background: #6222cc; color: white;">Axis</a>
-
-        <a href="#" class="tag">Indosat</a>
-
-        <a href="#" class="tag">XL Axiata</a>
-
-        <a href="#" class="tag">Smartfren</a>
-
-        <a href="#" class="tag">Tri</a>
-
+    <div class="overlay" id="overlay"></div>
+    <nav class="nav-slide" id="navSlide">
+        <ul>
+            <li><a href="#">Beranda</a></li>
+            <li><a href="#">Riwayat Transaksi</a></li>
+            <li><a href="#">Daftar Harga</a></li>
+            <li><a href="#">Hubungi Kami</a></li>
+            <li><a href="#">Login / Register</a></li>
+        </ul>
     </nav>
 
-
-
-        <div class="blue-card-pulsa" id="form-identity-card">
-
-            <div class="step-header">
-
-                <div class="step-num">1</div>
-
-                <div class="step-title">Masukkan Nomor Axis</div>
-
+    <main>
+        <section class="banner-container">
+            <div class="slider" id="slider">
+                <div class="slide"><img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=800&auto=format&fit=crop" alt="Banner 1"></div>
+                <div class="slide"><img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=800&auto=format&fit=crop" alt="Banner 2"></div>
+                <div class="slide"><img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=800&auto=format&fit=crop" alt="Banner 3"></div>
             </div>
-
-            <div class="form-input-group">
-
-                <i class="ri-phone-fill input-icon"></i>
-
-                <input type="tel" id="input-phone" class="form-input" placeholder="083x xxxx xxxx">
-
+            <div class="dots">
+                <div class="dot active"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
             </div>
+        </section>
 
-            <p style="font-size: 10px; color: #a0aec0; margin-top: 8px; margin-left: 5px;">*Pastikan nomor Axis Anda benar.</p>
+        <section class="filter-tags">
+            <button class="tag-btn active">Semua</button>
+            <button class="tag-btn">Games</button>
+            <button class="tag-btn">Pulsa</button>
+            <button class="tag-btn">Paket Data</button>
+            <button class="tag-btn">Voucher</button>
+        </section>
 
-        </div>
-
-
-
-        <div class="blue-card">
-
-            <div class="step-header">
-
-                <div class="step-num">2</div>
-
-                <div class="step-title">Pilih Nominal Pulsa</div>
-
-            </div>
-
+        <h2 class="section-title">Games Populer</h2>
+        <section class="product-grid">
             
-
-            <div class="items-grid">
-
-                <div class="item-card" onclick="selectProduct(this, 5000, 'AXIS 5.000')">
-
-                    <div class="item-name">AXIS 5.000</div>
-
-                    <div class="item-price">Rp 5.750</div>
-
+            <div class="card">
+                <div class="card-img">
+                    <div class="card-badge">HOT</div>
+                    <img src="https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=400&auto=format&fit=crop" alt="Game 1">
                 </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 10000, 'AXIS 10.000')">
-
-                    <div class="item-name">AXIS 10.000</div>
-
-                    <div class="item-price">Rp 10.850</div>
-
-                </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 15000, 'AXIS 15.000')">
-
-                    <div class="item-name">AXIS 15.000</div>
-
-                    <div class="item-price">Rp 15.850</div>
-
-                </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 20000, 'AXIS 20.000')">
-
-                    <div class="item-name">AXIS 20.000</div>
-
-                    <div class="item-price">Rp 20.850</div>
-
-                </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 25000, 'AXIS 25.000')">
-
-                    <div class="item-name">AXIS 25.000</div>
-
-                    <div class="item-price">Rp 25.400</div>
-
-                </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 50000, 'AXIS 50.000')">
-
-                    <div class="item-name">AXIS 50.000</div>
-
-                    <div class="item-price">Rp 50.100</div>
-
-                </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 100000, 'AXIS 100.000')">
-
-                    <div class="item-name">AXIS 100.000</div>
-
-                    <div class="item-price">Rp 98.500</div>
-
-                </div>
-
-
-
-                <div class="item-card" onclick="selectProduct(this, 150000, 'AXIS 150.000')">
-
-                    <div class="item-name">AXIS 150.000</div>
-
-                    <div class="item-price">Rp 150.850</div>
-
-                </div>
-
-            </div>
-
-        </div>
-
-
-
-        <div class="blue-card" id="payment-section">
-
-            <div class="step-header">
-
-                <div class="step-num">3</div>
-
-                <div class="step-title">Pilih Pembayaran</div>
-
-            </div>
-
-
-
-            <div class="payment-category">
-
-                <div class="payment-cat-title">E-Wallet & QRIS</div>
-
-                
-
-                <div class="payment-item-qris" onclick="selectPayment(this, 'QRIS (Semua E-Wallet)', 750, 'qris')">
-
-                    <div class="badge-hot-line"><i class="fa-solid fa-fire"></i> REKOMENDASI</div>
-
-                    <div class="pay-left">
-
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/QRIS_logo.svg/1200px-QRIS_logo.svg.png" class="pay-logo">
-
-                        <div class="pay-name">
-
-                            QRIS <br>
-
-                            <span style="font-weight: normal; font-size: 11px; color: #666;">(Semua E-Wallet)</span>
-
+                <div class="card-info">
+                    <div class="card-title">Mobile Legends</div>
+                    <div class="card-price-wrapper">
+                        <div>
+                            <div class="card-sub">Mulai dari</div>
+                            <div class="card-desc">Rp 1.500</div>
                         </div>
-
-                    </div>
-
-                    <div class="pay-right">
-
-                        <div class="pay-price" data-fee="750">Rp -</div>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="payment-item" onclick="selectPayment(this, 'DANA', 1000, 'dana')">
-
-                    <div class="pay-left">
-
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Logo_dana_blue.svg/1200px-Logo_dana_blue.svg.png" class="pay-logo">
-
-                        <div class="pay-name">DANA</div>
-
-                    </div>
-
-                    <div class="pay-right">
-
-                        <div class="pay-price" data-fee="1000">Rp -</div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-            <div class="payment-category">
-
-                <div class="payment-cat-title">Virtual Account</div>
-
-                
-
-                <div class="payment-item" onclick="selectPayment(this, 'BCA Virtual Account', 2500, 'bca')">
-
-                    <div class="pay-left">
-
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bank_Central_Asia.svg/2560px-Bank_Central_Asia.svg.png" class="pay-logo">
-
-                        <div class="pay-name">BCA VA</div>
-
-                    </div>
-
-                    <div class="pay-right">
-
-                        <div class="pay-price" data-fee="2500">Rp -</div>
-
-                    </div>
-
-                </div>
-
-
-
-                <div class="payment-item" onclick="selectPayment(this, 'Mandiri VA', 2500, 'mandiri')">
-
-                    <div class="pay-left">
-
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Bank_Mandiri_logo_2016.svg/1200px-Bank_Mandiri_logo_2016.svg.png" class="pay-logo">
-
-                        <div class="pay-name">Mandiri VA</div>
-
-                    </div>
-
-                    <div class="pay-right">
-
-                        <div class="pay-price" data-fee="2500">Rp -</div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-             <div class="payment-category">
-
-                <div class="payment-cat-title">Minimarket</div>
-
-                <div class="payment-item" onclick="selectPayment(this, 'Alfamart', 3500, 'alfamart')">
-
-                    <div class="pay-left">
-
-                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/86/Alfamart_logo.svg/1200px-Alfamart_logo.svg.png" class="pay-logo">
-
-                        <div class="pay-name">Alfamart</div>
-
-                    </div>
-
-                    <div class="pay-right">
-
-                        <div class="pay-price" data-fee="3500">Rp -</div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-
-        </div>
-
-
-
-        <!-- SUMMARY FORM -->
-        <div class="blue-card-co">
-            <div class="step-header">
-                <div class="step-title">Ringkasan Pesanan</div>
-            </div>
-            
-            <div class="summary-row">
-                <span>Produk</span>
-                <span class="summary-val" id="summary-product">-</span>
-            </div>
-            <div class="summary-row">
-                <span>Harga Produk</span>
-                <span class="summary-val" id="summary-price">Rp 0</span>
-            </div>
-            <div class="summary-row">
-                <span>Biaya Admin</span>
-                <span class="summary-val" id="summary-fee">Rp 0</span>
-            </div>
-            
-            <div class="form-input-group" style="margin-top: 15px;">
-                <i class="ri-whatsapp-line input-icon" style="color: #25d366;"></i>
-                <input type="tel" id="input-wa" class="form-input" placeholder="Nomor WhatsApp (08xx)">
-            </div>
-            <p class="wa-disclaimer">*kami kirim untuk bukti pembelian (opsional)</p>
-
-            <div class="summary-row total">
-                <span>Total Bayar</span>
-                <span class="summary-val highlight" id="summary-total">Rp 0</span>
-            </div>
-
-            <button class="btn-checkout" onclick="processOrder()">
-                <i class="ri-shield-check-fill"></i> Konfirmasi Pembayaran
-            </button>
-        </div>
-
-
-
-        <!-- CARD HISTORY BARU -->
-
-        <div class="card-history">
-
-            <div class="step-header">
-
-                <div class="step-title">Riwayat Transaksi</div>
-                <!--<div class="icon-riwayat"><i class="ri-history-line"></i></div>-->
-
-            </div>
-
-            <div class="history-list" id="history-list-container">
-
-                <!-- Item History akan muncul di sini via JS -->
-                <div class="empty-history">Belum ada transaksi.</div>
-
-            </div>
-
-        </div>
-
-
-
-    </div>
-
-
-    <!--sudah gak kepakai-->
-    <div class="sticky-checkout">
-
-        <div class="checkout-price-info">
-
-            <span class="checkout-label">Total Pembayaran</span>
-
-            <span class="checkout-total" id="total-display">Rp 0</span>
-
-        </div>
-
-        <button class="btn-checkout" onclick="processOrder()">
-
-            Beli Sekarang <i class="ri-arrow-right-line"></i>
-
-        </button>
-
-    </div>
-
-
-
-    <a href="#" class="floating-wa">
-
-        <i class="ri-whatsapp-line"></i>
-
-    </a>
-
-
-
-    <!-- MODAL SIMULATION & INVOICE -->
-
-    <div class="modal-overlay" id="modal-overlay">
-
-        <div class="modal-content">
-
-            
-
-            <!-- STATE 1: SIMULASI TRANSFER -->
-
-            <div id="sim-view">
-
-                <div class="sim-header">
-
-                    <h3 style="margin:0;">Menunggu Pembayaran</h3>
-
-                </div>
-
-                <div class="sim-body">
-
-                    <p style="font-size:12px; color:#666; margin-bottom:10px;">Selesaikan pembayaran sebelum:</p>
-
-                    <div style="font-weight:bold; color:var(--danger-red); font-size:14px; margin-bottom:15px;" id="timer-countdown">23:59:59</div>
-
-                    
-
-                    <!-- LOGO DINAMIS SESUAI PILIHAN -->
-
-                    <img src="" id="sim-bank-logo" class="bank-logo" alt="Payment Logo">
-
-                    <p id="sim-payment-name" style="font-weight:700; font-size:16px; margin-bottom:5px;">Metode Pembayaran</p>
-
-                    
-
-                    <!-- TAMPILAN QRIS (Default Hidden) -->
-
-                    <div class="qr-container" id="sim-qr-container">
-
-                        <img src="" id="sim-qr-image" class="qr-image" alt="QR Code">
-                        <p style="font-size:12px; margin-top:10px; color:#666;">Scan QR Code di atas menggunakan aplikasi E-Wallet Anda.</p>
-                    </div>
-
-                    <!-- TAMPILAN VA / NOMOR (Default Shown unless QRIS) -->
-
-                    <div class="va-number-container" id="sim-va-container">
-
-                        <div class="va-number" id="sim-va-number">8800 1234 5678</div>
-                        
-                        <div class="sim-instruction">
-                            <strong>Nominal: <span id="sim-total" style="color:var(--accent-blue);">Rp 0</span></strong>
-                            <ul style="margin-top:10px; padding-left:15px; font-size:12px; color:#555;">
-                                <li>Login ke Mobile Banking / ATM Anda.</li>
-                                <li>Pilih menu Transfer ke Virtual Account.</li>
-                                <li>Masukkan nomor <span id="sim-bank-name">Bank</span> di atas.</li>
-                                <li>Pastikan nominal sesuai.</li>
-                            </ul>
+                        <div class="card-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
                         </div>
                     </div>
-
-                    
-
-                    <button class="btn-checkout" style="width:100%; justify-content:center; background:#334155;" onclick="checkPaymentSim()">
-
-                        Cek Status Pembayaran
-
-                    </button>
-
                 </div>
-
             </div>
 
-
-
-            <!-- STATE 2: INVOICE SUKSES -->
-
-            <div id="invoice-view" class="invoice-view">
-
-                <div class="success-icon-circle">
-
-                    <i class="ri-check-line"></i>
-
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=400&auto=format&fit=crop" alt="Game 2">
                 </div>
-
-                <h2 class="inv-title">Pembayaran Sukses!</h2>
-
-                <p class="inv-subtitle">Pulsa sedang dikirim ke nomor Anda.</p>
-
-                
-
-                <div class="inv-details">
-
-                    <div class="inv-row">
-
-                        <span class="inv-label">No. Pesanan</span>
-
-                        <span class="inv-val">TRX-<span id="inv-trx-id">889021</span></span>
-
+                <div class="card-info">
+                    <div class="card-title">PUBG Mobile</div>
+                    <div class="card-price-wrapper">
+                        <div>
+                            <div class="card-sub">Mulai dari</div>
+                            <div class="card-desc">Rp 10.000</div>
+                        </div>
+                        <div class="card-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
                     </div>
-
-                    <div class="inv-row">
-
-                        <span class="inv-label">Nomor HP</span>
-
-                        <span class="inv-val" id="inv-phone">0838xxxx</span>
-
-                    </div>
-
-                    <div class="inv-row">
-
-                        <span class="inv-label">Produk</span>
-
-                        <span class="inv-val" id="inv-product">Axis 10k</span>
-
-                    </div>
-
-                    <div class="inv-row">
-
-                        <span class="inv-label">Metode Bayar</span>
-
-                        <span class="inv-val" id="inv-method">BCA VA</span>
-
-                    </div>
-
-                    <div class="inv-row">
-
-                        <span class="inv-label">Total Bayar</span>
-
-                        <span class="inv-val" style="color:var(--accent-blue);" id="inv-total">Rp 15.000</span>
-
-                    </div>
-
-                    <div class="inv-row">
-
-                        <span class="inv-label">Waktu</span>
-
-                        <span class="inv-val" id="inv-time">12:30</span>
-
-                    </div>
-
                 </div>
-
-
-
-                <button class="btn-download" onclick="downloadInvoice()">
-
-                    <i class="ri-download-line"></i> Download Invoice
-
-                </button>
-
-                <button class="btn-close-modal" onclick="closeModal()">Tutup</button>
-
             </div>
 
+            <div class="card">
+                <div class="card-img">
+                    <div class="card-badge">PROMO</div>
+                    <img src="https://images.unsplash.com/photo-1552820728-8b83bb6b773f?q=80&w=400&auto=format&fit=crop" alt="Game 3">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Free Fire</div>
+                    <div class="card-price-wrapper">
+                        <div>
+                            <div class="card-sub">Mulai dari</div>
+                            <div class="card-desc">Rp 1.000</div>
+                        </div>
+                        <div class="card-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <div class="card">
+                <div class="card-img">
+                    <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=400&auto=format&fit=crop" alt="Game 4">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Valorant</div>
+                    <div class="card-price-wrapper">
+                        <div>
+                            <div class="card-sub">Mulai dari</div>
+                            <div class="card-desc">Rp 15.000</div>
+                        </div>
+                        <div class="card-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-        </div>
+        <h2 class="section-title">Pulsa & Tagihan</h2>
+        <section class="product-grid">
+            
+            <div class="card">
+                <div class="card-img">
+                    <div class="card-badge badge-cyan">24 JAM</div>
+                    <img class="pulsa-img" src="https://cdn-icons-png.flaticon.com/512/3014/3014498.png" alt="Telkomsel">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Telkomsel</div>
+                    <div class="card-price-wrapper">
+                        <div>
+                            <div class="card-sub">Layanan</div>
+                            <div class="card-desc">Pulsa & Data</div>
+                        </div>
+                        <div class="card-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-    </div>
+            <div class="card">
+                <div class="card-img">
+                    <img class="pulsa-img" src="https://cdn-icons-png.flaticon.com/512/2907/2907972.png" alt="Indosat">
+                </div>
+                <div class="card-info">
+                    <div class="card-title">Indosat Ooredoo</div>
+                    <div class="card-price-wrapper">
+                        <div>
+                            <div class="card-sub">Layanan</div>
+                            <div class="card-desc">Pulsa & Data</div>
+                        </div>
+                        <div class="card-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-
+        </section>
+    </main>
 
     <script>
+        // Burger & Sidebar
+        const burgerBtn = document.getElementById('burgerBtn');
+        const navSlide = document.getElementById('navSlide');
+        const overlay = document.getElementById('overlay');
 
-        let currentProductPrice = 0;
-
-        let currentProductName = "";
-
-        let currentFee = 0;
-
-        let currentPaymentMethod = "";
-
-        let currentPaymentType = ""; // 'bca', 'mandiri', 'qris', etc
-
-        let currentPaymentLogoSrc = ""; // Simpan src logo
-
-
-
-        function formatRupiah(angka) {
-
-            return "Rp " + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-
+        function toggleMenu() {
+            navSlide.classList.toggle('active');
+            overlay.classList.toggle('active');
         }
 
+        burgerBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
 
+        // Slider Dots
+        const slider = document.getElementById('slider');
+        const dots = document.querySelectorAll('.dot');
 
-        // --- HISTORY LOGIC ---
-
-        function loadHistory() {
-            const history = JSON.parse(localStorage.getItem('topupHistory')) || [];
-            const container = document.getElementById('history-list-container');
-            
-            if (history.length === 0) {
-                container.innerHTML = '<div class="empty-history">Belum ada transaksi</div>';
-                return;
-            }
-
-            let html = '';
-            history.forEach((trx, index) => {
-                html += `
-                    <div class="history-item" onclick="openHistoryItem(${index})">
-                        <div class="h-left">
-                            <span class="h-date">${trx.date}</span>
-                            <span class="h-product">${trx.product}</span>
-                            <span style="font-size:10px; color:#a0aec0;">${trx.phone}</span>
-                        </div>
-                        <div class="h-right">
-                            <div class="h-status">Sukses</div>
-                            <div class="h-price">${formatRupiah(trx.total)}</div>
-                        </div>
-                    </div>
-                `;
-            });
-            container.innerHTML = html;
-        }
-
-        function saveToLocalStorage(trxData) {
-            const history = JSON.parse(localStorage.getItem('topupHistory')) || [];
-            history.unshift(trxData); // Tambah ke paling atas
-            localStorage.setItem('topupHistory', JSON.stringify(history));
-            loadHistory();
-        }
-
-        function openHistoryItem(index) {
-            const history = JSON.parse(localStorage.getItem('topupHistory')) || [];
-            const item = history[index];
-            if(item) {
-                // Buka Modal Langsung ke State Invoice
-                showInvoiceView(item);
-                document.getElementById('modal-overlay').classList.add('active');
-            }
-        }
-
-        // Load history saat startup
-        document.addEventListener('DOMContentLoaded', loadHistory);
-
-
-        // --- STEP 1: VALIDASI NOMOR ---
-
-        const phoneInput = document.getElementById('input-phone');
-
-        const formCard = document.getElementById('form-identity-card');
-
-
-
-        phoneInput.addEventListener('input', function() {
-
-            this.classList.remove('input-danger');
-
-            formCard.classList.remove('card-danger');
-
+        slider.addEventListener('scroll', () => {
+            let index = Math.round(slider.scrollLeft / slider.clientWidth);
+            dots.forEach(dot => dot.classList.remove('active'));
+            if(dots[index]) dots[index].classList.add('active');
         });
 
-
-
-        // --- STEP 2: PILIH PRODUK ---
-
-        function selectProduct(element, price, name) {
-
-            if (phoneInput.value.length < 9) {
-
-                formCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                formCard.classList.add('card-danger');
-
-                phoneInput.classList.add('input-danger');
-
-                setTimeout(() => { formCard.classList.remove('card-danger'); }, 1000);
-
-                return;
-
-            }
-
-
-
-            document.querySelectorAll('.item-card').forEach(item => item.classList.remove('active'));
-
-            element.classList.add('active');
-
-
-
-            currentProductPrice = price;
-
-            currentProductName = name;
-
-            
-
-            updatePaymentPrices();
-
-            updateSummary();
-
-        }
-
-
-
-        // --- STEP 3: PILIH PEMBAYARAN ---
-
-        function updatePaymentPrices() {
-
-            document.querySelectorAll('.payment-item').forEach(item => {
-
-                const priceElement = item.querySelector('.pay-price');
-
-                const fee = parseInt(priceElement.getAttribute('data-fee'));
-
-                
-
-                if (currentProductPrice > 0) {
-
-                    const total = currentProductPrice + fee;
-
-                    priceElement.innerText = formatRupiah(total);
-
-                    priceElement.style.color = "#333";
-
-                } else {
-
-                    priceElement.innerText = "Rp -";
-
-                }
-
+        // Filter Tags
+        const tags = document.querySelectorAll('.tag-btn');
+        tags.forEach(tag => {
+            tag.addEventListener('click', () => {
+                tags.forEach(t => t.classList.remove('active'));
+                tag.classList.add('active');
             });
-
-        }
-
-
-
-        function selectPayment(element, name, fee, type = '') {
-
-            if (currentProductPrice === 0) {
-
-                alert("Silakan pilih nominal pulsa terlebih dahulu.");
-
-                return;
-
-            }
-
-
-
-            document.querySelectorAll('.payment-item').forEach(item => item.classList.remove('active'));
-
-            element.classList.add('active');
-
-
-
-            currentPaymentMethod = name;
-
-            currentPaymentType = type;
-            
-            // Simpan Logo Src untuk digunakan di Modal
-            currentPaymentLogoSrc = element.querySelector('.pay-logo').src;
-
-            const priceEl = element.querySelector('.pay-price');
-
-            currentFee = parseInt(priceEl.getAttribute('data-fee'));
-
-            
-
-            updateSummary();
-
-        }
-
-
-
-        // --- UPDATE SUMMARY & TOTAL ---
-
-        function updateSummary() {
-
-            if (currentProductPrice > 0) {
-
-                const grandTotal = currentProductPrice + currentFee;
-
-                const formattedTotal = formatRupiah(grandTotal);
-
-                const formattedPrice = formatRupiah(currentProductPrice);
-
-                const formattedFee = formatRupiah(currentFee);
-
-
-
-                // Update Sticky Footer
-
-                document.getElementById('total-display').innerText = formattedTotal;
-
-
-
-                // Update Summary Card
-
-                document.getElementById('summary-product').innerText = currentProductName || "-";
-
-                document.getElementById('summary-price').innerText = formattedPrice;
-
-                document.getElementById('summary-fee').innerText = formattedFee;
-
-                document.getElementById('summary-total').innerText = formattedTotal;
-
-            }
-
-        }
-
-
-
-        // --- MODAL LOGIC ---
-
-        function processOrder() {
-
-            if (phoneInput.value.length < 10) {
-
-                alert("Masukkan nomor handphone dengan benar!");
-
-                return;
-
-            }
-
-            if (currentProductPrice === 0) {
-
-                alert("Pilih nominal pulsa!");
-
-                return;
-
-            }
-            if (document.querySelector('.payment-item.active') === null) {
-
-                alert("Pilih metode pembayaran!");
-
-                return;
-
-            }
-
-
-
-            // Siapkan Data Simulasi
-
-            const grandTotal = currentProductPrice + currentFee;
-
-            const randomVA = "8800 " + Math.floor(1000000000 + Math.random() * 9000000000);
-
-            const randomTrx = Math.floor(100000 + Math.random() * 900000);
-            const now = new Date();
-            const dateStr = now.getDate() + '/' + (now.getMonth()+1) + '/' + now.getFullYear();
-            const timeString = now.getHours() + ":" + String(now.getMinutes()).padStart(2, '0');
-
-            // Data Object untuk Invoice & History
-            const transactionData = {
-                id: randomTrx,
-                date: dateStr + ' ' + timeString,
-                phone: phoneInput.value,
-                product: currentProductName,
-                method: currentPaymentMethod,
-                total: grandTotal
-            };
-
-            // Reset Tampilan Modal
-
-            document.getElementById('invoice-view').style.display = 'none';
-
-            document.getElementById('sim-view').style.display = 'block';
-
-
-
-            // LOGIKA TAMPILAN SIMULASI (QRIS vs VA)
-            
-            // 1. Set Logo (Sesuai src yang dipilih)
-            const logoEl = document.getElementById('sim-bank-logo');
-            logoEl.src = currentPaymentLogoSrc; 
-            document.getElementById('sim-payment-name').innerText = currentPaymentMethod;
-
-            // 2. Tentukan Tampilan QRIS atau VA
-            const qrContainer = document.getElementById('sim-qr-container');
-            const vaContainer = document.getElementById('sim-va-container');
-            const bankNameEl = document.getElementById('sim-bank-name');
-
-            if (currentPaymentType === 'qris') {
-                // Show QR, Hide VA
-                qrContainer.classList.add('active');
-                vaContainer.classList.add('hidden');
-                
-                // Generate QR Code Image API (Contoh goqr.me atau qrserver)
-                const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HUPAYTOP-${randomTrx}-${grandTotal}`;
-                document.getElementById('sim-qr-image').src = qrApiUrl;
-            } else {
-                // Show VA, Hide QR
-                qrContainer.classList.remove('active');
-                vaContainer.classList.remove('hidden');
-                
-                document.getElementById('sim-va-number').innerText = randomVA;
-                document.getElementById('sim-bank-name').innerText = currentPaymentMethod.split(' ')[0]; // Ambil kata pertama
-            }
-
-            document.getElementById('sim-total').innerText = formatRupiah(grandTotal);
-
-
-            // Isi Data Invoice (Persiapan sukses) menggunakan data transactionData
-            document.getElementById('inv-trx-id').innerText = transactionData.id;
-            document.getElementById('inv-phone').innerText = transactionData.phone;
-            document.getElementById('inv-product').innerText = transactionData.product;
-            document.getElementById('inv-method').innerText = transactionData.method;
-            document.getElementById('inv-total').innerText = formatRupiah(transactionData.total);
-            document.getElementById('inv-time').innerText = timeString;
-
-
-
-            // Buka Modal
-
-            document.getElementById('modal-overlay').classList.add('active');
-
-
-
-            // Timer Otomatis 3 Detik ke Sukses (Hanya jika bukan lihat history)
-
-            setTimeout(() => {
-
-                showSuccessInvoice(transactionData);
-
-            }, 3000);
-
-        }
-
-
-
-        function showSuccessInvoice(data) {
-            document.getElementById('sim-view').style.display = 'none';
-            document.getElementById('invoice-view').style.display = 'flex';
-            
-            // Simpan ke LocalStorage jika ini adalah transaksi baru (bukan dari history)
-            // Kita cek jika data tidak punya properti 'alreadySaved' (dummy logic)
-            // Atau lebih baik simpan di sini setiap kali success view dipanggil dari processOrder
-
-            // Cek apakah data sudah lengkap (untuk membedakan panggilan dari history vs baru)
-            if(data && !data.viewedFromHistory) {
-                saveToLocalStorage(data);
-            }
-        }
-
-        function showInvoiceView(historyData) {
-            // Fungsi khusus membuka invoice dari history
-            // Tandai data agar tidak disimpan ulang
-            historyData.viewedFromHistory = true; 
-
-            document.getElementById('sim-view').style.display = 'none';
-            document.getElementById('invoice-view').style.display = 'flex';
-            
-            document.getElementById('inv-trx-id').innerText = historyData.id;
-            document.getElementById('inv-phone').innerText = historyData.phone;
-            document.getElementById('inv-product').innerText = historyData.product;
-            document.getElementById('inv-method').innerText = historyData.method;
-            document.getElementById('inv-total').innerText = formatRupiah(historyData.total);
-            document.getElementById('inv-time').innerText = historyData.date.split(' ')[1] || historyData.date;
-        }
-
-        function checkPaymentSim() {
-
-            // Fungsi dummy untuk tombol manual "Cek Status"
-
-            alert("Sistem memeriksa status pembayaran...");
-
-        }
-
-        function closeModal() {
-
-            document.getElementById('modal-overlay').classList.remove('active');
-
-            // Reset view untuk transaksi baru
-
-            setTimeout(() => {
-                document.getElementById('invoice-view').style.display = 'none';
-                document.getElementById('sim-view').style.display = 'block';
-            }, 300);
-
-        }
-
-        function downloadInvoice() {
-            // Trigger Print Browser (User bisa Save as PDF)
-            window.print();
-        }
-
+        });
     </script>
-
-
-
 </body>
-
 </html>
