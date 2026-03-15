@@ -309,11 +309,10 @@
     }
 
     .hero-card {
-        background: linear-gradient(90deg, #5e1194 0%, #a419b0 100%);
         border-radius: 7px;
         overflow: hidden;
         position: relative;
-        height: 140px;
+        height: 160px;
         display: flex;
         align-items: center;
     }
@@ -322,8 +321,6 @@
         width: 100%;
         height: 100%;
         object-fit: cover;
-        opacity: 0.3;
-        mix-blend-mode: overlay;
     }
 
     .hero-content {
@@ -333,6 +330,7 @@
         transform: translateY(-50%);
         z-index: 2;
         max-width: 80%;
+        display: none;
     }
 
     .hero-content h3 {
@@ -1783,7 +1781,7 @@
 
 <section class="hero-section">
     <div class="hero-card">
-        <img src="https://images.unsplash.com/photo-1512428559087-560fa5ce7d71?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Banner" class="hero-bg">
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80" alt="Banner" class="hero-bg">
         <div class="hero-content">
             <h3>ISI PULSA DAN KUOTA</h3>
             <p>Harga Termurah, Proses Detik!</p>
@@ -2795,10 +2793,9 @@
         document.getElementById('guideSheet').classList.remove('active');
     }
 
-// tutorial cara beli
-// --- FUNGSI MODAL TUTORIAL (TIMELINE) ---
+
 function openTutorial() {
-    // Pakai overlay yang sama dengan guide sebelumnya
+
     document.getElementById('sheetOverlay').classList.add('active'); 
     document.getElementById('tutorialSheet').classList.add('active');
 }
