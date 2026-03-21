@@ -3,67 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TopUp & PPOB App</title>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>Beranda - TopUp & PPOB</title>
     <style>
-        :root {
-            --bg-color: #0f172a;
-            --surface-color: #1e293b;
-            --primary-color: #3b82f6;
-            --primary-glow: rgba(59, 130, 246, 0.4);
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --card-radius: 16px;
-        }
-
+        /* --- RESET & BASE STYLES --- */
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000;
-            color: var(--text-main);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #e2e8f0; /* Latar belakang desktop */
+            color: #1e293b;
             display: flex;
             justify-content: center;
         }
 
-        /* App Container (Mobile Feel on Desktop) */
-        .app-container {
-            width: 100%;
-            max-width: 480px;
-            min-height: 100vh;
-            background-color: var(--bg-color);
-            position: relative;
-            overflow-x: hidden;
-            padding-bottom: 70px; /* Space for bottom nav */
-            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        /* Sembunyikan scrollbar untuk native feel */
+        ::-webkit-scrollbar {
+            display: none;
         }
 
-        /* --- HEADER (Height: 55px) --- */
-        .header {
+        /* --- APP CONTAINER --- */
+        #app {
+            width: 100%;
+            max-width: 480px; /* Ukuran mobile */
+            min-height: 100vh;
+            background-color: #f8fafc;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER (Exactly 55px) --- */
+        header {
+            position: sticky;
+            top: 0;
             height: 55px;
-            background-color: rgba(30, 41, 59, 0.9);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             display: flex;
             align-items: center;
             justify-content: space-between;
             padding: 0 16px;
-            position: sticky;
-            top: 0;
             z-index: 50;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
         }
 
         .header-title {
             font-size: 18px;
             font-weight: 700;
-            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            background: linear-gradient(135deg, #6366f1, #a855f7);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
@@ -71,306 +63,469 @@
         .icon-btn {
             background: none;
             border: none;
-            color: var(--text-main);
-            font-size: 24px;
             cursor: pointer;
+            padding: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
         }
 
-        /* --- SLIDE NAV (Sidebar) --- */
+        .icon-btn:active {
+            background: #f1f5f9;
+        }
+
+        .icon-btn svg {
+            width: 24px;
+            height: 24px;
+            stroke: #334155;
+        }
+
+        /* --- SIDEBAR NAV (Burger Menu) --- */
         .overlay {
             position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.6);
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.6);
             z-index: 90;
             opacity: 0;
-            visibility: hidden;
-            transition: 0.3s ease;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
         }
+
         .overlay.active {
             opacity: 1;
-            visibility: visible;
+            pointer-events: auto;
         }
 
         .sidebar {
             position: fixed;
             top: 0;
             left: -280px;
-            width: 260px;
+            width: 280px;
             height: 100%;
-            background-color: var(--surface-color);
+            background: #ffffff;
             z-index: 100;
             transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            padding: 24px 16px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.15);
         }
+
         .sidebar.active {
             transform: translateX(280px);
         }
-        
+
         .sidebar-header {
+            padding: 24px 20px;
+            background: linear-gradient(135deg, #6366f1, #a855f7);
+            color: white;
+        }
+
+        .user-info {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-top: 20px;
         }
-        .sidebar-avatar {
-            width: 48px; height: 48px;
-            border-radius: 50%;
-            background: var(--primary-color);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 24px;
-        }
-        .sidebar-menu { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .sidebar-menu li a {
-            display: flex; align-items: center; gap: 12px;
-            color: var(--text-main); text-decoration: none;
-            padding: 12px; border-radius: 10px; transition: 0.2s;
-        }
-        .sidebar-menu li a:hover { background: rgba(255,255,255,0.05); color: var(--primary-color); }
 
-        /* --- BANNER --- */
+        .avatar {
+            width: 48px;
+            height: 48px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #6366f1;
+            font-size: 20px;
+        }
+
+        .nav-links {
+            list-style: none;
+            padding: 16px 0;
+            flex: 1;
+        }
+
+        .nav-links li a {
+            display: flex;
+            align-items: center;
+            padding: 16px 24px;
+            color: #475569;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.2s;
+            gap: 16px;
+        }
+
+        .nav-links li a:active {
+            background: #f1f5f9;
+        }
+
+        /* --- MAIN CONTENT --- */
+        main {
+            padding-bottom: 40px;
+        }
+
+        /* --- BANNER SLIDER --- */
         .banner-container {
-            padding: 16px;
             display: flex;
             overflow-x: auto;
-            gap: 12px;
             scroll-snap-type: x mandatory;
-            scrollbar-width: none; /* Firefox */
+            padding: 16px;
+            gap: 12px;
         }
-        .banner-container::-webkit-scrollbar { display: none; } /* Chrome */
-        
-        .banner {
-            min-width: 90%;
+
+        .banner-card {
+            min-width: 88%;
             height: 140px;
-            border-radius: var(--card-radius);
-            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            border-radius: 16px;
             scroll-snap-align: center;
+            background-size: cover;
+            background-position: center;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
+
+        .banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.1) 100%);
             display: flex;
-            align-items: center;
+            flex-direction: column;
+            justify-content: center;
             padding: 20px;
-            box-shadow: 0 4px 15px var(--primary-glow);
         }
-        .banner::after {
-            content: ''; position: absolute; top: -50%; right: -20%;
-            width: 150px; height: 150px; background: rgba(255,255,255,0.1);
-            border-radius: 50%;
-        }
-        .banner-text h3 { font-size: 20px; margin-bottom: 4px; }
-        .banner-text p { font-size: 13px; color: rgba(255,255,255,0.8); }
 
-        /* --- SECTION TITLE --- */
-        .section-header {
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 10px 16px; margin-top: 8px;
-        }
-        .section-header h2 { font-size: 16px; font-weight: 600; }
-        .section-header a { color: var(--primary-color); font-size: 13px; text-decoration: none; }
+        .banner-text-1 { color: #fff; font-size: 20px; font-weight: 800; margin-bottom: 4px; }
+        .banner-text-2 { color: #e2e8f0; font-size: 14px; }
 
-        /* --- ITEM CARDS (Grid) --- */
-        .grid-container {
+        /* --- PPOB QUICK MENU --- */
+        .section-title {
+            padding: 0 16px;
+            margin: 16px 0 12px;
+            font-size: 16px;
+            font-weight: 700;
+            color: #1e293b;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .see-all {
+            font-size: 12px;
+            color: #6366f1;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .quick-menu-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 12px;
-            padding: 0 16px 20px 16px;
+            padding: 0 16px;
+            margin-bottom: 24px;
         }
 
-        .item-card {
-            background-color: var(--surface-color);
-            border-radius: 14px;
-            padding: 12px;
+        .menu-item {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 8px;
             text-decoration: none;
-            color: var(--text-main);
-            position: relative;
+            color: #475569;
+        }
+
+        .menu-icon {
+            width: 48px;
+            height: 48px;
+            background: #ffffff;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: transform 0.1s;
+        }
+
+        .menu-item:active .menu-icon {
+            transform: scale(0.9);
+            box-shadow: 0 0 0 rgba(0,0,0,0);
+        }
+
+        .menu-icon svg { width: 24px; height: 24px; stroke: #6366f1; fill: none; stroke-width: 2; }
+        .menu-text { font-size: 11px; font-weight: 500; text-align: center; }
+
+        /* --- GAME CARDS (SUPER COOL) --- */
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            padding: 0 16px;
+        }
+
+        .game-card {
+            background: #ffffff;
+            border-radius: 18px;
             overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.03);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            text-decoration: none;
+            position: relative;
             transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
         }
-        .item-card:active {
-            transform: scale(0.95);
-        }
-        .item-card::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
-            pointer-events: none;
-        }
-        .item-icon {
-            width: 48px; height: 48px;
-            border-radius: 12px;
-            background: rgba(0,0,0,0.3);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 28px;
-            color: #60a5fa;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
-        }
-        .item-title { font-size: 12px; font-weight: 500; text-align: center; }
 
-        /* PPOB Cards - slightly different styling */
-        .ppob-icon { color: #34d399; }
+        .game-card:active {
+            transform: scale(0.96);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
 
-        /* --- BOTTOM NAV --- */
-        .bottom-nav {
-            position: absolute;
-            bottom: 0; width: 100%; height: 65px;
-            background-color: var(--surface-color);
-            display: flex; justify-content: space-around; align-items: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            padding-bottom: env(safe-area-inset-bottom); /* For iPhone notch */
-            z-index: 50;
+        .game-img {
+            width: 100%;
+            height: 130px;
+            object-fit: cover;
         }
-        .nav-item {
-            display: flex; flex-direction: column; align-items: center; gap: 4px;
-            color: var(--text-muted); text-decoration: none;
-            width: 60px; transition: 0.2s;
+
+        .game-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
-        .nav-item i { font-size: 24px; }
-        .nav-item span { font-size: 10px; font-weight: 500; }
-        .nav-item.active { color: var(--primary-color); }
-        
+
+        .game-title {
+            color: #1e293b;
+            font-size: 14px;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-publisher {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .btn-topup {
+            margin-top: 8px;
+            background: rgba(99, 102, 241, 0.1);
+            color: #6366f1;
+            text-align: center;
+            padding: 6px 0;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* List PPOB Promo */
+        .promo-list {
+            padding: 0 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .promo-card {
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 12px;
+            border-radius: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            gap: 12px;
+        }
+
+        .promo-img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .promo-content h4 { font-size: 14px; color: #1e293b; margin-bottom: 2px; }
+        .promo-content p { font-size: 12px; color: #64748b; }
+        .promo-price { margin-left: auto; font-weight: 700; color: #10b981; font-size: 14px; }
+
     </style>
 </head>
 <body>
 
-<div class="app-container">
-    
-    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+    <div id="app">
+        <!-- HEADER -->
+        <header>
+            <button class="icon-btn burger" onclick="toggleMenu()">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <div class="header-title">VocaStore</div>
+            <button class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+            </button>
+        </header>
 
-    <nav class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-avatar"><i class="ph ph-user"></i></div>
-            <div>
-                <div style="font-weight: 600; font-size: 16px;">Guest Player</div>
-                <div style="font-size: 12px; color: var(--text-muted);">Saldo: Rp 0</div>
+        <!-- OVERLAY & SIDEBAR -->
+        <div class="overlay" onclick="toggleMenu()"></div>
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3>Menu Navigasi</h3>
+                <div class="user-info">
+                    <div class="avatar">G</div>
+                    <div>
+                        <div style="font-weight: 700; font-size: 16px;">Guest User</div>
+                        <div style="font-size: 12px; color: #e0e7ff;">Rp 150.000</div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <ul class="sidebar-menu">
-            <li><a href="#"><i class="ph ph-wallet"></i> Isi Saldo</a></li>
-            <li><a href="#"><i class="ph ph-clock-counter-clockwise"></i> Riwayat Transaksi</a></li>
-            <li><a href="#"><i class="ph ph-tag"></i> Promo & Diskon</a></li>
-            <li><a href="#"><i class="ph ph-headset"></i> Bantuan CS</a></li>
-        </ul>
-    </nav>
+            <ul class="nav-links">
+                <li><a href="#">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path></svg>
+                    Beranda
+                </a></li>
+                <li><a href="#">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                    Riwayat Transaksi
+                </a></li>
+                <li><a href="#">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    Pusat Bantuan
+                </a></li>
+                <li><a href="#">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                    Pengaturan
+                </a></li>
+            </ul>
+        </nav>
 
-    <header class="header">
-        <button class="icon-btn" onclick="toggleMenu()">
-            <i class="ph ph-list"></i>
-        </button>
-        <div class="header-title">NEXUS STORE</div>
-        <button class="icon-btn">
-            <i class="ph ph-bell"></i>
-        </button>
-    </header>
+        <main>
+            <!-- BANNER -->
+            <section class="banner-container">
+                <div class="banner-card" style="background-image: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80');">
+                    <div class="banner-overlay">
+                        <div class="banner-text-1">Diskon 50%</div>
+                        <div class="banner-text-2">TopUp Pertama Kali!</div>
+                    </div>
+                </div>
+                <div class="banner-card" style="background-image: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=600&q=80');">
+                    <div class="banner-overlay">
+                        <div class="banner-text-1">Cashback PPOB</div>
+                        <div class="banner-text-2">Bayar tagihan untung terus</div>
+                    </div>
+                </div>
+            </section>
 
-    <div class="banner-container">
-        <div class="banner">
-            <div class="banner-text">
-                <h3>Flash Sale!</h3>
-                <p>Diskon Diamond MLBB s/d 40%</p>
+            <!-- PPOB QUICK MENUS -->
+            <h2 class="section-title">Layanan PPOB</h2>
+            <div class="quick-menu-grid">
+                <a href="#" class="menu-item">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M17 2H7a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"></path><path d="M12 18h.01"></path></svg></div>
+                    <span class="menu-text">Pulsa</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg></div>
+                    <span class="menu-text">Token Listrik</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+                    <span class="menu-text">E-Money</span>
+                </a>
+                <a href="#" class="menu-item">
+                    <div class="menu-icon"><svg viewBox="0 0 24 24"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"></path></svg></div>
+                    <span class="menu-text">Voucher</span>
+                </a>
             </div>
-        </div>
-        <div class="banner" style="background: linear-gradient(135deg, #ea580c, #be123c);">
-            <div class="banner-text">
-                <h3>Cashback PLN</h3>
-                <p>Bayar tagihan untung terus</p>
+
+            <!-- GAME TOPUP SECTION -->
+            <div class="section-title">
+                <h2>Game Terpopuler</h2>
+                <a href="#" class="see-all">Lihat Semua</a>
             </div>
-        </div>
+            <div class="game-grid">
+                <!-- Game 1 -->
+                <a href="#" class="game-card">
+                    <img class="game-img" src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80" alt="Mobile Legends">
+                    <div class="game-info">
+                        <div class="game-title">Mobile Legends</div>
+                        <div class="game-publisher">Moonton</div>
+                        <div class="btn-topup">Top Up</div>
+                    </div>
+                </a>
+                <!-- Game 2 -->
+                <a href="#" class="game-card">
+                    <img class="game-img" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=80" alt="Valorant">
+                    <div class="game-info">
+                        <div class="game-title">Valorant</div>
+                        <div class="game-publisher">Riot Games</div>
+                        <div class="btn-topup">Top Up</div>
+                    </div>
+                </a>
+                <!-- Game 3 -->
+                <a href="#" class="game-card">
+                    <img class="game-img" src="https://images.unsplash.com/photo-1598550476439-6847785fcea6?auto=format&fit=crop&w=400&q=80" alt="PUBG Mobile">
+                    <div class="game-info">
+                        <div class="game-title">PUBG Mobile</div>
+                        <div class="game-publisher">Tencent</div>
+                        <div class="btn-topup">Top Up</div>
+                    </div>
+                </a>
+                <!-- Game 4 -->
+                <a href="#" class="game-card">
+                    <img class="game-img" src="https://images.unsplash.com/photo-1534423861386-85a16f5d13fd?auto=format&fit=crop&w=400&q=80" alt="Free Fire">
+                    <div class="game-info">
+                        <div class="game-title">Free Fire</div>
+                        <div class="game-publisher">Garena</div>
+                        <div class="btn-topup">Top Up</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- PROMO PPOB LIST -->
+            <div class="section-title" style="margin-top: 24px;">
+                <h2>Promo & Tagihan</h2>
+            </div>
+            <div class="promo-list">
+                <div class="promo-card">
+                    <img class="promo-img" src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=200&q=80" alt="Promo Pulsa">
+                    <div class="promo-content">
+                        <h4>Pulsa Telkomsel 50rb</h4>
+                        <p>Flash Sale 12.12</p>
+                    </div>
+                    <div class="promo-price">Rp 48.500</div>
+                </div>
+                <div class="promo-card">
+                    <img class="promo-img" src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=200&q=80" alt="Promo Token">
+                    <div class="promo-content">
+                        <h4>Token Listrik 100rb</h4>
+                        <p>Bebas biaya admin</p>
+                    </div>
+                    <div class="promo-price">Rp 100.000</div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
-    <div class="section-header">
-        <h2>Top Up Game</h2>
-        <a href="#">Lihat Semua</a>
-    </div>
-    <div class="grid-container">
-        <a href="#" class="item-card">
-            <div class="item-icon"><i class="ph-fill ph-sword"></i></div>
-            <span class="item-title">Mobile Legends</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon" style="color:#fbbf24;"><i class="ph-fill ph-crosshair"></i></div>
-            <span class="item-title">PUBG Mobile</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon" style="color:#f87171;"><i class="ph-fill ph-fire"></i></div>
-            <span class="item-title">Free Fire</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon" style="color:#a78bfa;"><i class="ph-fill ph-game-controller"></i></div>
-            <span class="item-title">Genshin</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon" style="color:#4ade80;"><i class="ph-fill ph-soccer-ball"></i></div>
-            <span class="item-title">FC Mobile</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon" style="color:#cbd5e1;"><i class="ph-fill ph-dots-three-circle"></i></div>
-            <span class="item-title">Lainnya</span>
-        </a>
-    </div>
-
-    <div class="section-header">
-        <h2>Tagihan & PPOB</h2>
-    </div>
-    <div class="grid-container">
-        <a href="#" class="item-card">
-            <div class="item-icon ppob-icon"><i class="ph-fill ph-device-mobile"></i></div>
-            <span class="item-title">Pulsa & Data</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon ppob-icon" style="color:#fb923c;"><i class="ph-fill ph-lightning"></i></div>
-            <span class="item-title">Token PLN</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon ppob-icon" style="color:#60a5fa;"><i class="ph-fill ph-drop"></i></div>
-            <span class="item-title">PDAM</span>
-        </a>
-        <a href="#" class="item-card">
-            <div class="item-icon ppob-icon" style="color:#c084fc;"><i class="ph-fill ph-wallet"></i></div>
-            <span class="item-title">E-Money</span>
-        </a>
-    </div>
-
-    <nav class="bottom-nav">
-        <a href="#" class="nav-item active">
-            <i class="ph-fill ph-house"></i>
-            <span>Home</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="ph ph-receipt"></i>
-            <span>Pesanan</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="ph ph-scan"></i>
-            <span>QRIS</span>
-        </a>
-        <a href="#" class="nav-item">
-            <i class="ph ph-user"></i>
-            <span>Profil</span>
-        </a>
-    </nav>
-
-</div>
-
-<script>
-    // Script sederhana untuk toggle Hamburger Menu / Slide Nav
-    function toggleMenu() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        
-        sidebar.classList.toggle('active');
-        overlay.classList.toggle('active');
-    }
-</script>
-
+    <!-- SCRIPT FOR BURGER MENU -->
+    <script>
+        function toggleMenu() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
